@@ -1,0 +1,543 @@
+:root{
+    --fondo: #21345c;
+}
+
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.navbar {
+    padding: 2rem;
+    background-color: var(--fondo);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+}
+
+.navbar .login{
+  font-size: 50px;
+  color: #ffffff;
+  margin-right: 20px;
+}
+
+
+/* -----------MENU DESPLEGABLE------------- */
+#menu-icon {
+    cursor: pointer;
+    padding: 10px;
+    height: 50px;
+    width:50px;
+    overflow: hidden;
+    display: flex;
+    
+}
+
+#sidebar {
+    width: 0;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--fondo);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    z-index: 1100;
+}
+
+#sidebar a {
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #fff;
+    display: block;
+    transition: 0.3s;
+}
+
+#sidebar a:hover {
+    background-color: rgb(142, 255, 198);
+    color: #000000;
+}
+
+#menu-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+}
+/* ------------------------------------ */
+
+/*Efecto boton ver mas detalles*/
+.button_slide {
+    color: #000000;
+    font-family: 'Montserrat';
+    border: 2px solid rgb(46, 80, 74);
+    border-radius: 0px;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 0 #d1e5ff;
+    -webkit-transition: ease-out 0.4s;
+    -moz-transition: ease-out 0.4s;
+    transition: ease-out 0.4s;
+  }
+  
+  .slide_down:hover {
+    box-shadow: inset 0 100px 0 0 #1e69da;
+    color: #ffffff;
+  }
+  
+
+/* tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+/* -------------------------------------- */
+
+/*FORM DE REGISTRO DE PRESTAMO*/
+.container .containerForm{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .form-control{
+    border: none;
+    outline: 0px;
+    border-bottom: 1px solid rgb(24, 27, 78) ;
+} 
+/*---------------------------------------------------------------*/
+
+/*Boton quitar elemento seleccion material prestamo*/
+
+.button-1 {
+  background-color: #EA4C89;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-1:hover,
+.button-1:focus {
+  background-color: #F082AC;
+}
+
+/*--------*/
+.card{
+    background-color: rgb(255, 255, 255);
+}
+
+
+
+
+/* ------------- CAROUSEL--------------*/
+.carousel-item{
+    height: 100vh;
+    min-height: 300px;
+   }
+   
+   .carousel-caption{
+       bottom: 220px;
+       z-index:2;
+   }
+   
+   .carousel-caption h5{
+       font-size: 45px;
+       text-transform: uppercase;
+       letter-spacing: 2px;
+       margin-top: 25px;
+   }
+   
+   .carousel-caption p{
+       width: 60%;
+       margin: auto;
+       font-size: 18px;
+       line-height: 1.9;
+   }
+   
+   .carousel-inner::before{
+       content: '';
+       position: absolute;
+       width: 100%;
+       height: 100%;
+       top: 0;
+       background: rgba(0,0,0,0.3);
+       z-index: 1;
+   }
+
+
+/* Responsive css*/
+@media only screen and (max-width:767px){
+    .carousel-caption{
+        bottom: 125px;
+    }
+    .carousel-caption h5{
+        font-size: 17px;
+    }
+
+    .carousel-caption a{
+        padding: 10px 15px;
+    }
+
+    .carousel-caption p{
+        width: 100%;
+        line-height: 1.6;
+        font-size: 12px;
+
+    }
+    .carousel-item img{
+        min-height: 115vh;
+        min-width: 107vh;
+    }
+    
+    .ul-second{
+        position: relative;
+        top: -15px;
+    }
+
+    .ul-second > li, .ul-second >li >a{
+        background-color: transparent;
+        position: relative;
+        text-align: center;
+        left: 15px;
+        color: rgb(0, 0, 0);
+        width: 400px;
+    }
+
+    .ul-second >li >a:hover{
+        background-color: rgb(0, 0, 0,0.1);
+    }
+}
+
+/* ----------------------------------------- */
+
+  /* -------------- Experiencia ------------------ */
+
+  .seccion-clara {
+    color: black;
+    background-color: white;
+  }
+  
+  .experiencia {
+    padding: 40px 40px 60px 40px;
+  }
+  
+  .experiencia .columna {
+    padding: 20px;
+    border: 2px solid #8080804d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    transition: all 0.2s ease-in;
+  }
+  
+  .experiencia .columna:hover {
+    color: rgb(45, 8, 146);
+    background-color: #9bd6f1;
+  }
+  
+  .experiencia i {
+    font-size: 2.5rem;
+    color: rgb(18, 19, 18);
+    background-color: #ffb9b0;
+    padding: 8px 19px;
+    border-radius: 50%;
+  }
+  
+  .experiencia-titulo {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  .badges-contenedor {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  .badge {
+    margin: 5px;
+    background-color: #12345a;
+    /*EXTRA*/
+    cursor: pointer;
+  }
+
+/* ------------------------------------------------- */
+
+/* ---------------Testimonios-------------- */
+.testimonios {
+    padding: 40px 40px 80px 40px;
+  }
+  .testimonios .car {
+    max-width: 800px;
+  }
+  
+  .car-item {
+    height: 500px;
+  }
+  
+  .car-item .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .testimonio-imagen {
+    height: 150px;
+    width: 150px;
+    margin: 10px 10px 20px 10px;
+  }
+  
+  .testimonio-texto {
+    max-width: 70%;
+    font-size: 20px;
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  
+  .testimonio-info {
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .testimonio-info p {
+    margin-bottom: 0;
+  }
+  
+  .testimonio-footer .cliente {
+    font-size: 1.2rem;
+  }
+  
+  .testimonio-info .cargo {
+    font-size: 0.9rem;
+    color: #656060;
+  }
+
+
+
+  /* Contacto */
+  
+  .contacto .container {
+    max-width: 1100px;
+    min-height: 200px;
+    padding: 20px;
+  }
+  
+  .contacto .rectangulo {
+    margin-top: -5rem;
+    background-color:  #FDFFBC;/* #FDFFAE*/
+    border-radius: 10px;
+    box-shadow: 0px 1px 4px 1px white;
+  }
+  
+  .contacto .row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .contacto .descripcion {
+    color: rgb(18, 19, 18);
+    font-size: 1.2rem;
+  }
+  
+  .contacto button {
+    color: rgb(14, 13, 13);
+    font-weight: bold;
+    background-color: transparent;
+    border: 2px solid rgb(12, 12, 12);
+    padding: 1.25em 2em;
+    margin: 10px;
+    border-radius: 100px;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .contacto button:hover {
+    background-color: white;
+    color: black;
+  }
+  
+  .contacto button i {
+    color: black;
+    font-size: 1.3rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .contacto button:hover i {
+    color: black;
+  }
+  
+  /* Pie de pagina (footer) */
+  
+  footer {
+    min-height: 500px;
+  }
+  
+  .footer-logo {
+    height: 80px;
+    width: 80px;
+    margin: 10px;
+  }
+  
+  .footer-texto {
+    font-size: 1.5rem;
+    padding: 20px;
+    margin-bottom: 30px;
+    font-family: 'Quicksand', sans-serif;
+  }
+  
+  .iconos-redes-sociales a {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    margin: 10px;
+    border: 2px solid white;
+    border-radius: 50%;
+    transition: all 0.2s ease-in;
+  }
+  
+  .iconos-redes-sociales i {
+    color: white;
+    font-size: 1.5rem;
+    transition: all 0.2s ease-in;
+  }
+  
+  .iconos-redes-sociales a:hover {
+    background-color: white;
+    border: 2px solid rgb(13, 110, 253);
+  }
+  
+  .iconos-redes-sociales a:hover i {
+    color: black;
+  }
+  
+  .derechos-de-autor {
+    font-size: 15px;
+    color: #aeaeae;
+    padding: 20px;
+  }
+  
+  /* Adaptable (Responsivo) */
+  
+  @media screen and (max-width: 400px) {
+    .overlay p {
+      font-size: 18px;
+    }
+  
+    .overlay i {
+      font-size: 40px;
+    }
+  }
+  
+  @media screen and (max-width: 767px) {
+    .navbar-brand {
+      display: none;
+    }
+  }
+  
+  @media screen and (max-width: 800px) {
+    .testimonio-imagen {
+      height: 120px;
+      width: 120px;
+    }
+  
+    .testimonio-texto {
+      font-size: 18px;
+    }
+  }
+  
+  @media screen and (min-width: 700px) {
+    .hero-inferior-imagen {
+      max-width: 600px;
+    }
+  }
+
+  /* Footer */
+  .seccion-oscura {
+    color: rgb(14, 13, 13);
+    background-color: #0cd659;
+  }
+  
+  .seccion-clara {
+    color: black;
+    background-color: white;
+  }
+  
+  .seccion-titulo {
+    font-size: 2rem;
+    padding: 15px 0;
+    font-family: 'Rubik Dirt', cursive;
+  }
+  
+  .seccion-descripcion {
+    font-size: 1.2rem;
+    color: #584e4e;
+  }
+  
+  .seccion-texto {
+    font-size: 1.2rem;
+  }
+  
+  .btn-info {
+    font-size: 1.1rem;
+    margin: 20px;
+  }
+  
+  .texto-negro {
+    color: black;
+  }
+  
+  .texto-blanco {
+    color: white;
+  }
+
+.container .table{
+    text-align: center;
+    font-family: 'Montserrat',sans-serif;
+}
+
