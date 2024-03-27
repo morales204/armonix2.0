@@ -163,26 +163,72 @@
                         </div>
                     </div>
                     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-                    <script>
-                      document.addEventListener('DOMContentLoaded', function() {
-                        var calendarEl = document.getElementById('calendar');
-                        var calendar = new FullCalendar.Calendar(calendarEl, {
-                          initialView: 'dayGridMonth',
-
-                          locale: 'es',
-                          events: [
-                            @foreach ($fechas as $fecha)
-                              {
-                                title: 'Préstamo',
-                                start: '{{ $fecha["fecha_inicio"] }}T{{ $fecha["hora_inicio"] }}', // Fecha y hora de inicio
-                                end: '{{ $fecha["fecha_fin"] }}T{{ $fecha["hora_fin"] }}', // Fecha y hora de fin
-                              },
-                            @endforeach
-                          ]
+                    <div id="formulario" style="display: none;">
+                        <h2>Selecciona la hora para el evento</h2>
+                        <form id="eventoForm">
+                          <div class="form-group">
+                            <label for="fecha_inicio">Fecha de inicio</label>
+                            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" min="{{ date('Y-m-d') }}" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="hora_inicio">Hora de inicio</label>
+                            <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" min="07:00" max="21:00" step="3600" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="fecha_fin">Fecha de fin</label>
+                            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
+                          </div>
+                          <div class="form-group">
+                            <label for="hora_fin">Hora de fin</label>
+                            <input type="time" class="form-control" id="hora_fin" name="hora_fin">
+                          </div>
+                          <button type="submit" class="btn btn-primary">Guardar evento</button>
+                        </form>
+                      </div>
+                    
+                      <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
+                      <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                          var calendarEl = document.getElementById('calendar');
+                          var calendar = new FullCalendar.Calendar(calendarEl, {
+                            initialView: 'dayGridMonth',
+                            selectable: true,
+                            select: function(info) {
+                              // Mostrar el formulario para ingresar los detalles del evento
+                              document.getElementById('formulario').style.display = 'block';
+                              // Mostrar la fecha seleccionada en el formulario
+                              document.getElementById('fecha_inicio').value = info.start.toLocaleDateString('es-ES');
+                            },
+                            slotMinTime: "07:00:00", // Hora mínima: 7:00 AM
+                            slotMaxTime: "21:00:00", // Hora máxima: 9:00 PM
+                            allDaySlot: false, // Ocultar el slot de "todo el día"
+                            weekends: false, // Ocultar los fines de semana
+                            locale: 'es',
+                          });
+                          calendar.render();
+                    
+                          // Capturar el envío del formulario
+                          document.getElementById('eventoForm').addEventListener('submit', function(event) {
+                            event.preventDefault(); // Prevenir el envío del formulario por defecto
+                    
+                            // Obtener los valores del formulario
+                            var fechaInicio = document.getElementById('fecha_inicio').value;
+                            var horaInicio = document.getElementById('hora_inicio').value;
+                            var fechaFin = document.getElementById('fecha_fin').value;
+                            var horaFin = document.getElementById('hora_fin').value;
+                    
+                            // Crear el evento en el calendario
+                            calendar.addEvent({
+                              title: 'Evento',
+                              start: fechaInicio + 'T' + horaInicio, // Concatenar fecha y hora de inicio
+                              end: fechaFin + 'T' + horaFin, // Concatenar fecha y hora de fin
+                            });
+                    
+                            // Ocultar el formulario después de guardar el evento
+                            document.getElementById('formulario').style.display = 'none';
+                          });
                         });
-                        calendar.render();
-                      });
-                    </script>
+                      </script>
    
    
                     <div class="col-md-6 col-12">

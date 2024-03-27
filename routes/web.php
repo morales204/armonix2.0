@@ -6,6 +6,7 @@ use App\Http\Controllers\ReactivoController;
 
 use App\Http\Controllers\VolumenController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\UsuarioController;
 
 use App\Http\Controllers\PrestamoController;
 
@@ -26,22 +27,23 @@ Route::get('/', function () {
 });
 
 
-Route::resource('rol','RolController');
-
-Route::resource('reactivos/familia', FamiliaController::class)->middleware('auth', 'role:Laboratorista');;
-Route::resource('reactivos/reactivo', ReactivoController::class)->middleware('auth', 'role:Laboratorista');;
+Route::resource('reactivos/familia', FamiliaController::class)->middleware('auth', 'role:Laboratorista');
+Route::resource('reactivos/reactivo', ReactivoController::class)->middleware('auth', 'role:Laboratorista');
 
 
-Route::resource('materiales/volumen', VolumenController::class)->middleware('auth', 'role:Laboratorista');;
+Route::resource('materiales/volumen', VolumenController::class)->middleware('auth', 'role:Laboratorista');
 Route::resource('materiales/material', MaterialController::class)->middleware('auth', 'role:Laboratorista');
+
+Route::resource('usuarios/usuario', UsuarioController::class)->middleware('auth', 'role:Laboratorista');
 
 
 Route::resource('prestamos/prestamo', PrestamoController::class);
 // Ruta personalizada para aceptar un préstamo
-Route::put('prestamos/prestamo/{prestamo}/aceptar', [PrestamoController::class, 'aceptarPrestamo'])->name('prestamo.aceptarPrestamo');
-Route::put('prestamos/prestamo/{prestamo}/rechazar', [PrestamoController::class, 'rechazarPrestamo'])->name('prestamo.rechazarPrestamo');
+Route::put('prestamos/prestamo/{prestamo}/aceptar/{correo}', [PrestamoController::class, 'aceptarPrestamo'])->name('prestamo.aceptarPrestamo');
+Route::put('prestamos/prestamo/{prestamo}/rechazar/{correo}', [PrestamoController::class, 'rechazarPrestamo'])->name('prestamo.rechazarPrestamo');
 
 Route::get('prestamos/pdf', [App\Http\Controllers\PrestamoController::class, 'pdf'])->name('prestamos.pdf');
+Route::get('prestamos/historial', [App\Http\Controllers\PrestamoController::class, 'historial'])->name('prestamo.historial');
 
 
 Auth::routes();

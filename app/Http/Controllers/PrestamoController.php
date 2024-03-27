@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input;
 use App\Models\Prestamo;
 use App\Models\DetallePrestamo;
 use App\Models\DatosMateria;
+use App\Models\Notificacion;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -30,6 +31,97 @@ class PrestamoController extends Controller
     }
 
     public function index(Request $request)
+    {
+        $correo = auth()->user()->correo;
+        $notificaciones = DB::table('notificaciones')
+        ->select('mensaje')
+        ->where('correo','=',$correo)
+        ->get(); 
+
+        if($request){
+            //Trim quita los espacios
+            $query=trim($request->get('texto'));
+            $prestamosQuery = DB::table('prestamos as p')
+            //UNION DE LA TABLAS STATUS
+            ->join('status as s', 'p.status_id_status','=','s.id_status')
+            //UNION DATOS MATERIA
+            ->join('datos_materia as dm', 'p.datos_materia_id_datos_materia','=','dm.id_datos_materia')
+            //UNION LABORATORIOS
+            ->join('laboratorios as l', 'p.laboratorios_id_laboratorio','=','l.id_laboratorio')
+            ->join('ubicacion as ubi', 'l.ubicacion_id_ubicacion','=','ubi.idubicacion')
+
+            ->join('usuarios as u', 'p.usuarios_id_usuario','=','u.id_usuario')
+            ->join('usuarios as ue', 'p.encargado_id_usuario','=','ue.id_usuario')
+
+            ->join('materias as m', 'dm.materias_id_materia','=','m.id_materia')
+            ->join('carreras as c', 'dm.carreras_id_carrera','=','c.id_carrera')
+
+            ->select('p.id_prestamo','m.materia','dm.unidad_tematica','dm.introduccion',
+            'dm.objetivo','dm.grado_grupo','c.nombre_carrera',
+            'p.fecha_hora_inicio','p.fecha_hora_fin','p.no_practica','p.titulo_practica','p.fecha_prestamo',
+            's.descripcion','l.nombre_laboratorio','ubi.ubicacion','u.nombre_completo as nombre_solicitante','u.correo','u.telefono','ue.nombre_completo as nombre_encargado',
+
+            )
+            ->where('u.nombre_completo','LIKE','%'.$query.'%')
+            ->where ('p.status_id_status','=','2')
+            ->orderBy('p.id_prestamo','desc');
+
+        }
+
+        if (auth()->user()->roles_id_rol !== 1) {
+            $userEmail = auth()->user()->correo;
+            $prestamosQuery->where('u.correo', '=', $userEmail);
+    
+        }
+
+        $prestamos=$prestamosQuery->paginate(3);
+
+        foreach ($prestamos as $prestamo) {
+            $prestamo->fecha = Carbon::parse($prestamo->fecha_prestamo)->toDateString();
+            $prestamo->hora = Carbon::parse($prestamo->fecha_prestamo)->toTimeString();
+
+            $prestamo->fecha_inicio = Carbon::parse($prestamo->fecha_hora_inicio)->toDateString();
+            $prestamo->hora_inicio = Carbon::parse($prestamo->fecha_hora_inicio)->toTimeString();
+
+            $prestamo->fecha_fin = Carbon::parse($prestamo->fecha_hora_fin)->toDateString();
+            $prestamo->hora_fin = Carbon::parse($prestamo->fecha_hora_fin)->toTimeString();
+            
+             // Calcula la duración entre la hora de inicio y la hora de fin
+            $duracion = Carbon::parse($prestamo->fecha_hora_fin)->diff(Carbon::parse($prestamo->fecha_hora_inicio));
+
+            // Accede a los componentes de la duración (horas, minutos, segundos)
+            $prestamo->duracion_horas = $duracion->h;
+            /*$prestamo->duracion_minutos = $duracion->i;
+            $prestamo->duracion_segundos = $duracion->s;*/
+
+            $materiales = DB::table('detalle_prestamo as dp')
+            ->join('materiales as m', 'dp.materiales_id_material', '=', 'm.id_material')
+            ->join('volumenes as vol' , 'm.volumenes_id_volumen','=', 'vol.id_volumen')
+            ->select('m.nombre_material', 'dp.cantidad_material','volumen')
+            ->where('dp.prestamos_id_prestamo', '=', $prestamo->id_prestamo)
+            ->whereNotNull('dp.materiales_id_material')
+            ->whereNotNull('dp.cantidad_material')
+            ->get();
+
+            $prestamo->materiales = $materiales;
+
+            $reactivos = DB::table('detalle_prestamo as dp')
+            ->join('reactivos as r', 'dp.reactivos_id_reactivo', '=', 'r.id_reactivo')
+            ->select('r.nombre_reactivo', 'dp.cantidad_reactivo')
+            ->where('dp.prestamos_id_prestamo', '=', $prestamo->id_prestamo)
+            ->whereNotNull('dp.reactivos_id_reactivo')
+            ->whereNotNull('dp.cantidad_reactivo')
+            ->get();
+
+            $prestamo->reactivos = $reactivos;
+
+        }
+        
+        return view ('prestamos.prestamo.index',["prestamos"=>$prestamos,"texto"=>$query]);
+
+    }
+
+    public function historial(Request $request)
     {
         if($request){
             //Trim quita los espacios
@@ -52,11 +144,11 @@ class PrestamoController extends Controller
             ->select('p.id_prestamo','m.materia','dm.unidad_tematica','dm.introduccion',
             'dm.objetivo','dm.grado_grupo','c.nombre_carrera',
             'p.fecha_hora_inicio','p.fecha_hora_fin','p.no_practica','p.titulo_practica','p.fecha_prestamo',
-            's.descripcion','l.nombre_laboratorio','ubi.ubicacion','u.nombre_completo as nombre_solicitante','ue.nombre_completo as nombre_encargado',
+            's.descripcion','l.nombre_laboratorio','ubi.ubicacion','u.nombre_completo as nombre_solicitante','u.correo','u.telefono','ue.nombre_completo as nombre_encargado',
 
             )
             ->where('u.nombre_completo','LIKE','%'.$query.'%')
-            ->where ('p.status_id_status','=','2')
+            ->where ('p.status_id_status','!=','2')
             ->orderBy('p.id_prestamo','desc');
 
         }
@@ -110,11 +202,11 @@ class PrestamoController extends Controller
 
         }
         
-        return view ('prestamos.prestamo.index',["prestamos"=>$prestamos,"texto"=>$query]);
+        return view ('prestamos.prestamo.historial',["prestamos"=>$prestamos,"texto"=>$query]);
 
     }
 
-    public function aceptarPrestamo($idPrestamo){
+    public function aceptarPrestamo($idPrestamo,$correo){
           
           try {
             // Actualizar el estado del préstamo a "Aceptado"
@@ -124,7 +216,12 @@ class PrestamoController extends Controller
     
             // Verificar si el estado del préstamo se cambió correctamente
             if ($prestamo->status_id_status === 3) {
-                // El cambio se realizó correctamente
+                    $notificacion = new Notificacion;
+                    $notificacion->correo = $correo;
+                    $notificacion->titulo='Tu prestamo ha sido aceptado';
+                    $notificacion->mensaje='Tu prestamo con id: '.$prestamo->id_prestamo.' fue aceptada por el administrador por favor acude a las instalaciones con tu credencial o alguna identificacion oficial en mano para confirmar tu identidad';
+                    $notificacion->estado='no leido';
+                    $notificacion->save();
                 return redirect()->back()->with('success', 'El préstamo ha sido aceptado exitosamente.');
             } else {
                 // El cambio no se realizó correctamente
@@ -136,9 +233,8 @@ class PrestamoController extends Controller
         }
     }
 
-    public function rechazarPrestamo($idPrestamo){
-          
-          try {
+    public function rechazarPrestamo($idPrestamo, $correo){
+        try {
             // Actualizar el estado del préstamo a "Aceptado"
             $prestamo = Prestamo::findOrFail($idPrestamo);
             $prestamo->status_id_status = 1; // 3 es el ID para "Aceptado"
@@ -146,6 +242,13 @@ class PrestamoController extends Controller
     
             // Verificar si el estado del préstamo se cambió correctamente
             if ($prestamo->status_id_status === 1) {
+
+                $notificacion = new Notificacion;
+                $notificacion->correo = $correo;
+                $notificacion->titulo='Tu prestamo ha sido rechazado';
+                $notificacion->mensaje='Tu prestamo a sido reachazado debido a que: ';
+                $notificacion->estado='no leido';
+                $notificacion->save();
                 // El cambio se realizó correctamente
                 return redirect()->back()->with('success', 'El préstamo ha sido rechazado correctamente.');
             } else {
@@ -157,6 +260,7 @@ class PrestamoController extends Controller
             return redirect()->back()->with('error', 'Hubo un problema al conectar con la base de datos. Por favor, inténtalo de nuevo más tarde.');
         }
     }
+
 
     public function pdf(){
 
@@ -233,7 +337,6 @@ class PrestamoController extends Controller
         return $pdf->stream();
        // return view ('prestamos.prestamo.reportePrestamo',compact('prestamos'));
     }
-
 
 
     /**

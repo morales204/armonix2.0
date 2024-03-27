@@ -35,7 +35,7 @@
 
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-    
+
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
@@ -70,22 +70,25 @@
             <!-- Navbar derecho links -->
             <ul class="navbar-nav ml-auto">
 
-                <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge">3</span>
-                    </a>
-                </li>
-
                 <!-- Notifications Dropdown Menu -->
-                <li class="nav-item dropdown">
+                <li id="notificaciones-link" class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
+                        <span class="badge badge-warning navbar-badge">{{$notificaciones->total}}</span>
                     </a>
-                </li>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        @foreach ($notificaciones as $notificacion)
+                            <div class="dropdown-divider"></div>
 
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-envelope mr-4"></i>{{$notificacion->titulo}}
+                                <span class="float-right text-muted text-sm">3 mins</span>
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+                        @endforeach
+
+                </li>
 
                 {{-- maximizar pantalla --}}
                 <li class="nav-item">
@@ -136,7 +139,7 @@
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            
+
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{ route('prestamo.index') }}" class="nav-link">
@@ -146,7 +149,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="" class="nav-link {{ request()->is('materiales/volumen*') ? 'active' : '' }}">
+                                    <a href="{{ route('prestamo.historial') }}"
+                                        class="nav-link {{ request()->is('prestamos.historial') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-history"></i>
                                         <p>Historial</p>
                                     </a>
@@ -157,80 +161,84 @@
 
                         @if (auth()->user()->roles_id_rol === 1)
                             <!-- Mostrar contenido para laboratoristas -->
-                        
-                        <li class="nav-item {{ request()->is('materiales/*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-toolbox"></i>
-                                <p>
-                                    Materiales
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('material.index') }}" class="nav-link {{ request()->is('materiales/material*') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-cube"></i>
-                                        <p>Ver material</p>
-                                    </a>
-                                </li>
 
-                                <li class="nav-item">
-                                    <a href="{{ route('volumen.index') }}" class="nav-link {{ request()->is('materiales/volumen*') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-ruler"></i>
-                                        <p>Volumen</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item {{ request()->is('reactivos/*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link ">
-                                <i class="nav-icon fas fa-flask"></i>
-                                <p>
-                                    Reactivos
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('reactivo.index') }}" class="nav-link {{ request()->is('reactivos/reactivo*') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-vial"></i>
-                                        <p>Ver reactivos</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('familia.index') }}" class="nav-link {{ request()->is('reactivos/familia*') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-sitemap"></i>
-                                        <p>Familia</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            <li class="nav-item {{ request()->is('materiales/*') ? 'menu-open' : '' }}">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-toolbox"></i>
+                                    <p>
+                                        Materiales
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('material.index') }}"
+                                            class="nav-link {{ request()->is('materiales/material*') ? 'active' : '' }}">
+                                            <i class="nav-icon fas fa-cube"></i>
+                                            <p>Ver material</p>
+                                        </a>
+                                    </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-edit"></i>
-                                <p>
-                                    Control de usuarios
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="pages/forms/general.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Usuarios</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/forms/general.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Roles</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('volumen.index') }}"
+                                            class="nav-link {{ request()->is('materiales/volumen*') ? 'active' : '' }}">
+                                            <i class="nav-icon fas fa-ruler"></i>
+                                            <p>Volumen</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item {{ request()->is('reactivos/*') ? 'menu-open' : '' }}">
+                                <a href="#" class="nav-link ">
+                                    <i class="nav-icon fas fa-flask"></i>
+                                    <p>
+                                        Reactivos
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('reactivo.index') }}"
+                                            class="nav-link {{ request()->is('reactivos/reactivo*') ? 'active' : '' }}">
+                                            <i class="nav-icon fas fa-vial"></i>
+                                            <p>Ver reactivos</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ route('familia.index') }}"
+                                            class="nav-link {{ request()->is('reactivos/familia*') ? 'active' : '' }}">
+                                            <i class="nav-icon fas fa-sitemap"></i>
+                                            <p>Familia</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-edit"></i>
+                                    <p>
+                                        Control de usuarios
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="pages/forms/general.html" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Usuarios</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="pages/forms/general.html" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Roles</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         @endif
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -312,7 +320,7 @@
     <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
-{{--     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    {{--     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script> --}}
 </body>
 

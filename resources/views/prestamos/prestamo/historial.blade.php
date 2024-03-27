@@ -80,6 +80,15 @@
                                                         {{ $pres->fecha_inicio }} al {{ $pres->fecha_fin }}</div>
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">De
                                                         {{ $pres->hora_inicio }} a {{ $pres->hora_fin }}</div>
+
+                                                        
+                                                    @if ($pres->descripcion == 'Aceptado')
+                                                    <span class="badge badge-success">Aceptado</span>
+                                                @elseif ($pres->descripcion == 'Rechazado')
+                                                    <span class="badge badge-danger">Rechazado</span>
+                                                @else
+                                                    <span class="badge badge-warning">Pendiente</span>
+                                                @endif
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="text-gray-300">
@@ -110,6 +119,8 @@
                                             <p><strong>Duración:</strong> {{ $pres->duracion_horas }} hora(s)</p>
                                             <p><strong>Docente encargado:</strong> {{ $pres->nombre_encargado }}</p>
                                             <p><strong>Nombre del solicitante:</strong> {{ $pres->nombre_solicitante }}</p>
+                                            <p><strong>Correo:</strong> {{ $pres->correo }}</p>
+                                            <p><strong>Telefono:</strong> {{ $pres->telefono }}</p>
                                         </div>
                                     </div>
 
@@ -199,21 +210,6 @@
 
                             </div>
 
-                            <!-- Botón para aceptar el préstamo -->
-                            <form id="accept-form-{{ $pres->id_prestamo }}"
-                                action="{{ route('prestamo.aceptarPrestamo', $pres->id_prestamo) }}" method="POST">
-                                @csrf
-                                @method('PUT') <!-- Usa el método PUT para actualizar el préstamo -->
-                                <input type="hidden" name="success_message" value="{{ session('success') }}">
-                                <input type="hidden" name="error_message" value="{{ session('error') }}">
-                            </form>
-
-                            <!-- Botón para rechazar el préstamo -->
-                            <form id="decline-form-{{ $pres->id_prestamo }}"
-                                action="{{ route('prestamo.rechazarPrestamo', $pres->id_prestamo) }}" method="POST">
-                                @csrf
-                                @method('PUT') <!-- Usa el método PUT para actualizar el préstamo -->
-                            </form>
 
                             <script>
                                 // funcion btn ver mas detalles
@@ -223,59 +219,10 @@
                                     Swal.fire({
                                         title: "Detalles",
                                         html: additionalInfo,
-                                        showDenyButton: true,
-                                        showCancelButton: true,
-                                        confirmButtonText: "Aceptar",
-                                        denyButtonText: `Rechazar`,
-                                        cancelButtonText: "Cancelar",
                                         width: 1000,
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-
-                                            Swal.fire({
-                                                title: "¿Estas seguro de aceptar el prestamo?",
-                                                text: "(¡No podras revertir esta accion!",
-                                                icon: "warning",
-                                                showCancelButton: true,
-                                                confirmButtonColor: "#3085d6",
-                                                cancelButtonColor: "#d33",
-                                                confirmButtonText: "Si, aceptar!",
-                                                cancelButtonText: "Cancelar",
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                document.getElementById('accept-form-' + "{{ $pres->id_prestamo }}").submit();
-                                                }
-                                            });
-
-                                        } else if (result.isDenied) {
-
-                                            Swal.fire({
-                                                title: "¿Estas seguro de rechazar el prestamo?",
-                                                text: "¡No podras revertir esta accion!",
-                                                icon: "warning",
-                                                showCancelButton: true,
-                                                confirmButtonColor: "#3085d6",
-                                                cancelButtonColor: "#d33",
-                                                confirmButtonText: "¡Si, rechazar!",
-                                                cancelButtonText: "Cancelar",
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    document.getElementById('decline-form-' + "{{ $pres->id_prestamo }}").submit();
-                                                }
-                                            });
-                                            
-                                        }
-                                    });
+                                    })
                                 });
 
-                                var success = $("input[name='success_message']").val();
-                                var error = $("input[name='error_message']").val();
-                                if (success) {
-                                    Swal.fire(success, "", "success");
-                                }
-                                if (error) {
-                                    Swal.fire(error, "", "error");
-                                }
                             </script>
                         @endforeach
 
