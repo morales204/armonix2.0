@@ -71,7 +71,7 @@
                                 <div class="form-group">
                                     <label for="fecha_inicio">Fecha de inicio</label>
                                     <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
-                                        min="{{ date('Y-m-d') }}" required>
+                                        min="{{ date('Y-m-d') }}" required value="{{ old('fecha_inicio') }}">
                                 </div>
                             </div>
 
@@ -79,21 +79,21 @@
                                 <div class="form-group">
                                     <label for="fecha_adquisicion">Hora de inicio</label>
                                     <input type="time" class="form-control" id="hora_inicio" name="hora_inicio"
-                                        min="07:00" max="21:00" step="3600" required>
+                                        min="07:00" max="21:00" step="3600" required value="{{ old('hora_inicio') }}">
                                 </div>
                             </div>
 
                             <div class="col-md-3 col-12">
                                 <div class="form-group">
                                     <label for="fecha_caducidad">Fecha de fin</label>
-                                    <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
+                                    <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required value="{{ old('fecha_fin') }}">
                                 </div>
                             </div>
 
                             <div class="col-md-2 col-12">
                                 <div class="form-group">
                                     <label for="fecha_caducidad">Hora de fin</label>
-                                    <input type="time" class="form-control" id="hora_fin" name="hora_fin">
+                                    <input type="time" class="form-control" id="hora_fin" name="hora_fin" min="07:00" max="21:00" step="3600"  required value="{{ old('hora_fin') }}">
                                 </div>
                             </div>
 
@@ -114,7 +114,12 @@
                                 <div class="form-group">
                                     <label for="unidad_tematica">Unidad Tematica</label>
                                     <input type="text" class="form-control" id="unidad_tematica" name="unidad_tematica"
-                                        placeholder="Ingrese la unidad tematica">
+                                        placeholder="Ingrese la unidad tematica" required value="{{ old('unidad_tematica') }}">
+                                        @error('unidad_tematica')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                 </div>
                             </div>
 
@@ -133,8 +138,14 @@
                             <div class="col-md-2 col-12">
                                 <div class="form-group">
                                     <label for="numero_practica">N. de practica</label>
-                                    <input type="number" class="form-control" id="numero_practica"
-                                        name="numero_practica" min="1">
+                                    <input type="number" id="numero_practica"
+                                        name="numero_practica" min="1" class="form-control @error('numero_practica') is-invalid @enderror" required value="{{ old('numero_practica') }}">
+
+                                        @error('numero_practica')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                 </div>
                             </div>
 
@@ -142,93 +153,52 @@
                                 <div class="form-group">
                                     <label for="titulo_practica">Titulo de la practica</label>
                                     <input type="text" class="form-control" id="titulo_practica"
-                                        name="titulo_practica">
+                                        name="titulo_practica" required value="{{ old('titulo_practica') }}">
                                 </div>
                             </div>
 
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="nombre_reactivo">Introducion</label>
-                                    <textarea class="form-control" id="introduccion" name="introduccion" rows="4"
-                                        placeholder="Ingresa la introduccion..."></textarea>
+                                    <label for="introduccion">Introducion</label>
+                                    <textarea class="form-control @error('introduccion') is-invalid @enderror" id="introduccion" name="introduccion" rows="4"
+                                        placeholder="Ingresa la introduccion..." >{{ old('introduccion') }}</textarea>
+                                        @error('introduccion')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                 </div>
                             </div>
 
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="nombre_reactivo">Objetivo</label>
-                                    <textarea class="form-control" id="objetivo" name="objetivo" rows="4" placeholder="Ingresa el objetivo..."></textarea>
+                                    <textarea class="form-control" id="objetivo" name="objetivo" rows="4" placeholder="Ingresa el objetivo...">{{ old('objetivo') }}</textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-                    <div id="formulario" style="display: none;">
-                        <h2>Selecciona la hora para el evento</h2>
-                        <form id="eventoForm">
-                          <div class="form-group">
-                            <label for="fecha_inicio">Fecha de inicio</label>
-                            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" min="{{ date('Y-m-d') }}" required>
-                          </div>
-                          <div class="form-group">
-                            <label for="hora_inicio">Hora de inicio</label>
-                            <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" min="07:00" max="21:00" step="3600" required>
-                          </div>
-                          <div class="form-group">
-                            <label for="fecha_fin">Fecha de fin</label>
-                            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
-                          </div>
-                          <div class="form-group">
-                            <label for="hora_fin">Hora de fin</label>
-                            <input type="time" class="form-control" id="hora_fin" name="hora_fin">
-                          </div>
-                          <button type="submit" class="btn btn-primary">Guardar evento</button>
-                        </form>
-                      </div>
-                    
-                      <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
-                      <script>
+                        <script>
                         document.addEventListener('DOMContentLoaded', function() {
-                          var calendarEl = document.getElementById('calendar');
-                          var calendar = new FullCalendar.Calendar(calendarEl, {
+                            var calendarEl = document.getElementById('calendar');
+                            var calendar = new FullCalendar.Calendar(calendarEl, {
                             initialView: 'dayGridMonth',
-                            selectable: true,
-                            select: function(info) {
-                              // Mostrar el formulario para ingresar los detalles del evento
-                              document.getElementById('formulario').style.display = 'block';
-                              // Mostrar la fecha seleccionada en el formulario
-                              document.getElementById('fecha_inicio').value = info.start.toLocaleDateString('es-ES');
-                            },
-                            slotMinTime: "07:00:00", // Hora mínima: 7:00 AM
-                            slotMaxTime: "21:00:00", // Hora máxima: 9:00 PM
-                            allDaySlot: false, // Ocultar el slot de "todo el día"
-                            weekends: false, // Ocultar los fines de semana
+
                             locale: 'es',
-                          });
-                          calendar.render();
-                    
-                          // Capturar el envío del formulario
-                          document.getElementById('eventoForm').addEventListener('submit', function(event) {
-                            event.preventDefault(); // Prevenir el envío del formulario por defecto
-                    
-                            // Obtener los valores del formulario
-                            var fechaInicio = document.getElementById('fecha_inicio').value;
-                            var horaInicio = document.getElementById('hora_inicio').value;
-                            var fechaFin = document.getElementById('fecha_fin').value;
-                            var horaFin = document.getElementById('hora_fin').value;
-                    
-                            // Crear el evento en el calendario
-                            calendar.addEvent({
-                              title: 'Evento',
-                              start: fechaInicio + 'T' + horaInicio, // Concatenar fecha y hora de inicio
-                              end: fechaFin + 'T' + horaFin, // Concatenar fecha y hora de fin
+                            events: [
+                                @foreach ($fechas as $fecha)
+                                {
+                                    title: 'Préstamo',
+                                    start: '{{ $fecha["fecha_inicio"] }}T{{ $fecha["hora_inicio"] }}', // Fecha y hora de inicio
+                                    end: '{{ $fecha["fecha_fin"] }}T{{ $fecha["hora_fin"] }}', // Fecha y hora de fin
+                                },
+                                @endforeach
+                            ]
                             });
-                    
-                            // Ocultar el formulario después de guardar el evento
-                            document.getElementById('formulario').style.display = 'none';
-                          });
+                            calendar.render();
                         });
-                      </script>
+                        </script>
    
    
                     <div class="col-md-6 col-12">
@@ -248,6 +218,15 @@
                     <div class="col-md-12 mt-2 mb-4 col-12">
                         <span class="titulo">NOTA: Si su material o reactivo no aparece en la lista, es porque no hay
                             disponibles</span>
+                            @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                     </div>
 
                     <div class="col-md-6 col-12 mt-2">

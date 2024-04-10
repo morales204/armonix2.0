@@ -110,6 +110,17 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" name="success_message" value="{{ session('success')}}">
+        <script>
+            var success = $("input[name='success_message']").val();
+/*             var error = $("input[name='error_message']").val(); */
+            if (success) {
+                Swal.fire(success, "", "success");
+            }
+            if (error) {
+                Swal.fire(error, "", "error");
+            }
+        </script>
     </section>
 
     <!-- Hoverable rows end -->

@@ -40,6 +40,7 @@
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
 
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -322,6 +323,9 @@
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
     {{--     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script> --}}
+
+
+
 </body>
 
 </html>

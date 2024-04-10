@@ -28,7 +28,9 @@
 
                     {{-- CABEZERA DEL CARD --}}
                     <div class="card-header">
+
                         <div class="col-xl-12">
+
                             <form action="{{ route('prestamo.index') }}" method="get">
 
                                 <div class="row">
@@ -39,19 +41,98 @@
                                             <input type="text" class="form-control" name="texto"
                                                 placeholder="Buscar prestamo" value="{{ $texto }}"
                                                 aria-label="Recipient's username" aria-describedby="button-addon2">
+                                                
+                                            <div style="position: relative;">
+                                                <div id="toggleDateFilter" class="btn btn-outline-secondary">Filtrar por
+                                                    fecha</div>
 
-                                            <button class="btn btn-outline-secondary" type="submit"
-                                                id="button-addon2">Buscar</button>
+                                                <div id="dateFilter" class="date-filter" style="display: none;">
+                                                    <label for="periodoInicio">Fecha de inicio:</label>
+                                                    <input type="date" id="periodoInicio" name="periodoInicio"
+                                                        class="form-control" value="{{ $periodoInicio ?? '' }}">
+                                                    <label for="periodoFin">Fecha de fin:</label>
+                                                    <input type="date" id="periodoFin" name="periodoFin"
+                                                        class="form-control" value="{{ $periodoFin ?? '' }}">
+                                                </div>
+                                            </div>
+
+                                            <style>
+                                                .date-filter {
+                                                    position: absolute;
+                                                    top: 40px;
+                                                    left: 0;
+                                                    background-color: #fff;
+                                                    /* Fondo blanco */
+                                                    border: 1px solid #ccc;
+                                                    /* Borde gris */
+                                                    padding: 10px;
+                                                    border-radius: 5px;
+                                                    /* Bordes redondeados */
+                                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                                                    /* Sombra suave */
+                                                    z-index: 1000;
+                                                    /* Para asegurar que esté encima de otros elementos */
+                                                }
+                                            </style>
+
+                                            <script>
+                                                var timeout;
+
+                                                document.getElementById('toggleDateFilter').addEventListener('click', function() {
+                                                    var dateFilter = document.getElementById('dateFilter');
+                                                    if (dateFilter.style.display === 'none') {
+                                                        dateFilter.style.display = 'block';
+
+                                                        // Reiniciar el temporizador si el filtro se muestra nuevamente
+                                                        clearTimeout(timeout);
+                                                        timeout = setTimeout(function() {
+                                                            dateFilter.style.display = 'none';
+                                                        }, 5000); // Ocultar después de 5 segundos de inactividad
+                                                    } else {
+                                                        dateFilter.style.display = 'none';
+                                                    }
+                                                });
+
+                                                // Ocultar el filtro después de un período de inactividad
+                                                document.getElementById('dateFilter').addEventListener('mouseover', function() {
+                                                    clearTimeout(timeout);
+                                                });
+
+                                                document.getElementById('dateFilter').addEventListener('mouseleave', function() {
+                                                    timeout = setTimeout(function() {
+                                                        document.getElementById('dateFilter').style.display = 'none';
+                                                    }, 5000); // Ocultar después de 5 segundos de inactividad
+                                                });
+
+                                                // Ocultar el filtro cuando se hace clic fuera de él
+                                                document.addEventListener('click', function(event) {
+                                                    var dateFilter = document.getElementById('dateFilter');
+                                                    var toggleDateFilter = document.getElementById('toggleDateFilter');
+                                                    if (!dateFilter.contains(event.target) && event.target !== toggleDateFilter) {
+                                                        dateFilter.style.display = 'none';
+                                                    }
+                                                });
+                                            </script>
+
+                                            @if (!isset($_GET['texto']))
+                                                <button class="btn btn-outline-secondary" type="submit"
+                                                    id="button-addon2">Buscar</button>
+                                            @endif
+                                            @if (isset($_GET['texto']))
+                                                <a href="{{ route('prestamo.index') }}"
+                                                    class="btn btn-outline-danger">Cancelar
+                                                    búsqueda</a>
+                                            @endif
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <div class="input-group mb-6">
                                             {{-- <span class="input-group-text" id="basic-addon1"><i class="bi bi-plus-circle-fill"></i></span> --}}
+                                            @if(auth()->user()->roles_id_rol !== 1)
                                             <a href="{{ route('prestamo.create') }}" class="btn btn-success">Nueva</a>
-                                            <a href="{{ route('prestamos.pdf') }}" class="btn btn-secondary ml-auto">PDF</a>
+                                            @endif
                                         </div>
-
                                     </div>
 
                                 </div>
@@ -59,6 +140,7 @@
                             </form>
 
                         </div>
+
                     </div>
 
                     {{-- CONTENIDO DEL CARD --}}
@@ -226,7 +308,7 @@
                                 @csrf
                                 @method('PUT') <!-- Usa el método PUT para actualizar el préstamo -->
                             </form>
-                        
+
                             <script>
                                 // funcion btn ver mas detalles
                                 $("#btnDetalles_{{ $pres->id_prestamo }}").click(function() {
@@ -235,8 +317,8 @@
                                     Swal.fire({
                                         title: "Detalles",
                                         html: additionalInfo,
-                                        showDenyButton: {{ (auth()->user()->roles_id_rol === 1) ? 'true' : 'false' }},
-                                        showConfirmButton: {{ (auth()->user()->roles_id_rol === 1) ? 'true' : 'false' }},
+                                        showDenyButton: {{ auth()->user()->roles_id_rol === 1 ? 'true' : 'false' }},
+                                        showConfirmButton: {{ auth()->user()->roles_id_rol === 1 ? 'true' : 'false' }},
                                         showCancelButton: true,
                                         confirmButtonText: "Aceptar",
                                         denyButtonText: `Rechazar`,
@@ -247,7 +329,7 @@
 
                                             Swal.fire({
                                                 title: "¿Estas seguro de aceptar el prestamo?",
-                                                text: "(¡No podras revertir esta accion!",
+                                                text: "¡No podras revertir esta accion!",
                                                 icon: "warning",
                                                 showCancelButton: true,
                                                 confirmButtonColor: "#3085d6",
@@ -298,6 +380,7 @@
                         </script>
                     </div>
                     {{ $prestamos->links() }}
+
                 </div>
             </div>
         </div>

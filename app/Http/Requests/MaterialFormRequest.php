@@ -22,9 +22,9 @@ class MaterialFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre_material' => 'required | max:80',
+            'nombre_material' => ['required', 'max:80', 'string', 'regex:/^[a-zA-Z\s\-,.áéíóúÁÉÍÓÚñÑ]+$/'],
             'cantidad_disponible' => 'required | max:5',
-            'descripcion' => 'max:250',
+            'descripcion' => ['required', 'max:150', 'string', 'regex:/^[a-zA-Z\s\-,.áéíóúÁÉÍÓÚñÑ]+$/'],
             'volumenes_id_volumen' => 'required'
         ];
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\ReactivoController;
 use App\Http\Controllers\VolumenController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\BackupController;
 
 use App\Http\Controllers\PrestamoController;
 
@@ -36,6 +37,8 @@ Route::resource('materiales/material', MaterialController::class)->middleware('a
 
 Route::resource('usuarios/usuario', UsuarioController::class)->middleware('auth', 'role:Laboratorista');
 
+Route::resource('backup/respaldo', BackupController::class)->middleware('auth', 'role:Laboratorista');
+Route::get('/respaldo/download/{filename}', [BackupController::class, 'download'])->name('download');
 
 Route::resource('prestamos/prestamo', PrestamoController::class);
 // Ruta personalizada para aceptar un préstamo

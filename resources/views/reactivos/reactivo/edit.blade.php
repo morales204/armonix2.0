@@ -34,7 +34,8 @@
                             <label for="hoja_seguridad">Hoja de seguridad</label>
                             <input type="file" class="form-control" id="hoja_seguridad" name="hoja_seguridad">
                             @if ($reactivo->hoja_seguridad != "")
-                                <img src="{{asset('imagenes/reactivos/'.$reactivo->hoja_seguridad)}}" height="100px" width="100px" alt="">
+                            <a href="{{ asset('pdf/reactivos/'.$reactivo->hoja_seguridad) }}" target="_blank">Ver PDF</a>
+
                                 
                             @endif
                         </div>

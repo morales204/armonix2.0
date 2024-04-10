@@ -40,8 +40,88 @@
                                                 placeholder="Buscar prestamo" value="{{ $texto }}"
                                                 aria-label="Recipient's username" aria-describedby="button-addon2">
 
-                                            <button class="btn btn-outline-secondary" type="submit"
-                                                id="button-addon2">Buscar</button>
+
+                                            <div style="position: relative;">
+                                                @if (!isset($_GET['texto']))
+                                                    <div id="toggleDateFilter" class="btn btn-outline-secondary">Filtrar por
+                                                        fecha</div>
+                                                    <button class="btn btn-outline-secondary" type="submit"
+                                                        id="button-addon2">Buscar</button>
+                                                @endif
+                                                <div id="dateFilter" class="date-filter" style="display: none;">
+                                                    <label for="periodoInicio">Fecha de inicio:</label>
+                                                    <input type="date" id="periodoInicio" name="periodoInicio"
+                                                        class="form-control" value="{{ $periodoInicio ?? '' }}">
+                                                    <label for="periodoFin">Fecha de fin:</label>
+                                                    <input type="date" id="periodoFin" name="periodoFin"
+                                                        class="form-control" value="{{ $periodoFin ?? '' }}">
+                                                </div>
+                                            </div>
+
+                                            <style>
+                                                .date-filter {
+                                                    position: absolute;
+                                                    top: 40px;
+                                                    left: 0;
+                                                    background-color: #fff;
+                                                    /* Fondo blanco */
+                                                    border: 1px solid #ccc;
+                                                    /* Borde gris */
+                                                    padding: 10px;
+                                                    border-radius: 5px;
+                                                    /* Bordes redondeados */
+                                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                                                    /* Sombra suave */
+                                                    z-index: 1000;
+                                                    /* Para asegurar que esté encima de otros elementos */
+                                                }
+                                            </style>
+
+                                            <script>
+                                                var timeout;
+
+                                                document.getElementById('toggleDateFilter').addEventListener('click', function() {
+                                                    var dateFilter = document.getElementById('dateFilter');
+                                                    if (dateFilter.style.display === 'none') {
+                                                        dateFilter.style.display = 'block';
+
+                                                        // Reiniciar el temporizador si el filtro se muestra nuevamente
+                                                        clearTimeout(timeout);
+                                                        timeout = setTimeout(function() {
+                                                            dateFilter.style.display = 'none';
+                                                        }, 5000); // Ocultar después de 5 segundos de inactividad
+                                                    } else {
+                                                        dateFilter.style.display = 'none';
+                                                    }
+                                                });
+
+                                                // Ocultar el filtro después de un período de inactividad
+                                                document.getElementById('dateFilter').addEventListener('mouseover', function() {
+                                                    clearTimeout(timeout);
+                                                });
+
+                                                document.getElementById('dateFilter').addEventListener('mouseleave', function() {
+                                                    timeout = setTimeout(function() {
+                                                        document.getElementById('dateFilter').style.display = 'none';
+                                                    }, 5000); // Ocultar después de 5 segundos de inactividad
+                                                });
+
+                                                // Ocultar el filtro cuando se hace clic fuera de él
+                                                document.addEventListener('click', function(event) {
+                                                    var dateFilter = document.getElementById('dateFilter');
+                                                    var toggleDateFilter = document.getElementById('toggleDateFilter');
+                                                    if (!dateFilter.contains(event.target) && event.target !== toggleDateFilter) {
+                                                        dateFilter.style.display = 'none';
+                                                    }
+                                                });
+                                            </script>
+
+
+                                            @if (isset($_GET['texto']))
+                                                <a href="{{ route('prestamo.historial') }}"
+                                                    class="btn btn-outline-danger">Cancelar
+                                                    búsqueda</a>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -49,7 +129,12 @@
                                         <div class="input-group mb-6">
                                             {{-- <span class="input-group-text" id="basic-addon1"><i class="bi bi-plus-circle-fill"></i></span> --}}
                                             <a href="{{ route('prestamo.create') }}" class="btn btn-success">Nueva</a>
-                                            <a href="{{ route('prestamos.pdf') }}" class="btn btn-secondary ml-auto">PDF</a>
+                                        @if ($prestamos->isEmpty())
+                                            
+                                        @else
+                                            <a href="{{ route('prestamo.historial', ['pdf' => 1, 'texto' => $texto, 'periodoInicio' => $periodoInicio, 'periodoFin' => $periodoFin]) }}" class="btn btn-secondary ml-auto" id="generatePdfLink">Generar PDF</a>
+                                        @endif
+
                                         </div>
 
                                     </div>
@@ -63,6 +148,9 @@
 
                     {{-- CONTENIDO DEL CARD --}}
                     <div class="card-content">
+                        @if ($prestamos->isEmpty())
+                        <h1>No tienes prestamos pendientes</h1>
+                        @endif
                         @foreach ($prestamos as $pres)
                             {{-- DETALLES DEL CARD INICIAL --}}
                             <div class="row d-flex justify-content-center">
@@ -81,14 +169,14 @@
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">De
                                                         {{ $pres->hora_inicio }} a {{ $pres->hora_fin }}</div>
 
-                                                        
+
                                                     @if ($pres->descripcion == 'Aceptado')
-                                                    <span class="badge badge-success">Aceptado</span>
-                                                @elseif ($pres->descripcion == 'Rechazado')
-                                                    <span class="badge badge-danger">Rechazado</span>
-                                                @else
-                                                    <span class="badge badge-warning">Pendiente</span>
-                                                @endif
+                                                        <span class="badge badge-success">Aceptado</span>
+                                                    @elseif ($pres->descripcion == 'Rechazado')
+                                                        <span class="badge badge-danger">Rechazado</span>
+                                                    @else
+                                                        <span class="badge badge-warning">Pendiente</span>
+                                                    @endif
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="text-gray-300">
@@ -222,7 +310,6 @@
                                         width: 1000,
                                     })
                                 });
-
                             </script>
                         @endforeach
 

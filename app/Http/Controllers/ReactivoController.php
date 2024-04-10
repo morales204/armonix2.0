@@ -95,17 +95,21 @@ class ReactivoController extends Controller
 
         //Script para subir la imagen
 
-        if($request->hasFile("hoja_seguridad")){
+        if ($request->hasFile("hoja_seguridad")) {
             $hoja_seguridad = $request->file("hoja_seguridad");
-            $nombreHoja= Str::slug($request->nombre_reactivo).".".$hoja_seguridad->guessExtension();
-            $ruta = public_path("/imagenes/reactivos/");
-
-            copy($hoja_seguridad->getRealPath(),$ruta.$nombreHoja);
-            $reactivo->hoja_seguridad=$nombreHoja;
+            $nombreHoja = Str::slug($request->nombre_reactivo) . "." . $hoja_seguridad->getClientOriginalExtension();
+            $ruta = public_path("/pdf/reactivos/");
+    
+            // Mueve el archivo PDF a la ubicación deseada
+            $hoja_seguridad->move($ruta, $nombreHoja);
+    
+            // Guarda el nombre del archivo en la base de datos
+            $reactivo->hoja_seguridad = $nombreHoja;
         }
+    
         
         $reactivo->save();
-        return redirect()->route('reactivo.index');
+        return redirect()->route('reactivo.index')->with('success', 'Reactivo agregado exitosamente');
         /* return Redirect::to('reactivo'); */
     }
 
@@ -160,18 +164,20 @@ class ReactivoController extends Controller
         $reactivo->nivel_peligrosidad_id_nivel_peligrosidad=$request->input('nivel_peligrosidad_id_nivel_peligrosidad');
         $reactivo->condiciones_almacenamiento_id_condiciones_almacenamiento=$request->input('condiciones_almacenamiento_id_condiciones_almacenamiento');
 
-                //Script para subir la imagen
-        if($request->hasFile("hoja_seguridad")){
+        if ($request->hasFile("hoja_seguridad")) {
             $hoja_seguridad = $request->file("hoja_seguridad");
-            $nombreHoja= Str::slug($request->nombre_reactivo).".".$hoja_seguridad->guessExtension();
-            $ruta = public_path("/imagenes/reactivos/");
-
-            copy($hoja_seguridad->getRealPath(),$ruta.$nombreHoja);
-            $reactivo->hoja_seguridad=$nombreHoja;
+            $nombreHoja = Str::slug($request->nombre_reactivo) . "." . $hoja_seguridad->getClientOriginalExtension();
+            $ruta = public_path("/pdf/reactivos/");
+    
+            // Mueve el archivo PDF a la ubicación deseada
+            $hoja_seguridad->move($ruta, $nombreHoja);
+    
+            // Guarda el nombre del archivo en la base de datos
+            $reactivo->hoja_seguridad = $nombreHoja;
         }
 
         $reactivo->update();
-        return redirect()->route('reactivo.index');
+        return redirect()->route('reactivo.index')->with('success', 'Reactivo modificado exitosamente');
         
     }
 
@@ -180,9 +186,13 @@ class ReactivoController extends Controller
      */
     public function destroy($id_reactivo)
     {
-        $reactivo=Reactivo::findOrFail($id_reactivo);
-        $reactivo->estatus='0';
-        $reactivo->update();
-        return redirect()->route('reactivo.index');
+        try {
+            $reactivo=Reactivo::findOrFail($id_reactivo);
+            $reactivo->estatus='0';
+            $reactivo->update();
+            return redirect()->route('reactivo.index')->with('success', 'Reactivo eliminado exitosamente');
+        } catch (\Exception $e) {
+            return redirect()->route('reactivo.index')->with('error', 'Ocurrió un error al intentar eliminar el reactivo');
+        }
     }
 }
