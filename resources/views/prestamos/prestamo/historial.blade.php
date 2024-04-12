@@ -147,7 +147,7 @@
                     </div>
 
                     {{-- CONTENIDO DEL CARD --}}
-                    <div class="card-content">
+                    <div class="card-content mt-4">
                         @if ($prestamos->isEmpty())
                         <h1>No tienes prestamos pendientes</h1>
                         @endif

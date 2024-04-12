@@ -72,13 +72,55 @@
                         <td>{{ $pres->duracion_horas }} hora</td>
                     </tr>
                     <tr>
-                        <td>Materiales y reactivos</td>
+                        <td>Introduccion:</td>
+                        <td>{{ $pres->introduccion }}</td>
                     </tr>
-
                     <tr>
-                        <td>{{ $pres->reactivos }}</td>
+                        <td>Obejtivo:</td>
+                        <td>{{ $pres->objetivo }}</td>
                     </tr>
                 </table>
+
+                @if ($pres->materiales && $pres->materiales->isNotEmpty())
+                <h3>Materiales</h3>
+  
+                <table>
+                    <thead>
+                        <th>Nombre del material</th>
+                        <th>Volumen</th>
+                        <th>Cantidad</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($pres->materiales as $material)
+                        <tr>
+                            <td>{{ $material->nombre_material }}</td>
+                            <td>{{ $material->volumen }}</td>
+                            <td>{{ $material->cantidad_material ?? '' }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @endif
+
+                @if ($pres->reactivos && $pres->reactivos->isNotEmpty())
+                <h3>Reactivos</h3>
+  
+                <table>
+                    <thead>
+                        <th>Nombre del reactivo</th>
+                        <th>Cantidad</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($pres->reactivos as $reac)
+                        <tr>
+                            <td>{{ $reac->nombre_reactivo }}</td>
+                            <td>{{ $reac->cantidad_reactivo }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @endif
+               
             </div>
         </div>
         @if (!$loop->last)
@@ -88,13 +130,62 @@
     @endforeach
 <style>
 
-.logo {
-    margin-bottom: 10px; /* Espacio entre el logo y el contenido */
-}
 
-.content {
-    /* Estilos adicionales para el contenido si es necesario */
-}
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .page {
+            margin-bottom: 40px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo img {
+            width: 100px;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table td,
+        .table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+
+        ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        li {
+            list-style-type: disc;
+        }
 </style>
 </body>
 

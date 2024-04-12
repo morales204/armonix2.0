@@ -144,7 +144,7 @@
                     </div>
 
                     {{-- CONTENIDO DEL CARD --}}
-                    <div class="card-content">
+                    <div class="card-content mt-4">
                         @foreach ($prestamos as $pres)
                             {{-- DETALLES DEL CARD INICIAL --}}
                             <div class="row d-flex justify-content-center">

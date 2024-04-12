@@ -1,3 +1,8 @@
+:root{
+    --fondo: #245c5e;
+    --textoNavbar:#ecf5f8;
+}
+
 /* Estilos para la paginación */
 .pagination {
     display: flex;
@@ -78,3 +83,32 @@
     color: #ffffff;
   }
   
+
+  .main-header{
+    background-color: var(--fondo);
+  }
+
+  .nav-link{
+    color: var(--textoNavbar);
+  }
+
+  .nav-link:hover{
+    color: rgb(23, 243, 41);
+  }
+
+  .main-sidebar{
+    background-color: var(--fondo);
+  }
+
+  .nav-item p{
+    color: var(--textoNavbar);
+  }
+
+  .nav-icon{
+    color: var(--textoNavbar);
+  }
+
+  .brand-text{
+    color: white;
+  } 
+

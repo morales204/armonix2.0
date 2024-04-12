@@ -122,7 +122,7 @@
 
             <div class="card-footer">
                 <button type="submit" class="btn btn-success">Guardar</button>
-                <button type="reset" class="btn btn-danger">Cancelar</button>
+                <button onclick="window.history.back();"  type="reset" class="btn btn-danger">Cancelar</button>
             </div>
         </form>
     </div>

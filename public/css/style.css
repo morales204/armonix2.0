@@ -1,9 +1,17 @@
 :root{
-    --fondo: #21345c;
+    --fondo: #03A678;
+    --textoNavbar:#1a333f;
 }
 
 *{
     font-family: 'Montserrat', sans-serif;
+}
+
+.navbar-brand {
+  color:var(--textoNavbar);
+  font-size: 30px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bold;
 }
 
 .navbar {
@@ -12,15 +20,20 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100px;
+    height: 70px;
 }
 
-.navbar .login{
+.nav-link{
+  color: var(--textoNavbar);
+  font-size: 16px;
+}
+
+/* .navbar .login{
   font-size: 50px;
   color: #ffffff;
   margin-right: 20px;
 }
-
+ */
 
 /* -----------MENU DESPLEGABLE------------- */
 #menu-icon {
@@ -164,11 +177,8 @@ th {
     background-color: rgb(255, 255, 255);
 }
 
-
-
-
 /* ------------- CAROUSEL--------------*/
-.carousel-item{
+.carousel-item img{
     height: 100vh;
     min-height: 300px;
    }
@@ -198,7 +208,7 @@ th {
        width: 100%;
        height: 100%;
        top: 0;
-       background: rgba(0,0,0,0.3);
+       background: rgba(0,0,0,0.7);
        z-index: 1;
    }
 
@@ -250,11 +260,6 @@ th {
 
   /* -------------- Experiencia ------------------ */
 
-  .seccion-clara {
-    color: black;
-    background-color: white;
-  }
-  
   .experiencia {
     padding: 40px 40px 60px 40px;
   }
@@ -267,17 +272,21 @@ th {
     align-items: center;
     justify-content: space-evenly;
     transition: all 0.2s ease-in;
+    margin-bottom: 40px;
   }
   
+
+  /* texto dentro del cuadro */
   .experiencia .columna:hover {
-    color: rgb(45, 8, 146);
-    background-color: #9bd6f1;
+    color: rgb(255, 255, 255);
+    background-color: var(--fondo);
   }
   
+ /*  Circulos del icono */
   .experiencia i {
     font-size: 2.5rem;
     color: rgb(18, 19, 18);
-    background-color: #ffb9b0;
+    background-color: #88d6ba;
     padding: 8px 19px;
     border-radius: 50%;
   }
@@ -288,12 +297,8 @@ th {
     margin: 10px 0;
   }
   
-  .badges-contenedor {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 10px 0;
-  }
-  
+
+ /*  etiquetas */
   .badge {
     margin: 5px;
     background-color: #12345a;
@@ -367,9 +372,9 @@ th {
   
   .contacto .rectangulo {
     margin-top: -5rem;
-    background-color:  #FDFFBC;/* #FDFFAE*/
+    background-color:  rgb(255, 255, 255);/* #FDFFAE*/
     border-radius: 10px;
-    box-shadow: 0px 1px 4px 1px white;
+    box-shadow: 0px 1px 4px 1px rgb(0, 0, 0);
   }
   
   .contacto .row {
@@ -458,7 +463,7 @@ th {
   
   .derechos-de-autor {
     font-size: 15px;
-    color: #aeaeae;
+    color: #000000;
     padding: 20px;
   }
   
@@ -500,7 +505,7 @@ th {
   /* Footer */
   .seccion-oscura {
     color: rgb(14, 13, 13);
-    background-color: #0cd659;
+    background-color: var(--fondo);
   }
   
   .seccion-clara {

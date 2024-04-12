@@ -18,7 +18,8 @@ class Material extends Model
         'nombre_material',
         'cantidad_disponible',
         'descripcion',
-        'volumenes_id_volumen'
+        'volumenes_id_volumen',
+        'estatus',
      ];
 
 }

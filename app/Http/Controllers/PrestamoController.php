@@ -240,17 +240,17 @@ class PrestamoController extends Controller
             $prestamosQuery->where('u.correo', '=', $userEmail);
         }
             
-        $prestamos=$prestamosQuery->paginate(3);
+        $prestamos=$prestamosQuery->paginate(2);
 
         foreach ($prestamos as $prestamo) {
-            $prestamo->fecha = Carbon::parse($prestamo->fecha_prestamo)->toDateString();
-            $prestamo->hora = Carbon::parse($prestamo->fecha_prestamo)->toTimeString();
+            $prestamo->fecha = Carbon::parse($prestamo->fecha_prestamo)->translatedFormat('d \de F Y');
+            $prestamo->hora = Carbon::parse($prestamo->fecha_prestamo)->format('h:i A');
 
-            $prestamo->fecha_inicio = Carbon::parse($prestamo->fecha_hora_inicio)->toDateString();
-            $prestamo->hora_inicio = Carbon::parse($prestamo->fecha_hora_inicio)->toTimeString();
+            $prestamo->fecha_inicio = Carbon::parse($prestamo->fecha_hora_inicio)->translatedFormat('d \de F Y');;
+            $prestamo->hora_inicio = Carbon::parse($prestamo->fecha_hora_inicio)->format('h:i A');
 
-            $prestamo->fecha_fin = Carbon::parse($prestamo->fecha_hora_fin)->toDateString();
-            $prestamo->hora_fin = Carbon::parse($prestamo->fecha_hora_fin)->toTimeString();
+            $prestamo->fecha_fin = Carbon::parse($prestamo->fecha_hora_fin)->translatedFormat('d \de F Y');;
+            $prestamo->hora_fin = Carbon::parse($prestamo->fecha_hora_fin)->format('h:i A');
             
              // Calcula la duración entre la hora de inicio y la hora de fin
             $duracion = Carbon::parse($prestamo->fecha_hora_fin)->diff(Carbon::parse($prestamo->fecha_hora_inicio));

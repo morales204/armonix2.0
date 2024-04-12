@@ -43,7 +43,7 @@
         @endif
     </div> --}}
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
 
             <a class="navbar-brand" href="#">UNILAB</a>
@@ -65,7 +65,7 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Inicia Sesion</a>
+                            <a class="nav-link" href="{{ route('login') }}">Inicia Sesión</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">Registrate</a>
@@ -195,7 +195,7 @@
 
     <!-- Pie de pagina (footer) -->
     <footer class="seccion-oscura d-flex flex-column align-items-center justify-content-center">
-        <img class="footer-logo" src="imagenes/icono-blanco.svg" alt="Logo del portafolio">
+        <img class="footer-logo" src="{{asset('img/logo2.png')}}" alt="Logo del portafolio">
         <p class="footer-texto text-center">Aprendo y creo todos los días.<br>Creemos un proyecto juntos.</p>
         <div class="iconos-redes-sociales d-flex flex-wrap align-items-center justify-content-center">
             <a href="#" target="_blank" rel="noopener noreferrer">

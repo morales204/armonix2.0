@@ -36,6 +36,7 @@ class MaterialController extends Controller
             ->join('volumenes as v', 'm.volumenes_id_volumen','=','id_volumen')
             ->select('m.id_material','m.nombre_material','m.cantidad_disponible','m.descripcion','v.volumen')
             ->where('m.nombre_material' , 'LIKE',$query.'%')//modifique el '%' antes del query para que busque solo los iguales
+            ->where('m.estatus','=','1')
             //->groupBy('m.id_material')
             ->orderBy('m.nombre_material','desc')
             ->paginate(5);
@@ -68,9 +69,10 @@ class MaterialController extends Controller
             $material-> cantidad_disponible=$request->get('cantidad_disponible');
             $material-> descripcion=$request->get('descripcion');
             $material-> volumenes_id_volumen=$request->get('volumenes_id_volumen');
+            $material-> estatus='1';
             $material->save();
 
-            return Redirect::to('materiales/material');
+            return Redirect::to('materiales/material')->with('success', 'Material agregado exitosamente');
     }
 
     /**
@@ -103,7 +105,7 @@ class MaterialController extends Controller
         $material->volumenes_id_volumen=$request->input('volumenes_id_volumen');
         $material->update();
 
-        return redirect()->route('material.index');
+        return redirect()->route('material.index')->with('success', 'Material actualizado exitosamente');
 
 
     }
@@ -113,9 +115,14 @@ class MaterialController extends Controller
      */
     public function destroy($id_material)
     {
-        $material = Material::findOrFail($id_material);
-        $material->delete();
-    
-        return redirect()->route('material.index')->with('success', 'Material eliminado correctamente');
+        try {
+            $material = Material::findOrFail($id_material);
+            $material->estatus='0';
+            $material->update();
+            return redirect()->route('material.index')->with('success', 'Material eliminado exitosamente');
+        } catch (\Exception $e) {
+            return redirect()->route('reactivo.index')->with('error', 'Ocurrió un error al intentar eliminar el material');
+        }
+
     }
 }
