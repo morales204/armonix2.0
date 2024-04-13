@@ -69,7 +69,6 @@ class PrestamoController extends Controller
             'dm.objetivo','dm.grado_grupo','c.nombre_carrera',
             'p.fecha_hora_inicio','p.fecha_hora_fin','p.no_practica','p.titulo_practica','p.fecha_prestamo',
             's.descripcion','l.nombre_laboratorio','ubi.ubicacion','u.nombre_completo as nombre_solicitante','u.correo','u.telefono','ue.nombre_completo as nombre_encargado',
-
             )
             ->where('u.nombre_completo','LIKE','%'.$query.'%')
             ->where ('p.status_id_status','=','2')  
@@ -223,7 +222,6 @@ class PrestamoController extends Controller
             'dm.objetivo','dm.grado_grupo','c.nombre_carrera',
             'p.fecha_hora_inicio','p.fecha_hora_fin','p.no_practica','p.titulo_practica','p.fecha_prestamo',
             's.descripcion','l.nombre_laboratorio','ubi.ubicacion','u.nombre_completo as nombre_solicitante','u.correo','u.telefono','ue.nombre_completo as nombre_encargado',
-
             )
             ->where('u.nombre_completo','LIKE','%'.$query.'%')
             ->where ('p.status_id_status','!=','2')
@@ -283,25 +281,16 @@ class PrestamoController extends Controller
 
         }
 
-                    // Verificar si se solicita generar un PDF
-    if ($request->has('pdf')) {
-        
-        // Cargar la vista PDF con los datos
-        $pdf = PDF::loadView('prestamos.prestamo.reportePrestamo', [
-            "prestamos" => $prestamos,
-        ]);
+        if ($request->has('pdf')) {
+            return $this->pdf($periodoInicio, $periodoFin);
+        }
 
-        // Retornar el PDF para su descarga
-        return $pdf->download('historial_prestamos.pdf');
-    }
         
         return view ('prestamos.prestamo.historial',["prestamos"=>$prestamos,"texto"=>$query,"periodoInicio"=>$periodoInicio,"periodoFin"=>$periodoFin]);
 
     }
 
-    public function pdf(Request $request){
-        $periodoInicio = $request->input('periodoInicio');
-        $periodoFin = $request->input('periodoFin');
+    public function pdf($periodoInicio,$periodoFin){
 
         $prestamosQuery = DB::table('prestamos as p')
         //UNION DE LA TABLAS STATUS
@@ -335,17 +324,17 @@ class PrestamoController extends Controller
             $prestamosQuery->whereBetween('p.fecha_prestamo', [$periodoInicio, $periodoFin]);
         }
 
-        $prestamos=$prestamosQuery->paginate(3);
+        $prestamos=$prestamosQuery->get();
 
         foreach ($prestamos as $prestamo) {
-            $prestamo->fecha = Carbon::parse($prestamo->fecha_prestamo)->toDateString();
-            $prestamo->hora = Carbon::parse($prestamo->fecha_prestamo)->toTimeString();
+            $prestamo->fecha = Carbon::parse($prestamo->fecha_prestamo)->translatedFormat('d \de F Y');
+            $prestamo->hora = Carbon::parse($prestamo->fecha_prestamo)->format('h:i A');
 
-            $prestamo->fecha_inicio = Carbon::parse($prestamo->fecha_hora_inicio)->toDateString();
-            $prestamo->hora_inicio = Carbon::parse($prestamo->fecha_hora_inicio)->toTimeString();
+            $prestamo->fecha_inicio = Carbon::parse($prestamo->fecha_hora_inicio)->translatedFormat('d \de F Y');;
+            $prestamo->hora_inicio = Carbon::parse($prestamo->fecha_hora_inicio)->format('h:i A');
 
-            $prestamo->fecha_fin = Carbon::parse($prestamo->fecha_hora_fin)->toDateString();
-            $prestamo->hora_fin = Carbon::parse($prestamo->fecha_hora_fin)->toTimeString();
+            $prestamo->fecha_fin = Carbon::parse($prestamo->fecha_hora_fin)->translatedFormat('d \de F Y');;
+            $prestamo->hora_fin = Carbon::parse($prestamo->fecha_hora_fin)->format('h:i A');
             
              // Calcula la duración entre la hora de inicio y la hora de fin
             $duracion = Carbon::parse($prestamo->fecha_hora_fin)->diff(Carbon::parse($prestamo->fecha_hora_inicio));

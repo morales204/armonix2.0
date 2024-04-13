@@ -1,18 +1,63 @@
-table {
-    width: 100%;
-    border-collapse: collapse;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.page {
+    margin-bottom: 40px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logoApp img {
+    width: 100px;
+}
+
+.logoUts img {
+    width: 130px;
+}
+
+.titulo h1{
+    font-size: 30px;
+}
+
+.content {
     margin-top: 20px;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
+.tableInfo{
+    width: 100%;
+    border-collapse: collapse;
 }
 
-th, td {
-    padding: 10px;
+.tableInfo td,
+.tableInfo th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.tableInfo th {
+    background-color: #f2f2f2;
     text-align: left;
 }
 
-th {
-    background-color: #c42525;
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+li {
+    list-style-type: disc;
 }
