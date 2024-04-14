@@ -26,7 +26,7 @@
                     <th>
                         <div class="titulo">
                             <h1>Universidad Tecnologica de la Selva</h1>
-                            <h2>Laboratorio de Agronomia</h2>
+                            <h2>Laboratorio de Agrolimentaria</h2>
                         </div>
                     </th>
 
@@ -42,7 +42,7 @@
             </table>
 
             <div class="content">
-                <p>Nombre del solicitante: {{ $pres->nombre_solicitante }}</p>
+                <p>Nombre del solicitante: {{$pres->nombre_solicitante}} </p>
                 <p>Fecha de solicitud: {{ $pres->fecha }} a las  {{ $pres->hora }}</p>
                 <p>Estado del prestamo: {{ $pres->descripcion }}</p>
                 <p>No. Prestamo: {{ $pres->id_prestamo }}</p>
@@ -87,6 +87,10 @@
                         <td>{{ $pres->nombre_laboratorio }}</td>
                     </tr>
                     <tr>
+                        <td>Ubicacion:</td>
+                        <td>{{ $pres->ubicacion }}</td>
+                    </tr>
+                    <tr>
                         <td>No.Practica:</td>
                         <td>{{ $pres->no_practica }}</td>
                     </tr>
@@ -101,14 +105,21 @@
                     </tr>
                 </table>
 
-                    <p>Introduccion: {{ $pres->introduccion }}</p>
-    
-                    <p>Obejtivo: {{ $pres->objetivo }}</p>
+                   <br>
+                   <br>
 
-                @if ($pres->materiales && $pres->materiales->isNotEmpty())
+        
+            </div>
+        </div>
+        <div class="page">
+            <p>Introduccion: {{ $pres->introduccion }}</p>
+    
+            <p>Obejtivo: {{ $pres->objetivo }}</p>
+            <br>
+        @if ($pres->materiales && $pres->materiales->isNotEmpty())
                     <h3>Materiales</h3>
 
-                    <table>
+                    <table class="tableInfo">
                         <thead>
                             <th>Nombre del material</th>
                             <th>Volumen</th>
@@ -144,9 +155,8 @@
                         </tbody>
                     </table>
                 @endif
-
             </div>
-        </div>
+
         @if (!$loop->last)
             <!-- Agrega un salto de página después de cada elemento, excepto el último -->
             <div style="page-break-after: always;"></div>
