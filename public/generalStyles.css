@@ -1,6 +1,6 @@
 :root{
-    --fondo: #245c5e;
-    --textoNavbar:#ecf5f8;
+    --fondo: #ffffff;
+    --textoNavbar:#000000;
 }
 
 /* Estilos para la paginación */
@@ -93,7 +93,7 @@
   }
 
   .nav-link:hover{
-    color: rgb(23, 243, 41);
+    color: rgba(4, 47, 239, 0.389);
   }
 
   .main-sidebar{
