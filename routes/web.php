@@ -79,6 +79,23 @@ Route::get('/tuba', function () {
     return view('instrumentos.viento.tuba.tuba');
 });
 
+//idiofonos
+Route::get('/idiofonos', function () {
+    return view('instrumentos.idiofonos.idiofonos');
+});
+
+Route::get('/xilofono', function () {
+    return view('instrumentos.idiofonos.xilofono.xilofono');
+});
+
+Route::get('/castañuela', function () {
+    return view('instrumentos.idiofonos.castañuela.castañuela');
+});
+
+Route::get('/campana', function () {
+    return view('instrumentos.idiofonos.campana.campana');
+});
+
 
 Route::resource('cursos/miscursos', CursosController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('cursos/cursoslist', CursosListController::class)->middleware('auth', 'role:ClienteFree');
@@ -86,3 +103,4 @@ Route::resource('herramientas/nota', NotaController::class)->middleware('auth', 
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('servicios/rentaServicio', ServicioController::class)->middleware('auth', 'role:ClienteFree');
+

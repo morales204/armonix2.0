@@ -217,9 +217,9 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="{{ url('/idiofonos/marimba') }}" class="nav-link">
+                                            <a href="{{ url('/xilofono') }}" class="nav-link">
                                                 <i class="nav-icon fas fa-music"></i>
-                                                <p>Marimba</p>
+                                                <p>Xilofono</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -283,7 +283,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Idiófono</h5>
                                     <p class="card-text"></p>
-                                    <a href="#" class="btn btn-primary">Ir</a>
+                                    <a href="{{ url('/idiofonos') }}" class="btn btn-primary">Ir</a>
                                 </div>
                             </div>
                         </div>
