@@ -184,7 +184,7 @@
             <br>
             <p>Es posible que la página que está buscando se haya eliminado, se haya cambiado de nombre o no esté disponible temporalmente.</p>
         <!--  <a href="#">home page</a> -->
-            <img src="{{ asset('osin.webp')}}" alt="">
+            <img src="{{ asset('img/osin.webp')}}" alt="">
         </div>
     </div>
 </body>
