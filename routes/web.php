@@ -52,3 +52,23 @@ Route::get('prestamos/historial', [App\Http\Controllers\PrestamoController::clas
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/cursos', function () {
+    return view('cursos.cursos');
+});
+
+Route::get('/viento', function () {
+    return view('instrumentos.viento.viento');
+});
+
+Route::get('/acordeon', function () {
+    return view('instrumentos.viento.acordeon.acordeon');
+});
+
+Route::get('/trompeta', function () {
+    return view('instrumentos.viento.trompeta.trompeta');
+});
+
+Route::get('/tuba', function () {
+    return view('instrumentos.viento.tuba.tuba');
+});
