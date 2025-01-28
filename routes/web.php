@@ -10,6 +10,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\BackupController;
 
 use App\Http\Controllers\PrestamoController;
+use Illuminate\Support\Facades\Auth;
 
 
 /*
@@ -53,10 +54,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+// Cursos
 Route::get('/cursos', function () {
     return view('cursos.cursos');
 });
 
+//instrumentos de viento
 Route::get('/viento', function () {
     return view('instrumentos.viento.viento');
 });
