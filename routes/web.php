@@ -10,6 +10,12 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\BackupController;
 
 use App\Http\Controllers\PrestamoController;
+use App\Http\Controllers\CursosController;
+use App\Http\Controllers\CursosListController;
+use App\Http\Controllers\NotaController;
+use App\Http\Controllers\MetronomoController;
+use App\Http\Controllers\ServicioInstrumentoController;
+use App\Http\Controllers\ServicioController;
 
 
 /*
@@ -72,3 +78,11 @@ Route::get('/trompeta', function () {
 Route::get('/tuba', function () {
     return view('instrumentos.viento.tuba.tuba');
 });
+
+
+Route::resource('cursos/miscursos', CursosController::class)->middleware('auth', 'role:ClienteFree');
+Route::resource('cursos/cursoslist', CursosListController::class)->middleware('auth', 'role:ClienteFree');
+Route::resource('herramientas/nota', NotaController::class)->middleware('auth', 'role:ClienteFree');
+Route::resource('herramientas/metronomo', MetronomoController::class)->middleware('auth', 'role:ClienteFree');
+Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware('auth', 'role:ClienteFree');
+Route::resource('servicios/rentaServicio', ServicioController::class)->middleware('auth', 'role:ClienteFree');
