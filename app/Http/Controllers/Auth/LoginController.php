@@ -30,21 +30,24 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    // Sobrescribir el método para cambiar el nombre del campo de autenticación
+    public function username()
+    {
+        return 'correo';  // Cambia 'correo' por el nombre del campo de correo en tu base de datos
+    }
+
+    // Eliminar el método sendFailedLoginResponse si no necesitas personalización
+    // protected function sendFailedLoginResponse(Request $request)
+    // {
+    //     throw ValidationException::withMessages([
+    //         $this->username() => [trans('auth.failed')],
+    //         'password' => [trans('auth.password')],
+    //     ]);
+    // }
+
+    // Constructor para aplicar el middleware de autenticación
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-    }
-
-    protected function sendFailedLoginResponse(Request $request)
-    {
-        throw ValidationException::withMessages([
-            $this->username() => [trans('auth.failed')],
-            'password' => [trans('auth.password')],
-        ]);
     }
 }
