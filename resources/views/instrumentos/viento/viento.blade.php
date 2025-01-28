@@ -56,17 +56,33 @@
         <nav class="main-header navbar navbar-expand">
             <!-- Navbar izquierdo links -->
             <ul class="navbar-nav">
-
-                {{-- Icono de menu --}}
+                {{-- Icono de menú --}}
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                        <i class="fas fa-bars"></i>
+                    </a>
                 </li>
 
+                {{-- Inicio --}}
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ url('/home') }}" class="nav-link">Inicio</a>
                 </li>
+
+                {{-- Breadcrumb --}}
+                <li class="nav-item d-none d-sm-inline-block">
+                    <span class="nav-link">/</span>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{{ url('/cursos') }}" class="nav-link">Cursos</a>
+                </li>   
+                <li class="nav-item d-none d-sm-inline-block">
+                    <span class="nav-link">/</span>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{{ url('/viento') }}" class="nav-link">Instrumentos de Viento</a>
+                </li>    
             </ul>
+
 
             <!-- Navbar derecho links -->
             <ul class="navbar-nav ml-auto">
@@ -75,19 +91,17 @@
                 <li id="notificaciones-link" class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">{{$notificaciones->total}}</span>
+                        <span class="badge badge-warning navbar-badge">1</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        @foreach ($notificaciones as $notificacion)
                         <div class="dropdown-divider"></div>
 
                         <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-4"></i>{{$notificacion->titulo}}
+                            <i class="fas fa-envelope mr-4"></i>1
                             <span class="float-right text-muted text-sm">3 mins</span>
                         </a>
 
                         <div class="dropdown-divider"></div>
-                        @endforeach
 
                 </li>
 
@@ -229,102 +243,7 @@
 
                         @if (auth()->user()->roles_id_rol === 1)
                         <!-- Mostrar contenido para laboratoristas -->
-
-                        <li class="nav-item {{ request()->is('materiales/*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-toolbox"></i>
-                                <p>
-                                    Materiales
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('material.index') }}"
-                                        class="nav-link {{ request()->is('materiales/material*') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-cube"></i>
-                                        <p>Ver material</p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{ route('volumen.index') }}"
-                                        class="nav-link {{ request()->is('materiales/volumen*') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-ruler"></i>
-                                        <p>Volumen</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item {{ request()->is('reactivos/*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link ">
-                                <i class="nav-icon fas fa-flask"></i>
-                                <p>
-                                    Reactivos
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('reactivo.index') }}"
-                                        class="nav-link {{ request()->is('reactivos/reactivo*') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-vial"></i>
-                                        <p>Ver reactivos</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('familia.index') }}"
-                                        class="nav-link {{ request()->is('reactivos/familia*') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-sitemap"></i>
-                                        <p>Familia</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-edit"></i>
-                                <p>
-                                    Control de usuarios
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('usuario.index')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Usuarios</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/forms/general.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Roles</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
                         @endif
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-cog"></i>
-                                <p>
-                                    Configuracion
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route("respaldo.index")}}" class="nav-link {{ request()->is('backup/respaldo*') ? 'active' : '' }}">
-                                        <i class="far fa-life-ring   nav-icon"></i>
-                                        <p>Respaldo</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -338,9 +257,47 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
+                    <div class="row">
+                        <!-- Card 1 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="card">
+                                <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Acordeón</h5>
+                                    <p class="card-text"></p>
+                                    <a href="{{ url('/acordeon')}}" class="btn btn-primary">Ir</a>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- Card 2 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="card">
+                                <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Trompeta</h5>
+                                    <p class="card-text"></p>
+                                    <a href="{{ url('/trompeta')}}" class="btn btn-primary">Ir</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="card">
+                                <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tuba</h5>
+                                    <p class="card-text"></p>
+                                    <a href="{{ url('/tuba')}}" class="btn btn-primary">Ir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="c   ontainer-fluid">
                     @yield('content')
-
                 </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->
