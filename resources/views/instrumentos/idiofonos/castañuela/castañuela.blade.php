@@ -79,8 +79,14 @@
                     <span class="nav-link">/</span>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ url('/idiofonos') }}" class="nav-link">Idiofonos</a>
+                    <a href="{{ url('/idiofonos') }}" class="nav-link">Idiofono</a>
                 </li>    
+                <li class="nav-item d-none d-sm-inline-block">
+                    <span class="nav-link">/</span>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{{ url('/castañuela') }}" class="nav-link">castañuela</a>
+                </li>
             </ul>
 
 
@@ -269,9 +275,9 @@
                             <div class="card">
                                 <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Xilofono</h5>
+                                    <h5 class="card-title">Curso 1</h5>
                                     <p class="card-text"></p>
-                                    <a href="{{ url('/xilofono')}}" class="btn btn-primary">Ir</a>
+                                    <a href="{{ url('/viento')}}" class="btn btn-primary">Ir</a>
                                 </div>
                             </div>
                         </div>
@@ -281,9 +287,9 @@
                             <div class="card">
                                 <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Castañuela</h5>
+                                    <h5 class="card-title">Curso 2</h5>
                                     <p class="card-text"></p>
-                                    <a href="{{ url('/castañuela')}}" class="btn btn-primary">Ir</a>
+                                    <a href="#" class="btn btn-primary">Ir</a>
                                 </div>
                             </div>
                         </div>
@@ -293,9 +299,9 @@
                             <div class="card">
                                 <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Campana</h5>
+                                    <h5 class="card-title">Curso 3</h5>
                                     <p class="card-text"></p>
-                                    <a href="{{ url('/campana')}}" class="btn btn-primary">Ir</a>
+                                    <a href="#" class="btn btn-primary">Ir</a>
                                 </div>
                             </div>
                         </div>

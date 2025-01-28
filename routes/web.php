@@ -72,3 +72,20 @@ Route::get('/trompeta', function () {
 Route::get('/tuba', function () {
     return view('instrumentos.viento.tuba.tuba');
 });
+
+//idiofonos
+Route::get('/idiofonos', function () {
+    return view('instrumentos.idiofonos.idiofonos');
+});
+
+Route::get('/xilofono', function () {
+    return view('instrumentos.idiofonos.xilofono.xilofono');
+});
+
+Route::get('/castañuela', function () {
+    return view('instrumentos.idiofonos.castañuela.castañuela');
+});
+
+Route::get('/campana', function () {
+    return view('instrumentos.idiofonos.campana.campana');
+});

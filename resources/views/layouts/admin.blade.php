@@ -209,15 +209,21 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="{{ url('/idiofonos/marimba') }}" class="nav-link">
+                                            <a href="{{ url('/xilofono') }}" class="nav-link">
                                                 <i class="nav-icon fas fa-music"></i>
-                                                <p>Marimba</p>
+                                                <p>Xilofono</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ url('/idiofonos/triangulo') }}" class="nav-link">
+                                            <a href="{{ url('/castañuela') }}" class="nav-link">
                                                 <i class="nav-icon fas fa-music"></i>
-                                                <p>Triángulo</p>
+                                                <p>Castañuela</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('/campana') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-music"></i>
+                                                <p>Campana</p>
                                             </a>
                                         </li>
                                     </ul>
