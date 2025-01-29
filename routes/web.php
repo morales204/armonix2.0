@@ -10,6 +10,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\BackupController;
 
 use App\Http\Controllers\PrestamoController;
+
 use App\Http\Controllers\CursosController;
 use App\Http\Controllers\CursosListController;
 use App\Http\Controllers\NotaController;
@@ -17,14 +18,9 @@ use App\Http\Controllers\MetronomoController;
 use App\Http\Controllers\ServicioInstrumentoController;
 use App\Http\Controllers\ServicioController;
 
-use App\Http\Controllers\CursosController;
-use App\Http\Controllers\CursosListController;
-use App\Http\Controllers\NotaController;
-use App\Http\Controllers\MetronomoController;
 use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotaPremiumController;
-use App\Http\Controllers\ServicioInstrumentoController;
-use App\Http\Controllers\ServicioController;
+
 
 
 /*

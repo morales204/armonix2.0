@@ -36,136 +36,54 @@
         </div>
 
         <!-- Sección de funciones de pago -->
-        <div class="card mb-4 mt-5">
-            <div class="card-header">
-                Gracias por confiar en nosotros!...
-                <span class="float-right text-danger"><i class="fa-solid fa-unlock-keyhole"></i> ¡Compra ahora!</span>
+        <div class="card mb-4 mt-5 shadow-lg">
+            <div class="card-header bg-primary text-white text-center">
+                <h4>🎶 ⭐ Tu Experiencia Premium ⭐ 🎶</h4>
+                <!-- <p>Disfruta de todas las funciones exclusivas</p> -->
             </div>
-            <div class="card-body">
-                <p><strong><i class="fas fa-star"></i> Sonido Personalizado</strong> - Elige entre diferentes sonidos para tu metrónomo.</p>
-                <p><strong><i class="fas fa-star"></i> Visualización Avanzada</strong> - Gráficos y visualizaciones avanzadas del ritmo.</p>
-                <p><strong><i class="fas fa-star"></i> Modo silencioso</strong> - Utiliza el metrónomo sin sonido, solo con vibración.</p>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <h6 class="mt-2">🎨 Personalización Total</h6>
+                    <p>Elige tus propios colores y estilos.</p>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="mt-2">☁️ Sincronización Segura</h6>
+                    <p>Tu configuración siempre disponible.</p>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="mt-2">📞 Atención VIP</h6>
+                    <p>Soporte prioritario 24/7.</p>
+                </div>
             </div>
         </div>
 
-        <!-- Botón de compra (Solo premium) -->
-        <div class="text-center">
-            <button class="btn btn-warning btn-lg">
-                <i class="fas fa-lock"></i> ¡Obtén Funciones Premium!
-            </button>
-        </div>
-    </div>
-@endsection
 
-@section('styles')
-    <!-- Añadir iconos de FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 300px;
-            text-align: center;
-        }
-        .button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .button:disabled {
-            background-color: #ddd;
-            cursor: not-allowed;
-        }
-        .functions-premium {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #555;
-        }
-        .premium {
-            color: #ff9800;
-        }
-        .lock-icon {
-            color: red;
-        }
-        .tempo-control {
-            margin-top: 15px;
-        }
-        .tempo-control input {
-            width: 100%;
-            margin: 5px 0;
-            padding: 5px;
-        }
-    </style>
-@endsection
+<style>
+    .card {
+        border-radius: 15px; /* Bordes redondeados */
+        overflow: hidden;
+        align-self: center;
+    }
 
-@section('scripts')
-    <script>
-        let isPlaying = false;
-        let tempo = 120;
-        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let oscillator;
+    .card-header {
+        font-weight: bold;
+        border-radius: 15px 15px 0 0;
+        align-items: center;
+    }
 
-        // Elementos DOM
-        const startStopBtn = document.getElementById('startStopBtn');
-        const tempoRange = document.getElementById('tempoRange');
-        const tempoValue = document.getElementById('tempoValue');
+    .card-body h5 {
+        color: #295255; /* Color destacado */
+        font-weight: bold;
+    }
 
-        // Función para iniciar y detener el metrónomo
-        startStopBtn.addEventListener('click', () => {
-            if (isPlaying) {
-                stopMetronome();
-            } else {
-                startMetronome();
-            }
-        });
+    .img-fluid {
+        transition: transform 0.3s;
+    }
 
-        // Cambiar tempo
-        tempoRange.addEventListener('input', (e) => {
-            tempo = e.target.value;
-            tempoValue.textContent = `${tempo} BPM`;
-        });
+    .img-fluid:hover {
+        transform: scale(1.1);
+    }
+</style>
 
-        // Iniciar el metrónomo
-        function startMetronome() {
-            isPlaying = true;
-            startStopBtn.textContent = 'Detener';
-            playBeat();
-        }
-
-        // Detener el metrónomo
-        function stopMetronome() {
-            isPlaying = false;
-            startStopBtn.textContent = 'Iniciar';
-            clearInterval(oscillator);
-        }
-
-        // Reproducir un latido (beat) del metrónomo
-        function playBeat() {
-            const interval = (60 / tempo) * 1000; // Tiempo entre beats en milisegundos
-
-            oscillator = setInterval(() => {
-                const osc = audioContext.createOscillator();
-                osc.connect(audioContext.destination);
-                osc.frequency.setValueAtTime(440, audioContext.currentTime); // Frecuencia de 440Hz (la nota La)
-                osc.start();
-                osc.stop(audioContext.currentTime + 0.1); // Duración del latido
-            }, interval);
-        }
-    </script>
 @endsection
