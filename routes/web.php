@@ -21,6 +21,7 @@ use App\Http\Controllers\InstrumentosController;
 use App\Http\Controllers\InstrumentosVientoController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\MetronomoController;
+use App\Http\Controllers\publicidadController;
 use App\Http\Controllers\ServicioInstrumentoController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\TrompetaController;
@@ -77,6 +78,8 @@ Route::resource('herramientas/nota', NotaController::class)->middleware('auth', 
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('servicios/rentaServicio', ServicioController::class)->middleware('auth', 'role:ClienteFree');
+
+Route::resource('servicios/publicidad', publicidadController::class)->middleware('auth', 'role:ClienteFree');
 
 Route::resource('cursos/agregarcurso', AddCursosController::class)->middleware('auth', 'role:Admin');
 Route::resource('cursos/cursoslistAdd', AddCursosListController::class)->middleware('auth', 'role:Admin');
