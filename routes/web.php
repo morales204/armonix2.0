@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AcordeonController;
+use App\Http\Controllers\AddCursosController;
+use App\Http\Controllers\AddCursosListController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\ReactivoController;
@@ -8,15 +11,24 @@ use App\Http\Controllers\VolumenController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\BackupController;
-
+use App\Http\Controllers\CampanaController;
+use App\Http\Controllers\CastañuelaController;
 use App\Http\Controllers\PrestamoController;
 
 use App\Http\Controllers\CursosController;
 use App\Http\Controllers\CursosListController;
+use App\Http\Controllers\IdiofonosController;
+use App\Http\Controllers\InstrumentosController;
+use App\Http\Controllers\InstrumentosVientoController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\MetronomoController;
+use App\Http\Controllers\publicidadController;
 use App\Http\Controllers\ServicioInstrumentoController;
 use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\TrompetaController;
+use App\Http\Controllers\TubaController;
+use App\Http\Controllers\XilofonoController;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotaPremiumController;
@@ -64,7 +76,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+/*Se agrego esta parte*/
 Route::get('/cursos', function () {
     return view('cursos.cursos');
 });
@@ -103,6 +115,7 @@ Route::get('/campana', function () {
     return view('instrumentos.idiofonos.campana.campana');
 });
 
+/*--------------*/
 
 Route::resource('cursos/miscursos', CursosController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('cursos/cursoslist', CursosListController::class)->middleware('auth', 'role:ClienteFree');
@@ -115,3 +128,22 @@ Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middl
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('servicios/rentaServicio', ServicioController::class)->middleware('auth', 'role:ClienteFree');
 
+Route::resource('servicios/publicidad', publicidadController::class)->middleware('auth', 'role:ClienteFree');
+
+Route::resource('cursos/agregarcurso', AddCursosController::class)->middleware('auth', 'role:Admin');
+Route::resource('cursos/cursoslistAdd', AddCursosListController::class)->middleware('auth', 'role:Admin');
+Route::resource('cursos/acordeon', InstrumentosVientoController::class)->middleware('auth', 'role:Admin');
+Route::resource('viento/acordeon', AcordeonController::class)->middleware('auth', 'role:Admin');
+Route::resource('viento/trompeta', TrompetaController::class)->middleware('auth', 'role:Admin');
+Route::resource('viento/tuba', TubaController::class)->middleware('auth', 'role:Admin');
+
+
+Route::resource('cursos/idiofono', IdiofonosController::class)->middleware('auth', 'role:Admin');
+Route::resource('idiofono/campana', CampanaController::class)->middleware('auth', 'role:Admin');
+Route::resource('idiofono/castañuela', CastañuelaController::class)->middleware('auth', 'role:Admin');
+Route::resource('idiofono/xilofono', XilofonoController::class)->middleware('auth', 'role:Admin');
+Route::resource('cursos/instrumentos', InstrumentosController::class)->middleware('auth', 'role:Admin');
+
+Route::get('/409', function () {
+    return view('errors.409');
+});

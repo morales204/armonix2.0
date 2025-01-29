@@ -116,8 +116,7 @@
                                     </i>
                                     Edit
                                 </a>
-                                <button type="button" class="btn btn-outline-danger btn-sm"
-                                onclick="deleteUsuarioConfirmation({{ $usuario->id_usuario }})"><i
+                                <button type="button" class="btn btn-outline-danger btn-sm"><i
                                     class="fas fa-trash-alt"></i></button>
                             </td>
                         </tr>
