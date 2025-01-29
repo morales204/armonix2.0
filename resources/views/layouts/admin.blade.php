@@ -157,19 +157,22 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="{{ url('/acordeon') }}" class="nav-link">
+                                            <a href="{{ route('acordeon.index') }}"
+                                            class="nav-link {{ request()->is('viento/acordeon') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-acordion"></i>
                                                 <p>Acordeon</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ url('/trompeta') }}" class="nav-link">
+                                            <a href="{{ route('trompeta.index') }}"
+                                            class="nav-link {{ request()->is('viento/trompeta') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Trompeta</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ url('/tuba') }}" class="nav-link">
+                                            <a href="{{ route('tuba.index') }}"
+                                            class="nav-link {{ request()->is('viento/tuba') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Tuba</p>
                                             </a>
@@ -213,13 +216,15 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="{{ url('/xilofono') }}" class="nav-link">
+                                            <a ref="{{ route('xilofono.index') }}"
+                                            class="nav-link {{ request()->is('idiofono/xilofono') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Xilofono</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ url('/castañuela') }}" class="nav-link">
+                                            <a ref="{{ route('castañuela.index') }}"
+                                            class="nav-link {{ request()->is('idiofono/castañuela') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Castañuela</p>
                                             </a>
@@ -232,9 +237,23 @@
                                         </li>
                                     </ul>
                                 </li>
+
+                                <!-- Agregar curso -->
+                                <li class="nav-item">
+                                    <a href="{{ route('agregarcurso.index') }}"
+                                        class="nav-link {{ request()->is('cursos/agregarcurso') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-user-graduate"></i>
+                                        <p>Agregar curso</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('cursoslistAdd.index') }}"
+                                        class="nav-link {{ request()->is('cursos/cursoslistAdd') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-user-graduate"></i>
+                                        <p>Cursos Agregados</p>
+                                    </a>
+                                </li>
                             </ul>
-
-
                         </li>
 
                         @endif
