@@ -11,6 +11,15 @@ use App\Http\Controllers\BackupController;
 
 use App\Http\Controllers\PrestamoController;
 
+use App\Http\Controllers\CursosController;
+use App\Http\Controllers\CursosListController;
+use App\Http\Controllers\NotaController;
+use App\Http\Controllers\MetronomoController;
+use App\Http\Controllers\MetronomoPremiumController;
+use App\Http\Controllers\NotaPremiumController;
+use App\Http\Controllers\ServicioInstrumentoController;
+use App\Http\Controllers\ServicioController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -52,3 +61,35 @@ Route::get('prestamos/historial', [App\Http\Controllers\PrestamoController::clas
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/cursos', function () {
+    return view('cursos.cursos');
+});
+
+Route::get('/viento', function () {
+    return view('instrumentos.viento.viento');
+});
+
+Route::get('/acordeon', function () {
+    return view('instrumentos.viento.acordeon.acordeon');
+});
+
+Route::get('/trompeta', function () {
+    return view('instrumentos.viento.trompeta.trompeta');
+});
+
+Route::get('/tuba', function () {
+    return view('instrumentos.viento.tuba.tuba');
+});
+
+
+Route::resource('cursos/miscursos', CursosController::class)->middleware('auth', 'role:ClienteFree');
+Route::resource('cursos/cursoslist', CursosListController::class)->middleware('auth', 'role:ClienteFree');
+Route::resource('herramientas/nota', NotaController::class)->middleware('auth', 'role:ClienteFree');
+Route::resource('herramientas/metronomo', MetronomoController::class)->middleware('auth', 'role:ClienteFree');
+Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware('auth', 'role:ClientePremium');
+Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middleware('auth', 'role:ClientePremium');
+Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware('auth', 'role:ClienteFree');
+Route::resource('servicios/rentaServicio', ServicioController::class)->middleware('auth', 'role:ClienteFree');
+
