@@ -1,5 +1,5 @@
 :root{
-    --fondo: #03A678;
+    --fondo: #ffffff;
     --textoNavbar:#1a333f;
 }
 
@@ -10,7 +10,7 @@
 .navbar-brand {
   color:var(--textoNavbar);
   font-size: 30px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Georgia', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-weight: bold;
 }
 
@@ -102,7 +102,7 @@
   
   .slide_down:hover {
     box-shadow: inset 0 100px 0 0 #1e69da;
-    color: #ffffff;
+    color: #000000;
   }
   
 
@@ -278,7 +278,7 @@ th {
 
   /* texto dentro del cuadro */
   .experiencia .columna:hover {
-    color: rgb(255, 255, 255);
+    color: rgb(91, 62, 178);
     background-color: var(--fondo);
   }
   
