@@ -9,7 +9,7 @@
 
 @section('content')
 
-<img class="wave" src=" {{asset('img/fondoLogin.png')}} ">
+<img class="wave" src=" {{asset('img/fondo4.jpg')}} ">
 <div class="container ">
     <div class="row justify-content-end" style="margin-top: 250px;">
         <div class="col-md-8">
@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Contraseña') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
@@ -63,7 +63,7 @@
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
+                                    {{ __('Iniciar sesion') }}
                                 </button>
 
                                {{--  @if (Route::has('password.request'))
