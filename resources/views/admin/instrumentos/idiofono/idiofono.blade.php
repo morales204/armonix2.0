@@ -27,7 +27,7 @@
                         <!-- Card 1 -->
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                             <div class="card">
-                                <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
+                                <img src="{{ asset('img/xilofono.png') }}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">Xilofono</h5>
                                     <p class="card-text"></p>
@@ -39,7 +39,7 @@
                         <!-- Card 2 -->
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                             <div class="card">
-                                <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
+                                <img src="{{ asset('img/castañuela.png') }}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">Castañuela</h5>
                                     <p class="card-text"></p>
@@ -51,7 +51,7 @@
                         <!-- Card 3 -->
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                             <div class="card">
-                                <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
+                                <img src="{{ asset('img/campana.png') }}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">Campana</h5>
                                     <p class="card-text"></p>
