@@ -216,21 +216,19 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a ref="{{ route('xilofono.index') }}"
-                                            class="nav-link {{ request()->is('idiofono/xilofono') ? 'active' : '' }}">
+                                            <a href="{{ url('/idiofono/xilofono')}}" class="nav-link">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Xilofono</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a ref="{{ route('castañuela.index') }}"
-                                            class="nav-link {{ request()->is('idiofono/castañuela') ? 'active' : '' }}">
+                                            <a href="{{ url('/idiofono/castañuela')}}" class="nav-link">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Castañuela</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="{{ url('/campana') }}" class="nav-link">
+                                            <a href="{{ url('/idiofono/campana')}}" class="nav-link">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Campana</p>
                                             </a>

@@ -6,13 +6,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Idiófonos</h1>
+                    <h1 class="m-0">Campana</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('/home') }}">Inicio</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/cursos/acordeon') }}">Idiófonos</a></li>
-                        <li class="breadcrumb-item active">Xilofono</li>
+                        <li class="breadcrumb-item"><a href="{{ url('/cursos/instrumentos') }}">Cursos</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/cursos/idiofono') }}">Idiófonos</a></li>
+                        <li class="breadcrumb-item active">Campana</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -27,7 +28,7 @@
                         <!-- Card 1 -->
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                             <div class="card">
-                                <img src="#" class="card-img-top" alt="...">
+                                <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">Curso 1</h5>
                                     <p class="card-text"></p>
@@ -39,7 +40,7 @@
                         <!-- Card 2 -->
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                             <div class="card">
-                                <img src="#" class="card-img-top" alt="...">
+                                <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">Curso 2</h5>
                                     <p class="card-text"></p>
@@ -51,7 +52,7 @@
                         <!-- Card 3 -->
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                             <div class="card">
-                                <img src="#" class="card-img-top" alt="...">
+                                <img src="{{ asset('img/viento.png') }}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">Curso 3</h5>
                                     <p class="card-text"></p>

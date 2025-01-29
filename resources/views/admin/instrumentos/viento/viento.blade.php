@@ -11,6 +11,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('/home') }}">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/cursos/instrumentos') }}">Cursos</a></li>
                         <li class="breadcrumb-item active"><a href="{{ url('/cursos/acordeon') }}">Instrumentos de Viento</a></li>
                     </ol>
                 </div><!-- /.col -->
