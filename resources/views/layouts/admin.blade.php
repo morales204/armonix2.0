@@ -321,7 +321,174 @@
                             </ul>
                         </li>
                         @endif
-<!-- 
+
+
+                        <!-- Mostrar apartado usuario free -->
+                        @if (auth()->user()->roles_id_rol === 2)
+
+                        <li class="nav-item {{ request()->is('cursos/*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Cursos
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('miscursos.index') }}"
+                                        class="nav-link {{ request()->is('cursos/miscursos') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-user-graduate"></i>
+                                        <p>Mis cursos</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('cursoslist.index') }}"
+                                        class="nav-link {{ request()->is('cursos/cursoslist') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-book-open"></i>
+                                        <p>Ver cursos</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item {{ request()->is('herramientas/*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link ">
+                                <i class="nav-icon fas fa-sitemap"></i>
+                                <p>
+                                    Herramientas
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('metronomo.index') }}"
+                                        class="nav-link {{ request()->is('herramientas/metronomo') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-headphones"></i>
+                                        <p>Metrónomo</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('nota.index') }}"
+                                        class="nav-link {{ request()->is('herramientas/nota') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-pencil-alt"></i>
+                                        <p>Notas</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item nav-item {{ request()->is('servicios/*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    Servicios
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('rentaInstrumento.index')}}" class="nav-link {{ request()->is('servicios/rentaInstrumento') ? 'active' : '' }}">
+                                        <i class="fas fa-guitar nav-icon"></i>
+                                        <p>Renta de Instrumentos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('rentaServicio.index')}}" class="nav-link {{ request()->is('servicios/rentaServicio') ? 'active' : '' }}">
+                                        <i class="fas fa-briefcase nav-icon"></i>
+                                        <p>Renta de Servicios</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @endif
+
+                        <!-- Mostrar apartado usuario Premium -->
+                        @if (auth()->user()->roles_id_rol === 3)
+
+                        <li class="nav-item {{ request()->is('cursos/*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Cursos
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('miscursos.index') }}"
+                                        class="nav-link {{ request()->is('cursos/miscursos') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-user-graduate"></i>
+                                        <p>Mis cursos</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('cursoslist.index') }}"
+                                        class="nav-link {{ request()->is('cursos/cursoslist') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-book-open"></i>
+                                        <p>Ver cursos</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item {{ request()->is('herramientas/*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link ">
+                                <i class="nav-icon fas fa-sitemap"></i>
+                                <p>
+                                    Herramientas
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('metronomoP.index') }}"
+                                        class="nav-link {{ request()->is('userP/herramientas/metronomoP') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-headphones"></i>
+                                        <p>Metrónomo</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('notaP.index') }}"
+                                        class="nav-link {{ request()->is('userP/herramientas/notaP') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-pencil-alt"></i>
+                                        <p>Notas</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item nav-item {{ request()->is('servicios/*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    Servicios
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('rentaInstrumento.index')}}" class="nav-link {{ request()->is('servicios/rentaInstrumento') ? 'active' : '' }}">
+                                        <i class="fas fa-guitar nav-icon"></i>
+                                        <p>Renta de Instrumentos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('rentaServicio.index')}}" class="nav-link {{ request()->is('servicios/rentaServicio') ? 'active' : '' }}">
+                                        <i class="fas fa-briefcase nav-icon"></i>
+                                        <p>Renta de Servicios</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @endif
+
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-cog"></i>
@@ -340,7 +507,7 @@
                             </ul>
                         </li> -->
                     </ul>
-                </nav>
+                </nav> -->
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
