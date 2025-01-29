@@ -1,5 +1,5 @@
 :root{
-    --fondo: #03A678;
+    --fondo: #ffffff;
     --textoNavbar:#1a333f;
 }
 
@@ -15,12 +15,24 @@ body{
     overflow: hidden;
 }
 
-.wave{
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	height: 100%;
-	z-index: -1;
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.wave {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    animation: slideDown 1.5s ease-out;
 }
 
 .btn{
@@ -30,7 +42,7 @@ body{
 	border-radius: 25px;
 	outline: none;
 	border: none;
-	background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+	background-image: linear-gradient(to right, #949494, #0a0d0c, #01110c);
 	background-size: 200%;
 	font-size: 1.2rem;
 	color: #fff;
