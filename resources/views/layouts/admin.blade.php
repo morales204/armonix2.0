@@ -22,7 +22,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/css/bootstrap-select.min.css') }}">
-    {{--     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}"> --}}
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <!-- Daterange picker -->
@@ -48,10 +48,10 @@
 
         <!-- Precarga -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="{{ asset('img/logo2.png') }}" alt="AdminLTELogo" height="150"
+            <img class="animation__shake" src="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31d9b53530.jpg" alt="AdminLTELogo" height="150"
                 width="150">
         </div>
-        
+
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand">
             <!-- Navbar izquierdo links -->
@@ -64,7 +64,7 @@
                 </li>
 
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="" class="nav-link">Inicio</a>
+                    <a href="{{ url('/home') }}" class="nav-link">Inicio</a>
                 </li>
             </ul>
 
@@ -79,14 +79,14 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         @foreach ($notificaciones as $notificacion)
-                            <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-envelope mr-4"></i>{{$notificacion->titulo}}
-                                <span class="float-right text-muted text-sm">3 mins</span>
-                            </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-envelope mr-4"></i>{{$notificacion->titulo}}
+                            <span class="float-right text-muted text-sm">3 mins</span>
+                        </a>
 
-                            <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
                         @endforeach
 
                 </li>
@@ -119,7 +119,7 @@
         <aside class="main-sidebar elevation-4">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
-                <img src="{{ asset('img/logo2.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                <img src="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31d9b53530.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8;">
                 <span class="brand-text font-weight-dark">{{ auth()->user()->username }}</span>
             </a>
@@ -132,114 +132,194 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
 
+
+                        <!-- Mostrar apartado usuario free -->
+                        @if (auth()->user()->roles_id_rol === 1)
+
                         <li class="nav-item {{ request()->is('prestamos/*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link {{ request()->is('prestamos/*') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-ticket-alt"></i>
+                                <i class="nav-icon fas fa-book"></i>
                                 <p>
-                                    Prestamos
+                                    Cursos
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
 
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('prestamo.index') }}" class="nav-link">
-                                        <i class="nav-icon fas fa-newspaper"></i>
-                                        <p>Ver prestamos</p>
+                                <!-- Instrumentos de viento -->
+                                <li class="nav-item has-treeview">
+                                    <a href="{{ url('/viento') }}" class="nav-link">
+                                        <i class="nav-icon fas fa-saxophone"></i>
+                                        <p>
+                                            Instrumentos de viento
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
                                     </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{ url('/acordeon') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-acordion"></i>
+                                                <p>Acordeon</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('/trompeta') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-music"></i>
+                                                <p>Trompeta</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('/tuba') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-music"></i>
+                                                <p>Tuba</p>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
 
-                                <li class="nav-item">
-                                    <a href="{{ route('prestamo.historial') }}"
-                                        class="nav-link {{ request()->is('prestamos.historial') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-history"></i>
-                                        <p>Historial</p>
+                                <!-- Instrumentos de cuerda -->
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-guitar"></i>
+                                        <p>
+                                            Instrumentos de cuerda
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
                                     </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{ url('/cuerda/guitarra') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-music"></i>
+                                                <p>Guitarra</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('/cuerda/violin') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-music"></i>
+                                                <p>Violín</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <!-- Idiófonos -->
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-history"></i>
+                                        <p>
+                                            Idiófonos
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{ url('/xilofono') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-music"></i>
+                                                <p>Xilofono</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('/castañuela') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-music"></i>
+                                                <p>Castañuela</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('/campana') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-music"></i>
+                                                <p>Campana</p>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
 
+
                         </li>
 
-                        @if (auth()->user()->roles_id_rol === 1)
-                            <!-- Mostrar contenido para laboratoristas -->
+                        @endif
 
-                            <li class="nav-item {{ request()->is('materiales/*') ? 'menu-open' : '' }}">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-toolbox"></i>
-                                    <p>
-                                        Materiales
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('material.index') }}"
-                                            class="nav-link {{ request()->is('materiales/material*') ? 'active' : '' }}">
-                                            <i class="nav-icon fas fa-cube"></i>
-                                            <p>Ver material</p>
-                                        </a>
-                                    </li>
+                        <!-- Mostrar apartado usuario free -->
+                        @if (auth()->user()->roles_id_rol === 2)
 
-                                    <li class="nav-item">
-                                        <a href="{{ route('volumen.index') }}"
-                                            class="nav-link {{ request()->is('materiales/volumen*') ? 'active' : '' }}">
-                                            <i class="nav-icon fas fa-ruler"></i>
-                                            <p>Volumen</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item {{ request()->is('reactivos/*') ? 'menu-open' : '' }}">
-                                <a href="#" class="nav-link ">
-                                    <i class="nav-icon fas fa-flask"></i>
-                                    <p>
-                                        Reactivos
-                                        <i class="fas fa-angle-left right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('reactivo.index') }}"
-                                            class="nav-link {{ request()->is('reactivos/reactivo*') ? 'active' : '' }}">
-                                            <i class="nav-icon fas fa-vial"></i>
-                                            <p>Ver reactivos</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('familia.index') }}"
-                                            class="nav-link {{ request()->is('reactivos/familia*') ? 'active' : '' }}">
-                                            <i class="nav-icon fas fa-sitemap"></i>
-                                            <p>Familia</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li class="nav-item {{ request()->is('cursos/*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Cursos
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('miscursos.index') }}"
+                                        class="nav-link {{ request()->is('cursos/miscursos') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-user-graduate"></i>
+                                        <p>Mis cursos</p>
+                                    </a>
+                                </li>
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-edit"></i>
-                                    <p>
-                                        Control de usuarios
-                                        <i class="fas fa-angle-left right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{route('usuario.index')}}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Usuarios</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pages/forms/general.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Roles</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('cursoslist.index') }}"
+                                        class="nav-link {{ request()->is('cursos/cursoslist') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-book-open"></i>
+                                        <p>Ver cursos</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item {{ request()->is('herramientas/*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link ">
+                                <i class="nav-icon fas fa-sitemap"></i>
+                                <p>
+                                    Herramientas
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('metronomo.index') }}"
+                                        class="nav-link {{ request()->is('herramientas/metronomo') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-headphones"></i>
+                                        <p>Metrónomo</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('nota.index') }}"
+                                        class="nav-link {{ request()->is('herramientas/nota') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-pencil-alt"></i>
+                                        <p>Notas</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item nav-item {{ request()->is('servicios/*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    Servicios
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('rentaInstrumento.index')}}" class="nav-link {{ request()->is('servicios/rentaInstrumento') ? 'active' : '' }}">
+                                        <i class="fas fa-guitar nav-icon"></i>
+                                        <p>Renta de Instrumentos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('rentaServicio.index')}}" class="nav-link {{ request()->is('servicios/rentaServicio') ? 'active' : '' }}">
+                                        <i class="fas fa-briefcase nav-icon"></i>
+                                        <p>Renta de Servicios</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         @endif
 
 
@@ -408,7 +488,6 @@
                             </ul>
                         </li>
                         @endif
-<!-- 
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -426,7 +505,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                     </ul>
                 </nav> -->
                 <!-- /.sidebar-menu -->
@@ -491,7 +570,7 @@
     <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
-    {{--     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    {{-- <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script> --}}
 
 
