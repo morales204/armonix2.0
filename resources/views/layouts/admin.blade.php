@@ -121,7 +121,7 @@
             <a href="index3.html" class="brand-link">
                 <img src="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31d9b53530.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8;">
-                <span class="brand-text font-weight-dark">{{ auth()->user()->username }}</span>
+                <span class="brand-text font-weight-dark text-dark">{{ auth()->user()->username }}</span>
             </a>
 
             <!-- Sidebar -->
@@ -133,7 +133,7 @@
                         data-accordion="false">
 
 
-                        <!-- Mostrar apartado usuario free -->
+                        <!-- Mostrar apartado usuario Admin -->
                         @if (auth()->user()->roles_id_rol === 1)
 
                         <li class="nav-item {{ request()->is('prestamos/*') ? 'menu-open' : '' }}">
@@ -322,90 +322,6 @@
                         </li>
                         @endif
 
-
-                        <!-- Mostrar apartado usuario free -->
-                        @if (auth()->user()->roles_id_rol === 2)
-
-                        <li class="nav-item {{ request()->is('cursos/*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Cursos
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('miscursos.index') }}"
-                                        class="nav-link {{ request()->is('cursos/miscursos') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-user-graduate"></i>
-                                        <p>Mis cursos</p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="{{ route('cursoslist.index') }}"
-                                        class="nav-link {{ request()->is('cursos/cursoslist') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-book-open"></i>
-                                        <p>Ver cursos</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item {{ request()->is('herramientas/*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link ">
-                                <i class="nav-icon fas fa-sitemap"></i>
-                                <p>
-                                    Herramientas
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('metronomo.index') }}"
-                                        class="nav-link {{ request()->is('herramientas/metronomo') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-headphones"></i>
-                                        <p>Metrónomo</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('nota.index') }}"
-                                        class="nav-link {{ request()->is('herramientas/nota') ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-pencil-alt"></i>
-                                        <p>Notas</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item nav-item {{ request()->is('servicios/*') ? 'menu-open' : '' }}">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-edit"></i>
-                                <p>
-                                    Servicios
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('rentaInstrumento.index')}}" class="nav-link {{ request()->is('servicios/rentaInstrumento') ? 'active' : '' }}">
-                                        <i class="fas fa-guitar nav-icon"></i>
-                                        <p>Renta de Instrumentos</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('rentaServicio.index')}}" class="nav-link {{ request()->is('servicios/rentaServicio') ? 'active' : '' }}">
-                                        <i class="fas fa-briefcase nav-icon"></i>
-                                        <p>Renta de Servicios</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        @endif
-
                         <!-- Mostrar apartado usuario Premium -->
                         @if (auth()->user()->roles_id_rol === 3)
 
@@ -489,25 +405,8 @@
                         </li>
                         @endif
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-cog"></i>
-                                <p>
-                                    Configuracion
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route("respaldo.index")}}" class="nav-link {{ request()->is('backup/respaldo*') ? 'active' : '' }}">
-                                        <i class="far fa-life-ring   nav-icon"></i>
-                                        <p>Respaldo</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li> -->
                     </ul>
-                </nav> -->
+                </nav>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
