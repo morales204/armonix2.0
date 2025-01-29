@@ -89,3 +89,7 @@ Route::resource('cursos/idiofono', IdiofonosController::class)->middleware('auth
 Route::resource('idiofono/campana', CampanaController::class)->middleware('auth', 'role:Admin');
 Route::resource('idiofono/castañuela', CastañuelaController::class)->middleware('auth', 'role:Admin');
 Route::resource('idiofono/xilofono', XilofonoController::class)->middleware('auth', 'role:Admin');
+
+Route::get('/409', function () {
+    return view('errors.409');
+});

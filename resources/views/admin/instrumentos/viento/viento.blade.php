@@ -30,7 +30,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Acordeón</h5>
                                     <p class="card-text"></p>
-                                    <a href="{{ url('/acordeon')}}" class="btn btn-primary">Ir</a>
+                                    <a href="{{ url('/viento/acordeon')}}" class="btn btn-primary">Ir</a>
                                 </div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Trompeta</h5>
                                     <p class="card-text"></p>
-                                    <a href="{{ url('/trompeta')}}" class="btn btn-primary">Ir</a>
+                                    <a href="{{ url('/viento/trompeta')}}" class="btn btn-primary">Ir</a>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Tuba</h5>
                                     <p class="card-text"></p>
-                                    <a href="{{ url('/tuba')}}" class="btn btn-primary">Ir</a>
+                                    <a href="{{ url('/viento/tuba')}}" class="btn btn-primary">Ir</a>
                                 </div>
                             </div>
                         </div>
