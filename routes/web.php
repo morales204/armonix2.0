@@ -3,6 +3,7 @@
 use App\Http\Controllers\AcordeonController;
 use App\Http\Controllers\AddCursosController;
 use App\Http\Controllers\AddCursosListController;
+use App\Http\Controllers\AdminUsuariosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\ReactivoController;
@@ -32,8 +33,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotaPremiumController;
-
-
+use App\Http\Controllers\UsuariosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -143,6 +143,9 @@ Route::resource('idiofono/campana', CampanaController::class)->middleware(['auth
 Route::resource('idiofono/castañuela', CastañuelaController::class)->middleware(['auth', 'role:1']);
 Route::resource('idiofono/xilofono', XilofonoController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/instrumentos', InstrumentosController::class)->middleware(['auth', 'role:1']);
+
+Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:Admin');
+Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:Admin');
 
 Route::get('/409', function () {
     return view('errors.409');
