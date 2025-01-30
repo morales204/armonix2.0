@@ -252,6 +252,55 @@
                                     </a>
                                 </li>
                             </ul>
+
+                            <li class="nav-item nav-item {{ request()->is('servicios/*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    Servicios
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('rentaInstrumento.index')}}" class="nav-link {{ request()->is('servicios/rentaInstrumento') ? 'active' : '' }}">
+                                        <i class="fas fa-guitar nav-icon"></i>
+                                        <p>Renta de Instrumentos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('rentaServicio.index')}}" class="nav-link {{ request()->is('servicios/rentaServicio') ? 'active' : '' }}">
+                                        <i class="fas fa-briefcase nav-icon"></i>
+                                        <p>Renta de Servicios</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-users"></i>
+                                        <p>
+                                          Usuarios
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{ url('/agregar/usuario') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-plus"></i>
+                                                <p>Agregar Usuario</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('/gestionar/usuario') }}" class="nav-link">
+                                                <i class="nav-icon fas fa-user"></i>
+                                                <p>Usuarios</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            
                         </li>
 
                         @endif
