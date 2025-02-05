@@ -115,8 +115,7 @@ Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middl
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('servicios/rentaServicio', ServicioController::class)->middleware('auth', 'role:ClienteFree');
 
-<<<<<<< Updated upstream
-=======
+
 Route::get('/xilofono', function () {
     return view('instrumentos.idiofonos.xilofono.xilofono');
 });
@@ -164,4 +163,4 @@ Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware
 Route::get('/409', function () {
     return view('errors.409');
 });
->>>>>>> Stashed changes
+
