@@ -9,7 +9,7 @@
 
 @section('content')
 
-<img class="wave" src=" {{asset('img/fondo4.jpg')}} ">
+<img class="wave" src=" {{asset('img/disco-vinilo.png')}} ">
 <div class="container ">
     <div class="row justify-content-end" style="margin-top: 250px;">
         <div class="col-md-8">
