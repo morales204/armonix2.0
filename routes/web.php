@@ -194,4 +194,4 @@ Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware
 
 Route::get('/409', function () {
     return view('errors.409');
-}
+});
