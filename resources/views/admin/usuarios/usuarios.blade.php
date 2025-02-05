@@ -6,12 +6,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Agregar cursos</h1>
+                <h1 class="m-0">Agregar Usuario</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ url('/home') }}">Inicio</a></li>
-                    <li class="breadcrumb-item active">Agregar cursos</li>
+                    <li class="breadcrumb-item active">Agregar Usuario</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -39,23 +39,34 @@
                         <!-- card 1 -->
                         <form class="col-8">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Nombre del curso</label>
+                                <label for="exampleInputEmail1" class="form-label">Nombre Completo</label>
                                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                            </div>
+                            </div>  
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Descripción</label>
+                                <label for="exampleInputEmail1" class="form-label">Teléfono</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            </div>  
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Correo Electrónico</label>
                                 <input type="text" class="form-control" id="exampleInputPassword1">
                             </div>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Selecciona el pago</option>
-                                <option value="1">Gratuito</option>
-                                <option value="2">Premium</option>
-                            </select>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Precio</label>
+                                <label for="exampleInputPassword1" class="form-label">Nombre de usuario</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Rol</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Confirmar contraseña</label>
                                 <input type="number" class="form-control" id="exampleInputPassword1">
                             </div>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary">Registrar</button>
                         </form>
                     </div>
                 </div>

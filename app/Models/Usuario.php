@@ -27,7 +27,10 @@ class Usuario extends Authenticatable
         'correo',
         'username',
         'password',
-        'roles_id_rol'
+        'roles_id_rol',
+        'remember_token',
+        'created_at',
+        'updated_at'
     ];
 
     /**

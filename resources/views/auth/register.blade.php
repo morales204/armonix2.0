@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('cssLogin')
-    <!-- Importa la hoja de estilo de la sección -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/styleLogin.css') }}">
+<!-- Importa la hoja de estilo de la sección -->
+<link rel="stylesheet" type="text/css" href="{{ asset('css/styleLogin.css') }}">
 @endsection
 @section('content')
 <div class="container">
@@ -21,9 +21,9 @@
                                 <input id="nombre_completo" type="text" class="form-control @error('nombre_completo') is-invalid @enderror" name="nombre_completo" value="{{ old('nombre_completo') }}" autocomplete="nombre_completo" autofocus>
 
                                 @error('nombre_completo')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -35,9 +35,9 @@
                                 <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono" autofocus>
 
                                 @error('telefono')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -49,9 +49,9 @@
                                 <input id="correo" type="correo" class="form-control @error('correo') is-invalid @enderror" name="correo" value="{{ old('correo') }}" required autocomplete="correo">
 
                                 @error('correo')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -63,9 +63,9 @@
                                 <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" required autocomplete="username" value="{{ old('username') }}">
 
                                 @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -74,9 +74,8 @@
                             <label for="roles_id_rol" class="col-md-4 col-form-label text-md-end">{{ __('Rol') }}</label>
 
                             <div class="col-md-6">
-                               {{--  <input id="roles_id_rol" type="select" class="form-control @error('roles_id_rol') is-invalid @enderror" name="roles_id_rol" required autocomplete="roles_id_rol"> --}}
-                                <select name="roles_id_rol" id="roles_id_rol"  class="form-control">
-                                    
+                                {{-- <input id="roles_id_rol" type="select" class="form-control @error('roles_id_rol') is-invalid @enderror" name="roles_id_rol" required autocomplete="roles_id_rol"> --}}
+                                <select name="roles_id_rol" id="roles_id_rol" class="form-control">
                                     <option value="1">Admin</option>
                                     <option value="2">Cliente Free</option>
                                     <option value="3">Cliente Premium</option>
@@ -84,9 +83,9 @@
 
                                 </select>
                                 @error('roles_id_rol')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -98,9 +97,9 @@
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
