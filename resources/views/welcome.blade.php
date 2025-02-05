@@ -46,7 +46,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
 
-            <a class="navbar-brand" href="#">UNILAB</a>
+            <a class="navbar-brand" href="#">ARMONIX</a>
 
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -91,24 +91,24 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="{{ asset('img/lab_uts.jpg') }}" class="d-block w-100" alt="...">
+                <img src="{{ asset('img/mus1.jpg') }}" class="d-block w-100" alt="...">
                 <div class="carousel-caption">
-                    <h5>Forma parte de esta institucion</h5>
-                    <p>#Gerreros_UTSelva</p>
+                    <h5>Músicas</h5>
+                    <p>Conces una gran variedad de musicas</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="{{ asset('img/prac_lab.jpg') }}" class="d-block w-100" alt="...">
+                <img src="{{ asset('img/mus3.jpg') }}" class="d-block w-100" alt="...">
                 <div class="carousel-caption">
-                    <h5>Universidad Tecnologica de la Selva</h5>
-                    <p>Formando Profesionales</p>
+                    <h5>Herramientas</h5>
+                    <p>Una gran variedad de herramientas en un solo lugar</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="{{ asset('img/lab_dentro.jpg') }}" class="d-block w-100" alt="...">
+                <img src="{{ asset('img/mus2.jpg') }}" class="d-block w-100" alt="...">
                 <div class="carousel-caption">
-                    <h5>UNILAB</h5>
-                    <p>Gestion y prestamo de materiales</p>
+                    <h5>ARMONIX</h5>
+                    <p></p>
                 </div>
             </div>
         </div>
@@ -129,43 +129,43 @@
     <section class="experiencia seccion-clara">
         <div class="container text-center">
             <div class="row">
-                <!-- Desarrollo Web -->
+                <!-- Herramientas Musicales -->
                 <div class="columna col-12 col-md-4">
-                    <i class="bi bi-balloon-heart"></i>
-                    <p class="experiencia-titulo">Sobre nosotros</p>
-                    <p>Somos un institucion que lleva años formando profesionales en todas las areas</p>
+                    <i class="bi bi-music-note-list"></i>
+                    <p class="experiencia-titulo">Herramientas</p>
+                    <p>Explora nuestra colección de herramientas para músicos, desde software de edición hasta metrónomos y afinadores en línea.</p>
                     <div class="badges-contenedor">
-                        <span class="badge">Ingenierias</span>
-                        <span class="badge">Licentciaturas</span>
-                        <span class="badge">Maestrias</span>
+                        <span class="badge">Edición de Audio</span>
+                        <span class="badge">Afinadores</span>
+                        <span class="badge">Loops y Samples</span>
                     </div>
                 </div>
-                <!-- Articulos -->
+                <!-- Renta de Equipo e Instrumentos -->
                 <div class="columna col-12 col-md-4">
-                    <i class="bi bi-search"></i>
-                    <p class="experiencia-titulo">Artículos</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras laoreet, odio eget fringilla
-                        scelerisque, sem purus fringilla mauris, nec ultricies nisl nisl sit amet dolor. </p>
+                    <i class="bi bi-speaker"></i>
+                    <p class="experiencia-titulo">Renta de Equipo</p>
+                    <p>Ofrecemos servicio de renta de instrumentos musicales y equipo de sonido para tus presentaciones y eventos.</p>
                     <div class="badges-contenedor">
-                        <span class="badge">Escribir</span>
-                        <span class="badge">Editar</span>
-                        <span class="badge">Blogs</span>
+                        <span class="badge">Instrumentos</span>
+                        <span class="badge">Audio Profesional</span>
+                        <span class="badge">Iluminación</span>
                     </div>
                 </div>
-                <!-- Estudiante -->
+                <!-- Cursos de Música -->
                 <div class="columna col-12 col-md-4">
-                    <i class="bi bi-laptop"></i>
-                    <p class="experiencia-titulo">Estudiante</p>
-                    <p>Forma parte de nuestra gran comunidad estudiantil, comunicate a nuestras redes sociales y adquiere tu ficha ya</p>
+                    <i class="bi bi-headphones"></i>
+                    <p class="experiencia-titulo">Cursos</p>
+                    <p>Aprende música con nuestros cursos diseñados para principiantes y profesionales. Mejora tu técnica y teoría musical con expertos.</p>
                     <div class="badges-contenedor">
-                        <span class="badge">Gastronomia</span>
-                        <span class="badge">Desarrollo de Software Multiplataforma</span>
-                        <span class="badge">Entornos Virtuales</span>
+                        <span class="badge">Guitarra</span>
+                        <span class="badge">Producción Musical</span>
+                        <span class="badge">Composición</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
     <!-- ----------------------------------------------------- -->
 
     <!-- --------------------Contacto-------------------- -->
@@ -195,8 +195,9 @@
 
     <!-- Pie de pagina (footer) -->
     <footer class="seccion-oscura d-flex flex-column align-items-center justify-content-center">
-        <img class="footer-logo" src="{{asset('img/logo2.png')}}" alt="Logo del portafolio">
-        <p class="footer-texto text-center">Aprendo y creo todos los días.<br>Creemos un proyecto juntos.</p>
+        <!-- <img class="footer-logo" src="{{asset('img/logo2.png')}}" alt="Logo del portafolio"> -->
+        <img class="footer-logo" src="{{asset('img/armonix.jpg')}}" alt="Logo del portafolio">
+        <p class="footer-texto text-center">Cursos, herremientas y mas.<br>Creemos un proyecto juntos.</p>
         <div class="iconos-redes-sociales d-flex flex-wrap align-items-center justify-content-center">
             <a href="#" target="_blank" rel="noopener noreferrer">
                 <i class="bi bi-twitter"></i>
@@ -215,7 +216,7 @@
                 <i class="bi bi-envelope"></i>
             </a>
         </div>
-        <div class="derechos-de-autor">Creado por Mariana Morales y Juan Carlos (2024) &#169;</div>
+        <div class="derechos-de-autor">EK´BALAM (2024) &#169;</div>
     </footer>
 
 </body>

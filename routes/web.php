@@ -15,10 +15,12 @@ use App\Http\Controllers\CursosController;
 use App\Http\Controllers\CursosListController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\MetronomoController;
-use App\Http\Controllers\MetronomoPremiumController;
-use App\Http\Controllers\NotaPremiumController;
 use App\Http\Controllers\ServicioInstrumentoController;
 use App\Http\Controllers\ServicioController;
+
+use App\Http\Controllers\MetronomoPremiumController;
+use App\Http\Controllers\NotaPremiumController;
+
 
 
 /*
@@ -84,12 +86,32 @@ Route::get('/tuba', function () {
 });
 
 
+//idiofonos
+Route::get('/idiofonos', function () {
+    return view('instrumentos.idiofonos.idiofonos');
+});
+
+Route::get('/xilofono', function () {
+    return view('instrumentos.idiofonos.xilofono.xilofono');
+});
+
+Route::get('/castañuela', function () {
+    return view('instrumentos.idiofonos.castañuela.castañuela');
+});
+
+Route::get('/campana', function () {
+    return view('instrumentos.idiofonos.campana.campana');
+});
+
+
 Route::resource('cursos/miscursos', CursosController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('cursos/cursoslist', CursosListController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('herramientas/nota', NotaController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware('auth', 'role:ClienteFree');
+
 Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware('auth', 'role:ClientePremium');
 Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middleware('auth', 'role:ClientePremium');
+
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware('auth', 'role:ClienteFree');
 Route::resource('servicios/rentaServicio', ServicioController::class)->middleware('auth', 'role:ClienteFree');
 
