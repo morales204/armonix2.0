@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- TITULO DE LA PAGINA WEB --}}
-    <title>UNILAB | Dashboard</title>
+    <title>ARMONIX | Dashboard</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
@@ -635,7 +635,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2024-2025 <a href="">DevCraft</a>.</strong>
+            <strong>Copyright &copy; 2024-2025 <a href="">Ek'Balam</a>.</strong>
             Todos los derechos reservados
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 0.0.1
