@@ -76,18 +76,13 @@
                             <label for="roles_id_rol" class="col-md-4 col-form-label text-md-end">{{ __('Rol') }}</label>
 
                             <div class="col-md-6">
-<<<<<<< Updated upstream
-                               {{--  <input id="roles_id_rol" type="select" class="form-control @error('roles_id_rol') is-invalid @enderror" name="roles_id_rol" required autocomplete="roles_id_rol"> --}}
-                                <select name="roles_id_rol" id="roles_id_rol"  class="form-control">
-                                    <option value="2">Cliente Free</option>
-                                    <option value="3">Cliente Premium</option>
 
-=======
+                            {{--  <input id="roles_id_rol" type="select" class="form-control @error('roles_id_rol') is-invalid @enderror" name="roles_id_rol" required autocomplete="roles_id_rol"> --}}
+
                                 <select name="roles_id_rol" id="roles_id_rol" class="form-control">
                                     <option value="2">Cliente Free</option>
                                     <option value="3">Cliente Premium</option>
                                     <option value="4">Cliente Publicitario</option>
->>>>>>> Stashed changes
                                 </select>
                                 @error('roles_id_rol')
                                     <span class="invalid-feedback" role="alert">
@@ -213,4 +208,4 @@
         </div>
     </div>
 </div>
-
+@endsection
