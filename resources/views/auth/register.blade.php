@@ -150,8 +150,6 @@
         </div>
     </div>
 </div>
-<<<<<<< Updated upstream
-=======
 
 <!-- Modal para mostrar los Avisos de Privacidad -->
 <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
@@ -216,5 +214,3 @@
     </div>
 </div>
 
->>>>>>> Stashed changes
-@endsection
