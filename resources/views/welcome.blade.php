@@ -180,7 +180,7 @@
                         Contáctame para iniciar tu proyecto de desarrollo web y haré que tu visión se vuelva realidad.
                     </div>
                     <div class="col-12 col-md-4">
-                        <a href="mailto:devcraft@gmail.com">
+                        <a href="mailto:Ek'Balam@gmail.com">
                             <button type="button">
                                 Contacto
                                 <i class="bi bi-envelope-check-fill"></i>
