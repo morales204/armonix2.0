@@ -3,15 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class AddCursosListController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.cursos.cursoslist');
+            $cursosQuery = DB::table('cursos as c')
+            ->join('usuarios as u', 'c.usuarios_id_usuario','=','id_usuario')
+            ->select('c.id','c.nombre','c.descripcion','c.fecha_inicio','c.fecha_fin','u.id_usuario')
+            ->orderBy('c.nombre','desc');
+
+        if (auth()->user()->roles_id_rol !== 1) {
+            /* $userEmail = auth()->user()->correo; */
+            $cursosQuery->where('u.id_usuario',auth()->user()->id_usuario);
+        }
+
+        $cursos=$cursosQuery->paginate(5);
+
+        return view('userFree.cursos.cursoslist',['cursos'=>$cursos]);
     }
 
     /**

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- TITULO DE LA PAGINA WEB --}}
-    <title>UNILAB | Dashboard</title>
+    <title>ARMONIX</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
