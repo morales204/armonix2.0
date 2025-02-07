@@ -25,41 +25,20 @@
      <section class="content">
                 <div class="container-fluid">
                     <div class="row">
+                        @foreach ($cursos as $curso)
                         <!-- Card 1 -->
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                             <div class="card">
-                                <img src="{{ asset('img/curso1_acor.png') }}" class="card-img-top" alt="...">
+                                <img src="{{ $curso->imagen }}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Curso 1</h5>
-                                    <p class="card-text"></p>
-                                    <a href="{{ url('/viento')}}" class="btn btn-primary">Ir</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 2 -->
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                            <div class="card">
-                                <img src="{{ asset('img/curso2_acor.png') }}" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Curso 2</h5>
+                                    <h5 class="card-title">{{ $curso->nombre }}</h5>
                                     <p class="card-text"></p>
                                     <a href="#" class="btn btn-primary">Ir</a>
                                 </div>
                             </div>
                         </div>
+                        @endforeach
 
-                        <!-- Card 3 -->
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                            <div class="card">
-                                <img src="{{ asset('img/curso3_acor.png') }}" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Curso 3</h5>
-                                    <p class="card-text"></p>
-                                    <a href="#" class="btn btn-primary">Ir</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
