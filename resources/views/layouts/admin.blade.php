@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- TITULO DE LA PAGINA WEB --}}
-    <title>UNILAB | Dashboard</title>
+
+    <title>ARMONIX | Dashboard</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
@@ -158,21 +159,21 @@
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
                                             <a href="{{ route('acordeon.index') }}"
-                                            class="nav-link {{ request()->is('viento/acordeon') ? 'active' : '' }}">
+                                                class="nav-link {{ request()->is('viento/acordeon') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-acordion"></i>
                                                 <p>Acordeon</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="{{ route('trompeta.index') }}"
-                                            class="nav-link {{ request()->is('viento/trompeta') ? 'active' : '' }}">
+                                                class="nav-link {{ request()->is('viento/trompeta') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Trompeta</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="{{ route('tuba.index') }}"
-                                            class="nav-link {{ request()->is('viento/tuba') ? 'active' : '' }}">
+                                                class="nav-link {{ request()->is('viento/tuba') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Tuba</p>
                                             </a>
@@ -253,7 +254,7 @@
                                 </li>
                             </ul>
 
-                            <li class="nav-item nav-item {{ request()->is('servicios/*') ? 'menu-open' : '' }}">
+                        <li class="nav-item nav-item {{ request()->is('servicios/*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-edit"></i>
                                 <p>
@@ -278,36 +279,35 @@
                         </li>
 
                         <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-users"></i>
-                                        <p>
-                                          Usuarios
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Usuarios
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('/agregar/usuario') }}" class="nav-link">
+                                        <i class="nav-icon fas fa-plus"></i>
+                                        <p>Agregar Usuario</p>
                                     </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="{{ url('/agregar/usuario') }}" class="nav-link">
-                                                <i class="nav-icon fas fa-plus"></i>
-                                                <p>Agregar Usuario</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ url('/gestionar/usuario') }}" class="nav-link">
-                                                <i class="nav-icon fas fa-user"></i>
-                                                <p>Usuarios</p>
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </li>
-                            
+                                <li class="nav-item">
+                                    <a href="{{ url('/gestionar/usuario') }}" class="nav-link">
+                                        <i class="nav-icon fas fa-user"></i>
+                                        <p>Usuarios</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                         </li>
 
                         @endif
 
                         <!-- Mostrar apartado usuario free -->
                         @if (auth()->user()->roles_id_rol === 2)
-
                         <li class="nav-item {{ request()->is('cursos/*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
@@ -315,6 +315,7 @@
                                     Cursos
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
+
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
@@ -413,21 +414,21 @@
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
                                             <a href="{{ route('acordeon.index') }}"
-                                            class="nav-link {{ request()->is('viento/acordeon') ? 'active' : '' }}">
+                                                class="nav-link {{ request()->is('viento/acordeon') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-acordion"></i>
                                                 <p>Acordeon</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="{{ route('trompeta.index') }}"
-                                            class="nav-link {{ request()->is('viento/trompeta') ? 'active' : '' }}">
+                                                class="nav-link {{ request()->is('viento/trompeta') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Trompeta</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="{{ route('tuba.index') }}"
-                                            class="nav-link {{ request()->is('viento/tuba') ? 'active' : '' }}">
+                                                class="nav-link {{ request()->is('viento/tuba') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-music"></i>
                                                 <p>Tuba</p>
                                             </a>
@@ -529,8 +530,8 @@
 
                         <li class="nav-item">
 
-                        <!-- Mostrar apartado usuario Premium -->
-                        @if (auth()->user()->roles_id_rol === 3)
+                            <!-- Mostrar apartado usuario Premium -->
+                            @if (auth()->user()->roles_id_rol === 3)
 
                         <li class="nav-item {{ request()->is('cursos/*') ? 'menu-open' : '' }}">
 
@@ -635,7 +636,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2024-2025 <a href="">DevCraft</a>.</strong>
+            <strong>Copyright &copy; 2024-2025 <a href="">Ek'Balam</a>.</strong>
             Todos los derechos reservados
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 0.0.1

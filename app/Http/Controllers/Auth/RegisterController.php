@@ -55,6 +55,8 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'max:100'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'roles_id_rol' => ['required'],
+            // Validación del checkbox de privacidad
+            'aviso-privacidad' => ['required', 'accepted'], // Asegurarse de que esté marcado
         ]);
     }
 
