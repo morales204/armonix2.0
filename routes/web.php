@@ -29,11 +29,13 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\TrompetaController;
 use App\Http\Controllers\TubaController;
 use App\Http\Controllers\XilofonoController;
+use App\Http\Controllers\notasPremium;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\MetronomoPremiumController;
-use App\Http\Controllers\NotaPremiumController;
+use App\Http\Controllers\NotasPremiumController;
 use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\BusquedaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +51,7 @@ use App\Http\Controllers\UsuariosController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/admin/usuarios', [App\Http\Controllers\BusquedaController::class, 'index'])->name('admin.usuarios');
 
 
 Route::resource('reactivos/familia', FamiliaController::class)->middleware('auth', 'role:Laboratorista');
@@ -123,7 +126,7 @@ Route::resource('herramientas/nota', NotaController::class)->middleware(['auth',
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware(['auth', 'role:2']);
 
 Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
-Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middleware(['auth', 'role:3']);
+Route::resource('notaP', NotasPremiumController::class)->middleware(['auth', 'role:3']);
 
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:1']);
 Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:1']);
@@ -168,7 +171,7 @@ Route::resource('herramientas/nota', NotaController::class)->middleware(['auth',
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware(['auth', 'role:2']);
 
 Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
-Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middleware(['auth', 'role:3']);
+Route::resource('notaP', NotasPremiumController::class)->middleware(['auth', 'role:3']);
 
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:3']);
 Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:3']);
@@ -192,6 +195,5 @@ Route::resource('cursos/instrumentos', InstrumentosController::class)->middlewar
 Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:Admin');
 Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:Admin');
 
-Route::get('/409', function () {
-    return view('errors.409');
-});
+Route::resource('notas-premium', NotasPremiumController::class);
+
