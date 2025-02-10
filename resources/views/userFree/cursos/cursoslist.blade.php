@@ -22,6 +22,16 @@
     <!-- Cursos Section -->
     <section class="section">
         <div class="container">
+        <form action="{{ route('miscursos.index') }}" method="get">
+            <select class="form-select" aria-label="Default select example" name="tipo">
+                <option value="nombre">Nombre</option>
+                <option value="fecha_inicio">Fecha inicio</option>
+                <option value="descripcion">Descripcion</option>
+            </select>
+
+            <input type="text" name="buscar">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
             <div class="row">
 
                 @foreach ($cursos as $curso)

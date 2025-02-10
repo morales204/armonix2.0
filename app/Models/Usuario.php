@@ -2,21 +2,16 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Usuario extends Authenticatable
+class Usuario extends Authenticatable// Implementa la interfaz
 {
-    use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    use HasApiTokens, HasFactory, Notifiable;
 
     public $timestamps = false;
     protected $table = 'usuarios';
@@ -33,21 +28,24 @@ class Usuario extends Authenticatable
         'updated_at'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    /**
+     * Obtén la dirección de correo electrónico del usuario para el restablecimiento de la contraseña.
+     *
+     * @return string
+     */
+    public function getEmailForPasswordReset()
+    {
+        return $this->correo; // Devuelve el campo 'correo' que se utiliza para el restablecimiento
+    }
+    
+
+
 }
