@@ -53,68 +53,99 @@
                 width="150">
         </div>
 
-        <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand">
-            <!-- Navbar izquierdo links -->
-            <ul class="navbar-nav">
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand">
+    <!-- Navbar izquierdo links -->
+    <ul class="navbar-nav">
 
-                {{-- Icono de menu --}}
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
-                </li>
+        {{-- Icono de menu --}}
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
 
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ url('/home') }}" class="nav-link">Inicio</a>
-                </li>
-            </ul>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="{{ url('/home') }}" class="nav-link">Inicio</a>
+        </li>
+    </ul>
 
-            <!-- Navbar derecho links -->
-            <ul class="navbar-nav ml-auto">
+    <!-- Navbar derecho links -->
+    <ul class="navbar-nav ml-auto">
+        <!-- Notifications Dropdown Menu -->
+        <li id="notificaciones-link" class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="far fa-bell"></i>
+                <span class="badge badge-warning navbar-badge">{{$notificaciones->total}}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                @foreach ($notificaciones as $notificacion)
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-envelope mr-4"></i>{{$notificacion->titulo}}
+                    <span class="float-right text-muted text-sm">3 mins</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                @endforeach
+            </div>
+        </li>
 
-                <!-- Notifications Dropdown Menu -->
-                <li id="notificaciones-link" class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">{{$notificaciones->total}}</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        @foreach ($notificaciones as $notificacion)
-                        <div class="dropdown-divider"></div>
+        {{-- maximizar pantalla --}}
+        <li class="nav-item">
+            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                <i class="fas fa-expand-arrows-alt"></i>
+            </a>
+        </li>
 
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-4"></i>{{$notificacion->titulo}}
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
+        <!-- Formulario de búsqueda en el navbar (con el modal) -->
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#searchModal">
+                <i class="fas fa-search"></i>
+            </a>
+        </li>
 
-                        <div class="dropdown-divider"></div>
-                        @endforeach
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fas fa-sign-out-alt"></i>
+                Cerrar Sesion
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </li>
+    </ul>
+</nav>
+<!-- /.navbar -->
 
-                </li>
+<!-- Modal de búsqueda -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Resultados de Búsqueda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario de búsqueda dentro del modal -->
+                <form id="search-form" class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search" name="search" id="search-input">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                </form>
 
-                {{-- maximizar pantalla --}}
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                        <i class="fas fa-expand-arrows-alt"></i>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <!-- Icono de cierre de sesión (puedes cambiarlo según tus preferencias) -->
-                        Cerrar Sesion
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </li>
+                <!-- Resultados de búsqueda -->
+                <div id="search-results">
+                    <!-- Aquí se mostrarán los resultados sin recargar la página -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-            </ul>
-        </nav>
-        <!-- /.navbar -->
+
+
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar elevation-4">
@@ -580,8 +611,8 @@
                             </ul>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('notaP.index') }}"
-                                        class="nav-link {{ request()->is('userP/herramientas/notaP') ? 'active' : '' }}">
+                                    <a href="{{ route('notas-premium.index') }}"
+                                        class="nav-link {{ request()->is('notaP') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-pencil-alt"></i>
                                         <p>Notas</p>
                                     </a>
@@ -680,9 +711,64 @@
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
     {{-- <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script> --}}
+        
+    <!-- Bootstrap JS y Popper.js (necesarios para el modal) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita que se envíe el formulario de manera tradicional
 
+    const searchQuery = document.getElementById('search-input').value; // Obtén el valor del input de búsqueda
 
+    if (searchQuery.trim() === '') {
+        document.getElementById('search-results').innerHTML = '<p>No hay resultados disponibles.</p>';
+        return;
+    }
+
+    // Realiza la solicitud AJAX con fetch
+    fetch("{{ route('admin.usuarios') }}?search=" + encodeURIComponent(searchQuery), {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+        }
+    })
+    .then(response => response.json()) // Asegúrate de que el servidor devuelva JSON
+    .then(data => {
+        const resultsContainer = document.getElementById('search-results');
+        resultsContainer.innerHTML = ''; // Limpia los resultados previos
+
+        if (data.results && data.results.length > 0) {
+            data.results.forEach(item => {
+                let resultItem = document.createElement('div');
+                resultItem.classList.add('result-item', 'p-3', 'border', 'mb-3');
+
+                if (item.type === 'nota') {
+                    resultItem.innerHTML = `
+                        <p><strong>Nombre de la nota: </strong> ${item.nombre_nota}</p>
+                        <p><strong>Contenido de la nota: </strong> ${item.contenido_nota}</p>
+                    `;
+                } else if (item.type === 'usuario') {
+                    resultItem.innerHTML = `
+                        <p><strong>Nombre: </strong> ${item.nombre_completo}</p>
+                        <p><strong>Username: </strong> ${item.username}</p>
+                    `;
+                }
+
+                resultsContainer.appendChild(resultItem);
+            });
+        } else {
+            resultsContainer.innerHTML = '<p>No se encontraron resultados.</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error en la búsqueda:', error);
+        document.getElementById('search-results').innerHTML = '<p>Error al realizar la búsqueda.</p>';
+    });
+});
+
+    </script>
 </body>
 
 </html>
