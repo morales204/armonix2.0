@@ -7,6 +7,8 @@ use App\Http\Controllers\AdminUsuariosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\ReactivoController;
+use App\Http\Controllers\InstrumentTypeController;
+use App\Http\Controllers\InstrumentController;
 
 use App\Http\Controllers\VolumenController;
 use App\Http\Controllers\MaterialController;
@@ -34,8 +36,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotaPremiumController;
 use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\ModulosController;
 
-/*
+use Illuminate\Support\Facades\Mail;
+
+/*/Users/bryan/armonix2.0/app/Http/Controllers/Auth/ForgotPasswordController.php
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -76,45 +81,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-/*Se agrego esta parte*/
-Route::get('/cursos', function () {
-    return view('cursos.cursos');
-});
-
-Route::get('/viento', function () {
-    return view('instrumentos.viento.viento');
-});
-
-Route::get('/acordeon', function () {
-    return view('instrumentos.viento.acordeon.acordeon');
-});
-
-Route::get('/trompeta', function () {
-    return view('instrumentos.viento.trompeta.trompeta');
-});
-
-Route::get('/tuba', function () {
-    return view('instrumentos.viento.tuba.tuba');
-});
-
-
-//idiofonos
-Route::get('/idiofonos', function () {
-    return view('instrumentos.idiofonos.idiofonos');
-});
-
-Route::get('/xilofono', function () {
-    return view('instrumentos.idiofonos.xilofono.xilofono');
-});
-
-Route::get('/castañuela', function () {
-    return view('instrumentos.idiofonos.castañuela.castañuela');
-});
-
-Route::get('/campana', function () {
-    return view('instrumentos.idiofonos.campana.campana');
-});
-
 /*--------------*/
 
 Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:2']);
@@ -147,19 +113,6 @@ Route::resource('cursos/instrumentos', InstrumentosController::class)->middlewar
 Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:1');
 Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
 
-
-Route::get('/xilofono', function () {
-    return view('instrumentos.idiofonos.xilofono.xilofono');
-});
-
-Route::get('/castañuela', function () {
-    return view('instrumentos.idiofonos.castañuela.castañuela');
-});
-
-Route::get('/campana', function () {
-    return view('instrumentos.idiofonos.campana.campana');
-});
-
 /*--------------*/
 
 Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:3']);
@@ -173,17 +126,18 @@ Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middl
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:3']);
 Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:3']);
 
-Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:2']);
+Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:4']);
 
 Route::resource('cursos/agregarcurso', AddCursosController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/cursoslistAdd', AddCursosListController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/acordeon', InstrumentosVientoController::class)->middleware(['auth', 'role:1']);
 Route::resource('viento/acordeon', AcordeonController::class)->middleware(['auth', 'role:1']);
 Route::resource('viento/trompeta', TrompetaController::class)->middleware(['auth', 'role:1']);
-Route::resource('viento/tuba', TubaController::class)->middleware(['auth', 'role:1']);
+Route::resource('viento/tuba', TubaController::class)->middleware(['auth', 'role:4']);
 
+Route::resource('cursos/idiofono', IdiofonosController::class)
+    ->middleware(['auth', 'role:1|2']);
 
-Route::resource('cursos/idiofono', IdiofonosController::class)->middleware(['auth', 'role:1']);
 Route::resource('idiofono/campana', CampanaController::class)->middleware(['auth', 'role:1']);
 Route::resource('idiofono/castañuela', CastañuelaController::class)->middleware(['auth', 'role:1']);
 Route::resource('idiofono/xilofono', XilofonoController::class)->middleware(['auth', 'role:1']);
@@ -192,6 +146,23 @@ Route::resource('cursos/instrumentos', InstrumentosController::class)->middlewar
 Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:Admin');
 Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:Admin');
 
-Route::get('/409', function () {
-    return view('errors.409');
+
+Route::get('/test-email', function() {
+    $to = "bry.hluna@gmail.com"; 
+    Mail::raw('Este es un correo de prueba', function ($message) use ($to) {
+        $message->to($to)
+                ->subject('Prueba de Correo desde Laravel');
+    });
+    return "Correo enviado con éxito";
 });
+
+
+Auth::routes(['reset' => true]);
+
+Route::get('/modulos', [ModulosController::class, 'index']);
+
+// Ruta para mostrar los tipos de instrumentos
+Route::get('/cursos/instrumentos', [InstrumentTypeController::class, 'index'])->name('instrumentos.index');
+
+// Ruta para mostrar los instrumentos de un tipo específico
+Route::get('/cursos/{id}', [InstrumentController::class, 'show'])->name('instrumento.detalles');
