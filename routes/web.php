@@ -115,18 +115,18 @@ Route::get('/campana', function () {
     return view('instrumentos.idiofonos.campana.campana');
 });
 
-/*--------------*/
 
-Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:2']);
-Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['auth', 'role:2']);
+/*--------------*/
+Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:2|3']);
+Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['auth', 'role:2|3']);
 Route::resource('herramientas/nota', NotaController::class)->middleware(['auth', 'role:2']);
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware(['auth', 'role:2']);
 
 Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
 Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middleware(['auth', 'role:3']);
 
-Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:1']);
-Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:1']);
+Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:2|3']);
+Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:2|3']);
 
 Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:1']);
 
@@ -162,16 +162,6 @@ Route::get('/campana', function () {
 
 /*--------------*/
 
-Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:3']);
-Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['auth', 'role:3']);
-Route::resource('herramientas/nota', NotaController::class)->middleware(['auth', 'role:2']);
-Route::resource('herramientas/metronomo', MetronomoController::class)->middleware(['auth', 'role:2']);
-
-Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
-Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middleware(['auth', 'role:3']);
-
-Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:3']);
-Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:3']);
 
 Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:2']);
 
@@ -189,8 +179,8 @@ Route::resource('idiofono/castañuela', CastañuelaController::class)->middlewar
 Route::resource('idiofono/xilofono', XilofonoController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/instrumentos', InstrumentosController::class)->middleware(['auth', 'role:1']);
 
-Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:Admin');
-Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:Admin');
+Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:1');
+Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
 
 Route::get('/409', function () {
     return view('errors.409');

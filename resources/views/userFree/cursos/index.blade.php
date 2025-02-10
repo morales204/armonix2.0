@@ -28,7 +28,16 @@
 
                     {{-- CABEZERA DEL CARD --}}
                     <div class="card-header">
+                        <form action="{{ route('cursoslist.index') }}" method="get">
+                            <select class="form-select" aria-label="Default select example" name="tipo">
+                                <option value="nombre">Nombre</option>
+                                <option value="instrumento">Instrumento</option>
+                                <option value="descripcion">Descripcion</option>
+                            </select>
 
+                            <input type="text" name="buscar">
+                            <button class="btn btn-outline-success" type="submit">Buscar</button>
+                        </form>
                     </div>
 
                     {{-- CONTENIDO DEL CARD --}}
@@ -37,22 +46,18 @@
                             {{-- DETALLES DEL CARD INICIAL --}}
                             <div class="row d-flex justify-content-center">
                                 <!-- card 1 -->
+                                 @foreach ($cursos as $cursosInstrumentos)
                                 <div class="col-xl-10 col-md-12 mb-4">
                                     <div class="card border-left-primary shadow h-100 py-2">
                                         <div class="card-body">
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col mr-2">
                                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                        Mi primer curso</div>
+                                                        {{$cursosInstrumentos->nombre}}</div>
                                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                        GuitarraVIVA</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">Del
-                                                        15/02/25 al 18/02/25</div>
-                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">De
-                                                        7:20 a 8:00</div>
-
-                                                        <span class="badge badge-success">En proceso</span>
-                                                  
+                                                    {{$cursosInstrumentos->descripcion}}</div>
+                                                        <span class="badge badge-success">{{$cursosInstrumentos->instrumento}}</span>
+                                        
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="text-gray-300">
@@ -66,7 +71,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+
                             </div>
+                            {{ $cursos->links() }}
                     </div>
                 
 

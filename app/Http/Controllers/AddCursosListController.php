@@ -11,10 +11,22 @@ class AddCursosListController extends Controller
      */
     public function index(Request $request)
     {
+
+        if($request){
+            
+            $tipo = $request->input('tipo');
+            $buscar = trim($request->get('buscar'));
+
             $cursosQuery = DB::table('cursos as c')
-            ->join('usuarios as u', 'c.usuarios_id_usuario','=','id_usuario')
+            ->join('usuarios as u', 'c.usuarios_id_usuario','=','u.id_usuario')
             ->select('c.id','c.nombre','c.descripcion','c.fecha_inicio','c.fecha_fin','u.id_usuario')
             ->orderBy('c.nombre','desc');
+
+            if (($tipo)&& ($buscar)){
+                $cursosQuery->where($tipo,'LIKE','%'.$buscar.'%');
+            }
+        }
+
 
         if (auth()->user()->roles_id_rol !== 1) {
             /* $userEmail = auth()->user()->correo; */
@@ -23,7 +35,7 @@ class AddCursosListController extends Controller
 
         $cursos=$cursosQuery->paginate(5);
 
-        return view('userFree.cursos.cursoslist',['cursos'=>$cursos]);
+        return view('admin.cursos.cursoslist',['cursos'=>$cursos]);
     }
 
     /**
