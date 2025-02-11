@@ -72,6 +72,12 @@
             <!-- Navbar derecho links -->
             <ul class="navbar-nav ml-auto">
 
+                        <!-- SEARCH FORM -->
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                </form>
+
                 <!-- Notifications Dropdown Menu -->
                 <li id="notificaciones-link" class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
@@ -92,6 +98,7 @@
 
                 </li>
 
+
                 {{-- maximizar pantalla --}}
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -110,6 +117,8 @@
                         @csrf
                     </form>
                 </li>
+
+
 
 
             </ul>

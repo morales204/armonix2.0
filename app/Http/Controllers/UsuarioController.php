@@ -10,7 +10,6 @@ use App\Models\DatosMateria;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\VolumenFormRequest;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller

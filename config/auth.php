@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'usuario',
+        'passwords' => 'usuarios',
     ],
 
     /*
@@ -42,6 +42,7 @@ return [
         ],
     ],
 
+
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -62,15 +63,9 @@ return [
     'providers' => [
         'usuarios' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Usuario::class,
+            'model' => App\Models\Usuario::class, // Cambia según tu modelo de usuario
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
@@ -91,13 +86,16 @@ return [
     */
 
     'passwords' => [
-        'usuario' => [
+        'usuarios' => [  // Debe llamarse igual que en el broker
             'provider' => 'usuarios',
-            'table' => 'password_reset_tokens',
+            'table' => 'password_reset_tokens', // Asegura que usa la tabla correcta
             'expire' => 60,
             'throttle' => 60,
         ],
     ],
+
+
+
 
     /*
     |--------------------------------------------------------------------------
