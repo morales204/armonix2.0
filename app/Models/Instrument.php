@@ -9,7 +9,7 @@ class Instrument extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'type_id']; // Asegúrate de que type_id esté incluido
+    protected $fillable = ['name', 'type_id', 'image']; 
 
     // Define la relación con InstrumentType
     public function instrumentType()

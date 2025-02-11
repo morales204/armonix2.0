@@ -37,8 +37,11 @@ use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotaPremiumController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\ModulosController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\ModuleController;
 
 /*/Users/bryan/armonix2.0/app/Http/Controllers/Auth/ForgotPasswordController.php
 |--------------------------------------------------------------------------
@@ -141,20 +144,9 @@ Route::resource('cursos/idiofono', IdiofonosController::class)
 Route::resource('idiofono/campana', CampanaController::class)->middleware(['auth', 'role:1']);
 Route::resource('idiofono/castañuela', CastañuelaController::class)->middleware(['auth', 'role:1']);
 Route::resource('idiofono/xilofono', XilofonoController::class)->middleware(['auth', 'role:1']);
-Route::resource('cursos/instrumentos', InstrumentosController::class)->middleware(['auth', 'role:1']);
 
 Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:Admin');
 Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:Admin');
-
-
-Route::get('/test-email', function() {
-    $to = "bry.hluna@gmail.com"; 
-    Mail::raw('Este es un correo de prueba', function ($message) use ($to) {
-        $message->to($to)
-                ->subject('Prueba de Correo desde Laravel');
-    });
-    return "Correo enviado con éxito";
-});
 
 
 Auth::routes(['reset' => true]);
@@ -166,3 +158,12 @@ Route::get('/cursos/instrumentos', [InstrumentTypeController::class, 'index'])->
 
 // Ruta para mostrar los instrumentos de un tipo específico
 Route::get('/cursos/{id}', [InstrumentController::class, 'show'])->name('instrumento.detalles');
+
+// Ruta para enviar el enlace de restablecimiento de contraseña
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+
+// Ruta para procesar el restablecimiento de contraseña
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+
+

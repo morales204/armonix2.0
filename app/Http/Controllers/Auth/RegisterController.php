@@ -51,11 +51,10 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'nombre_completo' => ['required', 'string', 'max:60','regex:/^[a-zA-Z\s\p{L}]+$/u'],
             'telefono' => ['required', 'numeric', 'digits:10'],
-            'correo' => ['required', 'string', 'email', 'max:255', 'unique:usuarios'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:usuarios'],
             'username' => ['required', 'string', 'max:100'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'roles_id_rol' => ['required'],
-            // Validación del checkbox de privacidad
             'aviso-privacidad' => ['required', 'accepted'], // Asegurarse de que esté marcado
         ]);
     }
@@ -71,7 +70,7 @@ class RegisterController extends Controller
         return Usuario::create([
             'nombre_completo' => $data['nombre_completo'],
             'telefono' => $data['telefono'],
-            'correo' => $data['correo'],
+            'email' => $data['email'],
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
             'roles_id_rol' => $data['roles_id_rol']

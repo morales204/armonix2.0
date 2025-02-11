@@ -11,7 +11,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('/home') }}">Inicio</a></li>
-                        <li class="breadcrumb-item active">Cursos</li>
+                        <li class="breadcrumb-item active">Instrumentos</li>
                     </ol>
                 </div>
             </div>
@@ -26,7 +26,7 @@
             @foreach($instrumentTypes as $instrument)
     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
         <div class="card">
-            <img src="{{ asset('img/default.png') }}" class="card-img-top" alt="{{ $instrument->name }}">
+            <img src="{{ $instrument->image}}" class="card-img-top" alt="{{ $instrument->name }}">
             <div class="card-body">
                 <h5 class="card-title">{{ $instrument->name }}</h5>
                 <a href="{{ route('instrumento.detalles', ['id' => $instrument->id]) }}" class="btn btn-primary">Ir</a>
