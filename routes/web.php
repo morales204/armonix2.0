@@ -31,19 +31,16 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\TrompetaController;
 use App\Http\Controllers\TubaController;
 use App\Http\Controllers\XilofonoController;
+use App\Http\Controllers\notasPremium;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\MetronomoPremiumController;
-use App\Http\Controllers\NotaPremiumController;
+use App\Http\Controllers\NotasPremiumController;
 use App\Http\Controllers\UsuariosController;
-use App\Http\Controllers\ModulosController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\BusquedaController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 
-use Illuminate\Support\Facades\Mail;
-use App\Http\Controllers\ModuleController;
-
-/*/Users/bryan/armonix2.0/app/Http/Controllers/Auth/ForgotPasswordController.php
+/*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -57,6 +54,7 @@ use App\Http\Controllers\ModuleController;
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 
 Route::resource('reactivos/familia', FamiliaController::class)->middleware('auth', 'role:Laboratorista');
@@ -85,17 +83,16 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 /*--------------*/
-
-Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:2']);
-Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['auth', 'role:2']);
+Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:2|3']);
+Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['auth', 'role:2|3']);
 Route::resource('herramientas/nota', NotaController::class)->middleware(['auth', 'role:2']);
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware(['auth', 'role:2']);
 
 Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
-Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middleware(['auth', 'role:3']);
+Route::resource('notaP', NotasPremiumController::class)->middleware(['auth', 'role:3']);
 
-Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:1']);
-Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:1']);
+Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:2|3']);
+Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:2|3']);
 
 Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:1']);
 
@@ -117,19 +114,7 @@ Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth'
 Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
 
 /*--------------*/
-
-Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:3']);
-Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['auth', 'role:3']);
-Route::resource('herramientas/nota', NotaController::class)->middleware(['auth', 'role:2']);
-Route::resource('herramientas/metronomo', MetronomoController::class)->middleware(['auth', 'role:2']);
-
-Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
-Route::resource('userP/herramientas/notaP', NotaPremiumController::class)->middleware(['auth', 'role:3']);
-
-Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:3']);
-Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:3']);
-
-Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:4']);
+Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:2']);
 
 Route::resource('cursos/agregarcurso', AddCursosController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/cursoslistAdd', AddCursosListController::class)->middleware(['auth', 'role:1']);
@@ -145,25 +130,18 @@ Route::resource('idiofono/campana', CampanaController::class)->middleware(['auth
 Route::resource('idiofono/castañuela', CastañuelaController::class)->middleware(['auth', 'role:1']);
 Route::resource('idiofono/xilofono', XilofonoController::class)->middleware(['auth', 'role:1']);
 
-Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:Admin');
-Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:Admin');
+Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:1');
+Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
 
-
-Auth::routes(['reset' => true]);
-
-Route::get('/modulos', [ModulosController::class, 'index']);
+Route::resource('notas-premium', NotasPremiumController::class);
 
 // Ruta para mostrar los tipos de instrumentos
+
 Route::get('/cursos/instrumentos', [InstrumentTypeController::class, 'index'])->name('instrumentos.index');
 
 // Ruta para mostrar los instrumentos de un tipo específico
+
 Route::get('/cursos/{id}', [InstrumentController::class, 'show'])->name('instrumento.detalles');
 
-// Ruta para enviar el enlace de restablecimiento de contraseña
-Route::post('password/email', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
-
-// Ruta para procesar el restablecimiento de contraseña
-Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
-
-
-
+Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update'); //

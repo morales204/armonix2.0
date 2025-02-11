@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class TubaController extends Controller
 {
@@ -11,7 +13,13 @@ class TubaController extends Controller
      */
     public function index()
     {
-        return view('admin.instrumentos.viento.tuba.tuba');
+        $Query = DB::table('instrumentoscursos as ci')
+        ->select('ci.nombre','ci.imagen','ci.instrumento')
+        ->orderBy('ci.nombre','desc')
+        ->where('ci.instrumento', 'tuba')
+        ->paginate(5);
+
+        return view('admin.instrumentos.viento.tuba.tuba',['cursos'=>$Query]);
     }
 
     /**

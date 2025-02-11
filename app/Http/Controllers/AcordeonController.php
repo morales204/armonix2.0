@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AcordeonController extends Controller
 {
@@ -11,7 +12,13 @@ class AcordeonController extends Controller
      */
     public function index()
     {
-        return view('admin.instrumentos.viento.acordeon.acordeon');
+        $Query = DB::table('instrumentoscursos as ci')
+        ->select('ci.nombre','ci.imagen','ci.instrumento')
+        ->orderBy('ci.nombre','desc')
+        ->where('ci.instrumento', 'acordeon')
+        ->paginate(5);
+
+        return view('admin.instrumentos.viento.acordeon.acordeon',['cursos'=>$Query]);
     }
 
     /**

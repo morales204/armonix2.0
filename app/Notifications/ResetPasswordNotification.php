@@ -27,7 +27,7 @@ class ResetPasswordNotification extends ResetPasswordBase
         return (new MailMessage)
             ->subject('Recuperación de contraseña')
             ->line('Has recibido este correo porque solicitaste restablecer tu contraseña.')
-            ->action('Restablecer Contraseña', url(config('app.url') . route('password.reset', ['token' => $this->token, 'email' => $notifiable->correo], false)))
+            ->action('Restablecer Contraseña', url(config('app.url') . route('password.reset', ['token' => $this->token, 'email' => $notifiable->email], false)))
             ->line('Si no solicitaste un restablecimiento de contraseña, ignora este mensaje.');
     }
 }

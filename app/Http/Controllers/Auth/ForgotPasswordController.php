@@ -3,41 +3,44 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\PasswordResetToken; // Asegúrate de importar el modelo
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Support\Str; // Para generar un token aleatorio
-use Illuminate\Support\Facades\Mail; // Para enviar correos
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
-    use SendsPasswordResetEmails;
-
-    protected function sendResetLinkResponse(Request $request, $response)
+    // Renombramos el método a `sendResetLinkEmail` para que coincida con lo que espera Laravel
+    public function sendResetLinkEmail(Request $request)
     {
-        if ($response == 'passwords.sent') {
-            return back()->with('status', '✅ ¡Correo enviado con éxito! Revisa tu bandeja de entrada para restablecer tu contraseña.');
-        } else {
-            return back()->withErrors(['email' => 'Error al enviar el correo.']);
-        }
+        $request->validate(['email' => 'required|email|exists:usuarios,email']);
+
+        // Generar un nuevo token
+        $token = Str::random(60);
+
+        // Eliminar cualquier token previo para el mismo email
+        DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+
+        // Guardar el nuevo token en la base de datos
+        DB::table('password_reset_tokens')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => now()
+        ]);
+
+        // Enviar el correo de restablecimiento de contraseña
+        Mail::send('emails.password_reset', ['token' => $token, 'email' => $request->email], function ($message) use ($request) {
+            $message->to($request->email)
+                    ->subject('Restablecer Contraseña');
+        });
+
+        return back()->with('status', '✅ ¡Correo enviado con éxito! Revisa tu bandeja de entrada para restablecer tu contraseña.');
     }
 
-    public function sendResetLink(Request $request)
-{
-    $request->validate(['email' => 'required|email']);
-
-    // Generar un nuevo token
-    $token = Str::random(60);
-    // Guardar el token en la base de datos
-    PasswordResetToken::create(['email' => $request->email, 'token' => $token]);
-
-    // Enviar el correo de restablecimiento de contraseña
-    Mail::send('emails.password_reset', ['token' => $token, 'email' => $request->email], function ($message) use ($request) {
-        $message->to($request->email)
-                ->subject('Restablecer Contraseña');
-    });
-
-    return $this->sendResetLinkResponse($request, 'passwords.sent');
-}
-
+    // Este método sigue igual, ya que es el encargado de mostrar el formulario
+    public function showLinkRequestForm()
+    {
+        return view('auth.passwords.email');
+    }
 }

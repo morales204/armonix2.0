@@ -1,5 +1,3 @@
-<!-- resources/views/emails/password_reset.blade.php -->
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,7 +11,7 @@
     <p>Hola,</p>
     <p>Recibiste este correo porque se solicitó un restablecimiento de contraseña para tu cuenta.</p>
     <p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
-ß
+
     <a href="{{ route('password.reset', ['token' => $token, 'email' => $email]) }}">
         Restablecer Contraseña
     </a>
