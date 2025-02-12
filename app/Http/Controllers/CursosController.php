@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\Console\Input\Input;
 
-use App\Models\Cursos;
+use App\Models\CursosUser;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -27,10 +27,10 @@ class CursosController extends Controller
 
             $cursosQuery = DB::table('cursos as c')
             ->join('usuarios as u', 'c.usuarios_id_usuario','=','u.id_usuario')
-            ->select('c.id','c.nombre','c.descripcion','c.fecha_inicio','c.fecha_fin','u.id_usuario')
+            ->select('c.id_curso','c.nombre','c.descripcion','c.fecha_inicio','c.fecha_fin','u.id_usuario')
             ->orderBy('c.nombre','desc');
 
-            if (($tipo)&& ($buscar)){
+            if (!empty($tipo)&& !empty($buscar)){
                 $cursosQuery->where($tipo,'LIKE','%'.$buscar.'%');
             }
         }
@@ -39,7 +39,12 @@ class CursosController extends Controller
             $cursosQuery->where('u.id_usuario',auth()->user()->id_usuario);
         }
 
-        $cursos=$cursosQuery->paginate(5);
+        $cursos=$cursosQuery->paginate(10);
+        if ($request->ajax()) {
+            return response()->json([
+                'cursos' => $cursos
+            ]);
+        }
 
         return view('userFree.cursos.cursoslist',['cursos'=>$cursos]);
     }
@@ -65,8 +70,17 @@ class CursosController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $curso = CursosUser::find($id);
+    if ($curso) {
+        return response()->json([
+            'success' => true,
+            'curso' => $curso
+        ]);
+    } else {
+        return response()->json(['success' => false]);
     }
+    }
+
 
     /**
      * Show the form for editing the specified resource.

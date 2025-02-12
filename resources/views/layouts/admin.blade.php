@@ -350,7 +350,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('miscursos.index') }}"
+                                    <a  href="#" onclick="loadMisCursos(event)"
                                         class="nav-link {{ request()->is('cursos/miscursos') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-user-graduate"></i>
                                         <p>Mis cursos</p>
@@ -656,7 +656,7 @@
         <div class="content-wrapper" style="background-color: rgb(241, 250, 246)">
 
             <!-- Main content -->
-            <section class="content">
+            <section class="content" id="content">
                 <div class="container-fluid">
 
                     @yield('content')
@@ -767,6 +767,68 @@
         document.getElementById('search-results').innerHTML = '<p>Error al realizar la búsqueda.</p>';
     });
 });
+
+function loadMisCursos(event) {
+    event.preventDefault(); // Evita la recarga de la página
+    
+    let url = "{{ route('miscursos.index') }}";
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "JSON",
+        beforeSend: function () {
+            $("#content").html('<div class="text-center"><i class="fas fa-spinner fa-spin fa-3x"></i><p>Cargando...</p></div>');
+        },
+        success: function (res) {
+            let cursosContainer = $("#content");
+                cursosContainer.html(""); // Limpiar resultados previos
+
+                if(res.cursos.data.length > 0){
+                    res.cursos.data.forEach(function(curso){
+                        let cursoHtml = `
+                            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h5 class="font-weight-bold">${curso.nombre}</h5>
+                                    <span class="badge">
+                                    ${curso.descripcion}
+                                    </span>
+                                </div>
+                                <hr>
+                                <p class="text-muted mb-1">Fecha: ${curso.fecha_inicio}</p>
+                                <p class="text-muted">Horario: ${curso.fecha_fin}</p>
+                                <div class="text-center">
+                                <button class="button_slide slide_down" onclick="verDetalles(${curso.id_curso })">
+                                                        Ver más detalles
+                                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                        cursosContainer.append(cursoHtml);
+                    });
+                } else {
+                    cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
+                }
+        },
+        error: function () {
+            alert("Error al cargar la página.");
+        }
+    });
+}
+window.onpopstate = function () {
+    $.ajax({
+        url: window.location.href,
+        type: "GET",
+        dataType: "html",
+        success: function (data) {
+            $("#content").html($(data).find("#content").html());
+        }
+    });
+};
+
 
     </script>
 </body>
