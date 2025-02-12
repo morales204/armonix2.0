@@ -54,7 +54,7 @@ Route::get('/', function () {
 Route::get('/admin/usuarios', [App\Http\Controllers\BusquedaController::class, 'index'])->name('admin.usuarios');
 Route::get('/usuarios/buscar', [BusquedaController::class, 'buscarUsuarios'])->name('usuarios.search');
 Route::get('/notas/buscar', [BusquedaController::class, 'buscarNotas'])->name('notas.search');
-Route::get('/notas-premium/{id}', [NotasPremiumController::class, 'show'])->name('notas-premium.show');
+Route::get('/notas-premium/show/{id}', [NotasPremiumController::class, 'show'])->name('notas-premium.show');
 
 
 Route::resource('reactivos/familia', FamiliaController::class)->middleware('auth', 'role:Laboratorista');
@@ -129,7 +129,7 @@ Route::resource('herramientas/nota', NotaController::class)->middleware(['auth',
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware(['auth', 'role:2']);
 
 Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
-Route::resource('notaP', NotasPremiumController::class)->middleware(['auth', 'role:3']);
+// Route::resource('notaP', NotasPremiumController::class)->middleware(['auth', 'role:3']);
 
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:2|3']);
 Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:2|3']);

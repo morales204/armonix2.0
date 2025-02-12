@@ -752,7 +752,7 @@ document.getElementById('search-form').addEventListener('submit', function(event
 
                     resultItem.innerHTML += `
                         <a class="btn btn-sm btn-primary" href="${redirectUrl}">
-                            <i class="fa fa-fw fa-eye"></i> {{ __('Show') }}
+                            <i class="fa fa-fw fa-eye"></i> {{ __('Ver mas') }}
                         </a>
                     `;
                 } else if (item.type === 'usuario') {
