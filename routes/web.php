@@ -41,6 +41,7 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\BusquedaController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -161,3 +162,5 @@ Route::get('/instrumentos', [InstrumentTypeController::class, 'index'])->name('i
 
 // Ruta para mostrar los instrumentos de un tipo específico
 Route::get('/instrumentos/{slug}', [InstrumentTypeController::class, 'show'])->name('instrument-types.show');
+
+Route::get('/buscar', [SearchController::class, 'search'])->name('buscar');

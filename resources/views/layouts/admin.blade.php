@@ -56,11 +56,12 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                
+            <form action="{{ route('buscar') }}" method="GET">
+    <input type="text" name="search" placeholder="Buscar en todo el sitio" value="{{ request('search') }}">
+    <button type="submit">Buscar</button>
+</form>
+
+
                 <li id="notificaciones-link" class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
@@ -109,53 +110,53 @@
 
                         @if (auth()->user()->roles_id_rol === 1)
                         <li class="nav-item {{ request()->is('prestamos/*') ? 'menu-open' : '' }}">
-    <a href="#" class="nav-link {{ request()->is('prestamos/*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-book"></i>
-        <p>
-            Cursos
-            <i class="right fas fa-angle-left"></i>
-        </p>
-    </a>
-
-    <ul class="nav nav-treeview">
-        @foreach($instrumentTypes as $instrumentType)
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-music"></i>
-                <p>
-                    {{ $instrumentType->name }}
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-
-            <ul class="nav nav-treeview">
-                @foreach($instrumentType->instruments as $instrument)
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-guitar"></i>
-                        <p>
-                            {{ $instrument->name }}
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-
-                    <ul class="nav nav-treeview">
-                        @foreach($instrument->courses as $course)
-                        <li class="nav-item">
-                            <a href="{{ route('instrument.courses', ['id' => $course->id]) }}" class="nav-link">
-                                <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                                <p>{{ $course->name }}</p>
+                            <a href="#" class="nav-link {{ request()->is('prestamos/*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Cursos
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+
+                            <ul class="nav nav-treeview">
+                                @foreach($instrumentTypes as $instrumentType)
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-music"></i>
+                                        <p>
+                                            {{ $instrumentType->name }}
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+
+                                    <ul class="nav nav-treeview">
+                                        @foreach($instrumentType->instruments as $instrument)
+                                        <li class="nav-item has-treeview">
+                                            <a href="#" class="nav-link">
+                                                <i class="nav-icon fas fa-guitar"></i>
+                                                <p>
+                                                    {{ $instrument->name }}
+                                                    <i class="right fas fa-angle-left"></i>
+                                                </p>
+                                            </a>
+
+                                            <ul class="nav nav-treeview">
+                                                @foreach($instrument->courses as $course)
+                                                <li class="nav-item">
+                                                    <a href="{{ route('instrument.courses', ['id' => $course->id]) }}" class="nav-link">
+                                                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                                                        <p>{{ $course->name }}</p>
+                                                    </a>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                @endforeach
+                            </ul>
                         </li>
-                        @endforeach
-                    </ul>
-                </li>
-                @endforeach
-            </ul>
-        </li>
-        @endforeach
-    </ul>
-</li>
 
                         @endif
 
