@@ -52,6 +52,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/admin/usuarios', [App\Http\Controllers\BusquedaController::class, 'index'])->name('admin.usuarios');
+Route::get('/usuarios/buscar', [BusquedaController::class, 'buscarUsuarios'])->name('usuarios.search');
+Route::get('/notas/buscar', [BusquedaController::class, 'buscarNotas'])->name('notas.search');
+Route::get('/notas-premium/{id}', [NotasPremiumController::class, 'show'])->name('notas-premium.show');
 
 
 Route::resource('reactivos/familia', FamiliaController::class)->middleware('auth', 'role:Laboratorista');

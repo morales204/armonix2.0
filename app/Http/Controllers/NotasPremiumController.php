@@ -44,12 +44,14 @@ class NotasPremiumController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id): View
+    public function show($id, Request $request): View
     {
+        $searchTerm = $request->input('search');
         $notasPremium = NotasPremium::find($id);
-
-        return view('notas-premium.show', compact('notasPremium'));
+    
+        return view('notas-premium.show', compact('notasPremium', 'searchTerm'));
     }
+    
 
     /**
      * Show the form for editing the specified resource.
