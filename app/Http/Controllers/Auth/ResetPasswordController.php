@@ -3,27 +3,45 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use App\Models\User; // Asegúrate de importar el modelo User
+use App\Models\Usuario;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class ResetPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
+    // Este método maneja la lógica de restablecimiento de contraseña
+    public function reset(Request $request)
+    {
+        // Validar la solicitud
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:usuarios,email',
+            'password' => 'required|string|min:8|confirmed', // Asegúrate de que tenga confirmación
+        ]);
 
-    use ResetsPasswords;
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-    /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+        // Obtener el usuario por correo
+        $user = Usuario::where('email', $request->email)->first();
+
+        // Cifrar la nueva contraseña
+        $newPassword = Hash::make($request->password);
+
+        // Actualizar la contraseña del usuario
+        $user->password = $newPassword;
+        $user->save();
+
+        return redirect()->route('login')->with('status', '✅ ¡Contraseña restablecida con éxito! Ahora puedes iniciar sesión.');
+    }
+
+    // Método que muestra el formulario para restablecer la contraseña
+    public function showResetForm(Request $request, $token = null)
+    {
+        return view('auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
+    }
 }

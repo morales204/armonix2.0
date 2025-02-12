@@ -19,7 +19,7 @@ class Usuario extends Authenticatable implements CanResetPassword
     protected $fillable = [
         'nombre_completo',
         'telefono',
-        'correo',
+        'email',
         'username',
         'password',
         'roles_id_rol',
@@ -36,11 +36,8 @@ class Usuario extends Authenticatable implements CanResetPassword
         'password' => 'hashed',
     ];
 
-    /**
-     * Get the e-mail address where password reset links are sent.
-     */
     public function getEmailForPasswordReset()
     {
-        return $this->correo;
+        return $this->email;
     }
 }

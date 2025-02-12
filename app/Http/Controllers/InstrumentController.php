@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 class InstrumentController extends Controller
 {
     public function show($id)
-    {
-        // Encuentra el tipo de instrumento usando el id
-        $instrumentType = InstrumentType::findOrFail($id);
+{
+    $instrumentType = InstrumentType::findOrFail($id);
+    $instruments = Instrument::where('instrument_type_id', $instrumentType->id)->get();
 
-        // Obtén los instrumentos relacionados con este tipo
-        $instruments = Instrument::where('instrument_type_id', $instrumentType->id)->get();
+    $instrumentTypes = InstrumentType::all();
 
-        return view('admin.instrumentos.viento.viento', compact('instrumentType', 'instruments'));
-    }
+    return view('admin.instrumentos.viento.viento', compact('instrumentType', 'instruments', 'instrumentTypes'));
 }
+
+}
+

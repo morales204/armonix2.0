@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TrompetaController extends Controller
 {
@@ -11,7 +12,13 @@ class TrompetaController extends Controller
      */
     public function index()
     {
-        return view('admin.instrumentos.viento.trompeta.trompeta');
+        $Query = DB::table('instrumentoscursos as ci')
+        ->select('ci.nombre','ci.imagen','ci.instrumento')
+        ->orderBy('ci.nombre','desc')
+        ->where('ci.instrumento', 'trompeta')
+        ->paginate(5);
+
+        return view('admin.instrumentos.viento.trompeta.trompeta',['cursos'=>$Query]);
     }
 
     /**

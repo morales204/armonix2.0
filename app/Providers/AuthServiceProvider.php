@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
             $app['db']->connection(),
             $app['hash'],
             'password_reset_tokens',
-            'correo', // 🔹 Especificamos que use "correo"
+            'email', // 🔹 Especificamos que use "correo"
             now()->addMinutes(60)
         );
     });

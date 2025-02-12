@@ -12,19 +12,23 @@ class CursosListController extends Controller
      */
     public function index(Request $request)
     {
-        $cursosQuery = DB::table('cursos as c')
-        ->join('usuarios as u', 'c.id','=','id_usuario')
-        ->select('c.id','c.nombre','c.descripcion','c.fecha_inicio','c.fecha_fin','u.id_usuario')
-        ->orderBy('c.nombre','desc');
+        if($request){
+            
+            $tipo = $request->input('tipo');
+            $buscar = trim($request->get('buscar'));
 
-        if (auth()->user()->roles_id_rol !== 1) {
-            $userEmail = auth()->user()->correo;
-            $cursosQuery->where('u.correo', '=', $userEmail);
+            $cursosQuery = DB::table('instrumentoscursos as c')
+            ->select('c.id','c.nombre','c.descripcion','c.imagen','c.instrumento')
+            ->orderBy('c.nombre','desc');
+
+            if (($tipo)&& ($buscar)){
+                $cursosQuery->where($tipo,'LIKE','%'.$buscar.'%');
+            }
         }
 
         $cursos=$cursosQuery->paginate(5);
 
-        return view('userFree.cursos.index',['cursos'=>$cursosQuery]);
+        return view('userFree.cursos.index',['cursos'=>$cursos]);
     }
 
     /**

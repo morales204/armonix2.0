@@ -24,7 +24,7 @@ class CustomPasswordResetServiceProvider extends ServiceProvider
             $key = $app['config']['app.key'];
             $expire = $app['config']['auth.passwords.usuarios.expire'];
 
-            return new DatabaseTokenRepository($connection, $hashing, $table, 'correo', $key, $expire);
+            return new DatabaseTokenRepository($connection, $hashing, $table, 'email', $key, $expire);
         });
     }
 }

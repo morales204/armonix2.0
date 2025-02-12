@@ -17,22 +17,35 @@ body{
 
 @keyframes slideDown {
     from {
-        transform: translateY(-100%);
+        transform: translateY(-50%);
     }
     to {
-        transform: translateY(0);
+        transform: translateY(0%);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+		transform: rotate(0deg);
     }
 }
 
 .wave {
+	top: -400px;
     position: fixed;
-    top: 70px;
-    left: 0;
     width: 100vw;
     height: 100vh;
-    object-fit: cover;
+    object-fit: contain;
     z-index: -1;
-    animation: slideDown 1.5s ease-out;
+	animation: 
+				slideDown 2s ease-out forwards,
+				rotate 4s linear infinite 2s;
+	
+	filter: drop-shadow(0px 0px 20px rgb(219, 227, 176));;
+
 }
 
 .btn{

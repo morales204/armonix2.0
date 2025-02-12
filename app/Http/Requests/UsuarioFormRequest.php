@@ -26,7 +26,7 @@ class UsuarioFormRequest extends FormRequest
         return [
                 'nombre_completo' => ['required', 'string','regex:/^[a-zA-ZáéíóúÁÉÍÓÚ-ñ\s]+$/u','min:10','max:80'],
                 'telefono' => ['required', 'numeric', 'digits:10'],
-                'correo' => ['required', 'string', 'email', 'max:100', Rule::unique('usuarios')->ignore($id_usuario, 'id_usuario')],
+                'email' => ['required', 'string', 'email', 'max:100', Rule::unique('usuarios')->ignore($id_usuario, 'id_usuario')],
                 'username' => ['required', 'string', 'max:30'],
                 'roles_id_rol' => ['required'],
                 'password' => ['required', 'string', 'min:8','regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/' ,'confirmed'],

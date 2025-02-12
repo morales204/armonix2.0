@@ -20,11 +20,13 @@ class RoleMiddleware
             return redirect('/login');
         }
 
-        if (Auth::user()->roles_id_rol != $role) {
-            /* abort(403, 'No tienes permisos para acceder a esta página.'); */
-            return redirect('/home');
-        }
+         // Convierte los roles a un array si vienen en formato separado por comas
+    $rolesArray = explode('|', $role);
 
+    // Verifica si el usuario tiene al menos uno de los roles permitidos
+    if (!in_array(Auth::user()->roles_id_rol, $rolesArray)) {
+        return redirect('/home');
+    }
         return $next($request);
     }
 }

@@ -17,7 +17,6 @@ class InstrumentType extends Model
         return $this->hasMany(Instrument::class);
     }
 
-
     //scope
     public function scopeFilter($query, $search, $category, $instrumentName)
     {

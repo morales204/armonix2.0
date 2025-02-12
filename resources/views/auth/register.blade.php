@@ -45,12 +45,12 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="correo" class="col-md-4 col-form-label text-md-end">{{ __('Correo Electrónico') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
 
                             <div class="col-md-6">
-                                <input id="correo" type="email" class="form-control @error('correo') is-invalid @enderror" name="correo" value="{{ old('correo') }}" required autocomplete="correo">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
-                                @error('correo')
+                                @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -76,16 +76,13 @@
                             <label for="roles_id_rol" class="col-md-4 col-form-label text-md-end">{{ __('Rol') }}</label>
 
                             <div class="col-md-6">
-                            
-                            {{--  <input id="roles_id_rol" type="select" class="form-control @error('roles_id_rol') is-invalid @enderror" name="roles_id_rol" required autocomplete="roles_id_rol"> --}}
-
                                 <select name="roles_id_rol" id="roles_id_rol" class="form-control">
-                                <option value="1">Admin</option>    
-                                <option value="2">Cliente Free</option>
-                                    <option value="3">Cliente Premium</option>
-                                    <option value="4">Cliente Publicitario</option>
-                                    
+                                    <option value="1" {{ old('roles_id_rol') == 1 ? 'selected' : '' }}>Admin</option>    
+                                    <option value="2" {{ old('roles_id_rol') == 2 ? 'selected' : '' }}>Cliente Free</option>
+                                    <option value="3" {{ old('roles_id_rol') == 3 ? 'selected' : '' }}>Cliente Premium</option>
+                                    <option value="4" {{ old('roles_id_rol') == 4 ? 'selected' : '' }}>Cliente Publicitario</option>
                                 </select>
+
                                 @error('roles_id_rol')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -98,7 +95,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Contraseña') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" value="{{ old('password') }}">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -120,7 +117,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
-                                    <input class="form-check-input @error('aviso-privacidad') is-invalid @enderror" type="checkbox" id="aviso-privacidad" name="aviso-privacidad">
+                                    <input class="form-check-input @error('aviso-privacidad') is-invalid @enderror" type="checkbox" id="aviso-privacidad" name="aviso-privacidad" required>
                                     <label class="form-check-label" for="aviso-privacidad">
                                         {{ __('Acepto los') }} <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">{{ __('Avisos de privacidad') }}</a>
                                     </label>
@@ -157,52 +154,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <p><strong>1. Responsable del Tratamiento de Datos Personales</strong></p>
-    <p>ARMONIX, con domicilio en Ocosingo, es el responsable del tratamiento de sus datos personales conforme a lo establecido en este aviso de privacidad.</p>
-
-    <p><strong>2. Datos Personales Recabados</strong></p>
-    <p>Los datos personales que podemos recabar incluyen, entre otros:</p>
-    <ul>
-        <li>Nombre completo</li>
-        <li>Correo electrónico</li>
-        <li>Número telefónico</li>
-        <li>Dirección</li>
-        <li>Datos bancarios (en caso de transacciones)</li>
-        <li>Cualquier otro dato necesario para la prestación de nuestros servicios</li>
-    </ul>
-
-    <p><strong>3. Finalidad del Tratamiento de Datos</strong></p>
-    <p>Los datos personales recabados serán utilizados para las siguientes finalidades:</p>
-    <ul>
-        <li>Brindar los servicios y productos solicitados</li>
-        <li>Procesar pagos y facturación</li>
-        <li>Enviar información relevante sobre nuestros servicios</li>
-        <li>Mejorar la experiencia del usuario en nuestra plataforma</li>
-        <li>Cumplir con obligaciones legales</li>
-    </ul>
-
-    <p><strong>4. Protección y Almacenamiento de Datos</strong></p>
-    <p>Implementamos medidas de seguridad para proteger su información contra accesos no autorizados, alteraciones, pérdidas o uso indebido.</p>
-
-    <p><strong>5. Compartición de Datos Personales</strong></p>
-    <p>No compartiremos sus datos personales con terceros sin su consentimiento, salvo en los siguientes casos:</p>
-    <ul>
-        <li>Cuando sea requerido por una autoridad competente</li>
-        <li>Para cumplir con obligaciones legales</li>
-        <li>Con proveedores de servicios que apoyen en la operación de la página web (ej. hosting, procesadores de pago)</li>
-    </ul>
-
-    <p><strong>6. Derechos ARCO (Acceso, Rectificación, Cancelación y Oposición)</strong></p>
-    <p>Usted tiene derecho a acceder, rectificar, cancelar u oponerse al tratamiento de sus datos personales. Para ejercer estos derechos, puede contactarnos a través del correo electrónico <strong>ejemplo@gmail.com</strong>, proporcionando la información necesaria para atender su solicitud.</p>
-
-    <p><strong>7. Uso de Cookies y Tecnologías Similares</strong></p>
-    <p>Nuestra página web puede utilizar cookies para mejorar la experiencia del usuario. Puede configurar su navegador para bloquear o eliminar las cookies si así lo desea.</p>
-
-    <p><strong>8. Cambios al Aviso de Privacidad</strong></p>
-    <p>Nos reservamos el derecho de modificar este aviso de privacidad en cualquier momento. Cualquier cambio será publicado en esta misma sección de nuestra página web.</p>
-
-    <p><strong>9. Contacto</strong></p>
-    <p>Si tiene alguna duda sobre este aviso de privacidad, puede comunicarse con nosotros a través del correo <strong>ejemplo@gmail.com</strong> o en nuestra dirección <strong>2a Norte Sur Poniente</strong>.</p>
+                <!-- Aquí van los detalles de los Avisos de Privacidad -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cerrar') }}</button>
@@ -212,4 +164,3 @@
 </div>
 
 @endsection
-
