@@ -143,10 +143,6 @@
     </div>
 </div>
 
-
-
-
-
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar elevation-4">
             <!-- Brand Logo -->
@@ -313,7 +309,7 @@
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-users"></i>
                                         <p>
-                                          Usuarios
+                                        Usuarios
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
@@ -716,15 +712,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
-    <script>
-        document.getElementById('search-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Evita que se envíe el formulario de manera tradicional
+<script>
+    document.getElementById('search-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita que se envíe el formulario de manera tradicional
 
-    const searchQuery = document.getElementById('search-input').value; // Obtén el valor del input de búsqueda
+      const searchQuery = document.getElementById('search-input').value; // Obtén el valor del input de búsqueda
 
-    if (searchQuery.trim() === '') {
-        document.getElementById('search-results').innerHTML = '<p>No hay resultados disponibles.</p>';
-        return;
+      if (searchQuery.trim() === '') {
+          document.getElementById('search-results').innerHTML = '<p>No hay resultados disponibles.</p>';
+          return;
     }
 
     // Realiza la solicitud AJAX con fetch
@@ -744,90 +740,109 @@
                 let resultItem = document.createElement('div');
                 resultItem.classList.add('result-item', 'p-3', 'border', 'mb-3');
 
+                // Verifica el tipo de resultado y crea el contenido respectivo
                 if (item.type === 'nota') {
                     resultItem.innerHTML = `
                         <p><strong>Nombre de la nota: </strong> ${item.nombre_nota}</p>
                         <p><strong>Contenido de la nota: </strong> ${item.contenido_nota}</p>
+                    `;
+
+                    // Aquí se construye la URL para la redirección al controlador NotasPremiumController@show
+                    const redirectUrl = "{{ route('notas-premium.show', ':id') }}".replace(':id', item.id_notaP);
+
+                    resultItem.innerHTML += `
+                        <a class="btn btn-sm btn-primary" href="${redirectUrl}">
+                            <i class="fa fa-fw fa-eye"></i> {{ __('Show') }}
+                        </a>
                     `;
                 } else if (item.type === 'usuario') {
                     resultItem.innerHTML = `
                         <p><strong>Nombre: </strong> ${item.nombre_completo}</p>
                         <p><strong>Username: </strong> ${item.username}</p>
                     `;
+
+                    // Redirigir a los resultados de búsqueda de usuarios
+                    const redirectUrl = "{{ route('usuarios.search', ['search' => '__search__']) }}".replace('__search__', encodeURIComponent(searchQuery));
+
+                    resultItem.innerHTML += `
+                        <a href="${redirectUrl}" class="btn btn-primary mt-2">Ver más usuarios sobre "${searchQuery}"</a>
+                    `;
                 }
 
+                // Agregar el resultado al contenedor
                 resultsContainer.appendChild(resultItem);
-            });
-        } else {
-            resultsContainer.innerHTML = '<p>No se encontraron resultados.</p>';
-        }
-    })
-    .catch(error => {
-        console.error('Error en la búsqueda:', error);
-        document.getElementById('search-results').innerHTML = '<p>Error al realizar la búsqueda.</p>';
-    });
-});
-
-function loadMisCursos(event) {
-    event.preventDefault(); // Evita la recarga de la página
-    
-    let url = "{{ route('miscursos.index') }}";
-
-    $.ajax({
-        url: url,
-        type: "GET",
-        dataType: "JSON",
-        beforeSend: function () {
-            $("#content").html('<div class="text-center"><i class="fas fa-spinner fa-spin fa-3x"></i><p>Cargando...</p></div>');
-        },
-        success: function (res) {
-            let cursosContainer = $("#content");
-                cursosContainer.html(""); // Limpiar resultados previos
-
-                if(res.cursos.data.length > 0){
-                    res.cursos.data.forEach(function(curso){
-                        let cursoHtml = `
-                            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                        <div class="card shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <h5 class="font-weight-bold">${curso.nombre}</h5>
-                                    <span class="badge">
-                                    ${curso.descripcion}
-                                    </span>
-                                </div>
-                                <hr>
-                                <p class="text-muted mb-1">Fecha: ${curso.fecha_inicio}</p>
-                                <p class="text-muted">Horario: ${curso.fecha_fin}</p>
-                                <div class="text-center">
-                                <button class="button_slide slide_down" onclick="verDetalles(${curso.id_curso })">
-                                                        Ver más detalles
-                                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-                        cursosContainer.append(cursoHtml);
+                            });
+                        } else {
+                            resultsContainer.innerHTML = '<p>No se encontraron resultados.</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error en la búsqueda:', error);
+                        document.getElementById('search-results').innerHTML = '<p>Error al realizar la búsqueda.</p>';
                     });
-                } else {
-                    cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
-                }
-        },
-        error: function () {
-            alert("Error al cargar la página.");
-        }
-    });
-}
-window.onpopstate = function () {
-    $.ajax({
-        url: window.location.href,
-        type: "GET",
-        dataType: "html",
-        success: function (data) {
-            $("#content").html($(data).find("#content").html());
-        }
-    });
-};
+                });
+
+          function loadMisCursos(event) {
+              event.preventDefault(); // Evita la recarga de la página
+
+              let url = "{{ route('miscursos.index') }}";
+
+              $.ajax({
+                  url: url,
+                  type: "GET",
+                  dataType: "JSON",
+                  beforeSend: function () {
+                      $("#content").html('<div class="text-center"><i class="fas fa-spinner fa-spin fa-3x"></i><p>Cargando...</p></div>');
+                  },
+                  success: function (res) {
+                      let cursosContainer = $("#content");
+                          cursosContainer.html(""); // Limpiar resultados previos
+
+                          if(res.cursos.data.length > 0){
+                              res.cursos.data.forEach(function(curso){
+                                  let cursoHtml = `
+                                      <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                                  <div class="card shadow h-100 py-2">
+                                      <div class="card-body">
+                                          <div class="text-center">
+                                              <h5 class="font-weight-bold">${curso.nombre}</h5>
+                                              <span class="badge">
+                                              ${curso.descripcion}
+                                              </span>
+                                          </div>
+                                          <hr>
+                                          <p class="text-muted mb-1">Fecha: ${curso.fecha_inicio}</p>
+                                          <p class="text-muted">Horario: ${curso.fecha_fin}</p>
+                                          <div class="text-center">
+                                          <button class="button_slide slide_down" onclick="verDetalles(${curso.id_curso })">
+                                                                  Ver más detalles
+                                                              </button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>`;
+                                  cursosContainer.append(cursoHtml);
+                              });
+                          } else {
+                              cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
+                          }
+                  },
+                  error: function () {
+                      alert("Error al cargar la página.");
+                  }
+              });
+          }
+          
+          window.onpopstate = function () {
+              $.ajax({
+                  url: window.location.href,
+                  type: "GET",
+                  dataType: "html",
+                  success: function (data) {
+                      $("#content").html($(data).find("#content").html());
+                  }
+              });
+          };
 
 
     </script>
