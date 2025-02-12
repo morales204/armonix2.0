@@ -10,13 +10,29 @@ class InstrumentController extends Controller
 {
     public function show($id)
 {
+
     $instrumentType = InstrumentType::findOrFail($id);
-    $instruments = Instrument::where('instrument_type_id', $instrumentType->id)->get();
 
-    $instrumentTypes = InstrumentType::all();
+    $instruments = Instrument::where('instrument_type_id', $instrumentType->id)
+        ->with('courses') 
+        ->get();
 
-    return view('admin.instrumentos.viento.viento', compact('instrumentType', 'instruments', 'instrumentTypes'));
+    return view('admin.instrumentos.viento.viento', compact('instrumentType', 'instruments'));
 }
 
-}
+    public function courses($id)
+    {
+        $instrument = Instrument::findOrFail($id);
+        
+        $courses = $instrument->courses; 
 
+        $instrumentType = InstrumentType::findOrFail($instrument->instrument_type_id);
+
+        $instruments = Instrument::where('instrument_type_id', $instrumentType->id)
+            ->with('courses')
+            ->get();
+
+        // Retornar la vista con los datos necesarios
+        return view('admin.instrumentos.viento.acordeon.acordeon', compact('instrument', 'courses', 'instrumentType', 'instruments'));
+    }
+}

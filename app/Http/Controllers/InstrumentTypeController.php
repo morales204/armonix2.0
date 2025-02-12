@@ -7,20 +7,26 @@ use App\Models\InstrumentType;
 
 class InstrumentTypeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $instrumentTypes = InstrumentType::with('instruments')->get();
         
-        return view('admin.instrumentos.cursos', compact('instrumentTypes'));
+        $query = trim($request->get('search', '')); 
+    
+        $instrumentTypes = InstrumentType::when($query, function ($queryBuilder) use ($query) {
+            return $queryBuilder->where('name', 'LIKE', '%' . $query . '%');
+        })->orderBy('id', 'asc')->get();
+    
+        return view('admin.instrumentos.cursos', compact('instrumentTypes', 'query'));
     }
+    
 
+    // Mostrar los instrumentos de un tipo específico
     public function show($slug)
     {
         $instrumentType = InstrumentType::where('slug', $slug)->firstOrFail();
 
-        $instruments = $instrumentType->instruments;
+        $instruments = $instrumentType->instruments; 
 
         return view('admin.instrumentos.cursos', compact('instrumentType', 'instruments'));
     }
 }
-

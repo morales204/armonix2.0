@@ -33,12 +33,14 @@ use App\Http\Controllers\TubaController;
 use App\Http\Controllers\XilofonoController;
 use App\Http\Controllers\notasPremium;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CursoController;
 
 use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotasPremiumController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\BusquedaController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\CourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -145,3 +147,17 @@ Route::get('/cursos/{id}', [InstrumentController::class, 'show'])->name('instrum
 
 Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update'); //
+
+
+// Ruta para mostrar los cursos de un instrumento específico
+Route::get('/instruments/{id}/courses', [InstrumentController::class, 'courses'])->name('instrument.courses');
+
+// Ruta específica para instrumentos de viento (si es necesario)
+Route::get('/cursos/instrumentos/viento/acordeon', [InstrumentController::class, 'showAcordeon'])->name('instrument.acordeon');
+
+
+// Ruta para mostrar los tipos de instrumentos con búsqueda y filtro
+Route::get('/instrumentos', [InstrumentTypeController::class, 'index'])->name('instrument-types.index');
+
+// Ruta para mostrar los instrumentos de un tipo específico
+Route::get('/instrumentos/{slug}', [InstrumentTypeController::class, 'show'])->name('instrument-types.show');

@@ -16,4 +16,20 @@ class InstrumentType extends Model
     {
         return $this->hasMany(Instrument::class);
     }
+
+    //scope
+    public function scopeFilter($query, $search, $category, $instrumentName)
+    {
+        return $query->when($search, function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%$search%");
+            })
+            ->when($category, function ($q) use ($category) {
+                $q->where('category', $category);
+            })
+            ->when($instrumentName, function ($q) use ($instrumentName) {
+                $q->where('name', $instrumentName);
+            });
+    }
+    
+    
 }
