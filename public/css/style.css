@@ -278,7 +278,7 @@ th {
 
   /* texto dentro del cuadro */
   .experiencia .columna:hover {
-    color: rgb(91, 62, 178);
+    color: blue;
     background-color: var(--fondo);
   }
   
@@ -400,7 +400,7 @@ th {
   }
   
   .contacto button:hover {
-    background-color: white;
+    background-color: skyblue;
     color: black;
   }
   
@@ -411,7 +411,7 @@ th {
   }
   
   .contacto button:hover i {
-    color: black;
+    color: white;
   }
   
   /* Pie de pagina (footer) */
@@ -441,13 +441,13 @@ th {
     justify-content: center;
     padding: 2px;
     margin: 10px;
-    border: 2px solid white;
+    border: 2px solid black;
     border-radius: 50%;
     transition: all 0.2s ease-in;
   }
   
   .iconos-redes-sociales i {
-    color: white;
+    color: black;
     font-size: 1.5rem;
     transition: all 0.2s ease-in;
   }
