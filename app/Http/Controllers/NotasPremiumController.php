@@ -16,7 +16,7 @@ class NotasPremiumController extends Controller
      */
     public function index(Request $request): View
     {
-        $notasPremium = NotasPremium::paginate(10);
+        $notasPremium = NotasPremium::paginate(5);
         return view('notas-premium.index', compact('notasPremium'));
     }
 
@@ -38,7 +38,7 @@ class NotasPremiumController extends Controller
         NotasPremium::create($request->validated());
 
         return Redirect::route('notas-premium.index')
-            ->with('success', 'NotasPremium created successfully.');
+            ->with('success', 'NotasPremium creada correctamente.');
     }
 
     /**
@@ -47,7 +47,7 @@ class NotasPremiumController extends Controller
     public function show($id, Request $request): View
     {
         $searchTerm = $request->input('search');
-        $notasPremium = NotasPremium::find($id);
+        $notasPremium = NotasPremium::findOrFail($id);
     
         return view('notas-premium.show', compact('notasPremium', 'searchTerm'));
     }
@@ -71,7 +71,7 @@ class NotasPremiumController extends Controller
         $notasPremium->update($request->validated());
 
         return Redirect::route('notas-premium.index')
-            ->with('success', 'NotasPremium updated successfully');
+            ->with('success', 'NotasPremium editada correctamente');
     }
 
     public function destroy($id): RedirectResponse
@@ -79,6 +79,6 @@ class NotasPremiumController extends Controller
         NotasPremium::find($id)->delete();
 
         return Redirect::route('notas-premium.index')
-            ->with('success', 'NotasPremium deleted successfully');
+            ->with('success', 'NotasPremium eliminada correctamente');
     }
 }

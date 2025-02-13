@@ -790,10 +790,27 @@
                         <p><strong>Nombre de la nota: </strong> ${item.nombre_nota}</p>
                         <p><strong>Contenido de la nota: </strong> ${item.contenido_nota}</p>
                     `;
-                } else if (item.type === 'usuario') {
+
+                    // Aquí se construye la URL para la redirección al controlador NotasPremiumController@show
+                    const redirectUrl = "{{ route('notas-premium.show', ':id') }}".replace(':id', item.id_notaP);
+
+                    resultItem.innerHTML += `
+                        <a class="btn btn-sm btn-primary" href="${redirectUrl}">
+                            <i class="fa fa-fw fa-eye"></i> {{ __('Ver mas') }}
+                        </a>
+                    `;
+                } else if (item.type === 'curso') {
+
                     resultItem.innerHTML = `
-                        <p><strong>Nombre: </strong> ${item.nombre_completo}</p>
-                        <p><strong>Username: </strong> ${item.username}</p>
+                        <p><strong>Nombre: </strong> ${item.nombre}</p>
+                        <p><strong>descripcion: </strong> ${item.descripcion}</p>
+                    `;
+
+                    // Redirigir a los resultados de búsqueda de usuarios
+                    const redirectUrl = "{{ route('curso.search', ['search' => '__search__']) }}".replace('__search__', encodeURIComponent(searchQuery));
+
+                    resultItem.innerHTML += `
+                        <a href="${redirectUrl}" class="btn btn-primary mt-2">Ver más cursos sobre "${searchQuery}"</a>
                     `;
                 }
 

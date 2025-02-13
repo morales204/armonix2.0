@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Cursos;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
+
 class AddCursosListController extends Controller
 {
     /**
@@ -57,9 +60,12 @@ class AddCursosListController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id, Request $request)
     {
-        //
+        $searchTerm = $request->input('search');
+        $cursos = Cursos::find($id);
+    
+        return view('admin.cursos.cursoslist', compact('cursos', 'searchTerm'));
     }
 
     /**
