@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
             // Cargar tipos de instrumentos
             $instrumentTypes = InstrumentType::with('instruments')->get();
             $view->with('instrumentTypes', $instrumentTypes);
+            
         });
 
         Paginator::useBootstrap();

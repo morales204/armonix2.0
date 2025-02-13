@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -55,48 +55,62 @@
                 </li>
             </ul>
 
+
+            <!-- Buscar -->
             <ul class="navbar-nav ml-auto">
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <form action="{{ route('search.global') }}" method="GET">
+                    <input type="text" name="search" placeholder="Buscar..." required>
+
+                    <!-- Select para filtrar por tipo de instrumento -->
+                    <select name="instrument_type">
+                        <option value="">Todos los tipos</option>
+                        @foreach($instrumentTypes as $type)
+                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                        @endforeach
+                    </select>
+
+                    <button type="submit">Buscar</button>
                 </form>
+            </ul>
 
-                <li id="notificaciones-link" class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">1</span>
+
+            <!--  -->
+
+            <li id="notificaciones-link" class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-bell"></i>
+                    <span class="badge badge-warning navbar-badge">1</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-envelope mr-4"></i>1
+                        <span class="float-right text-muted text-sm">3 mins</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <div class="dropdown-divider"></div>
+                </div>
+            </li>
 
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-4"></i>1
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                    </div>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                        <i class="fas fa-expand-arrows-alt"></i>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Cerrar Sesion
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </li>
             </ul>
         </nav>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Sidebar -->
         <aside class="main-sidebar elevation-4">
             <a href="index3.html" class="brand-link">
                 <img src="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31d9b53530.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8;">
@@ -106,13 +120,11 @@
             <div class="sidebar">
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
                         @if (auth()->user()->roles_id_rol === 1)
                         <li class="nav-item {{ request()->is('prestamos/*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link {{ request()->is('prestamos/*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Cursos
+                                <p>Cursos
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -121,7 +133,7 @@
                                 @foreach($instrumentTypes as $instrumentType)
                                 <li class="nav-item has-treeview">
                                     <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-saxophone"></i>
+                                        <i class="nav-icon fas fa-music"></i>
                                         <p>
                                             {{ $instrumentType->name }}
                                             <i class="right fas fa-angle-left"></i>
@@ -130,23 +142,40 @@
 
                                     <ul class="nav nav-treeview">
                                         @foreach($instrumentType->instruments as $instrument)
-                                        <li class="nav-item">
-                                            <a href="{{ route('instrumento.detalles', ['id' => $instrument->id]) }}" class="nav-link">
+                                        <li class="nav-item has-treeview">
+                                            <a href="#" class="nav-link">
                                                 <i class="nav-icon fas fa-guitar"></i>
                                                 <p>
                                                     {{ $instrument->name }}
+                                                    <i class="right fas fa-angle-left"></i>
                                                 </p>
                                             </a>
+
+                                            <ul class="nav nav-treeview">
+                                                @foreach($instrument->courses as $course)
+                                                <li class="nav-item">
+                                                    <a href="{{ route('instrument.courses', ['id' => $course->id]) }}" class="nav-link">
+                                                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                                                        <p>{{ $course->name }}</p> <!-- Mostrar el nombre del curso aquí -->
+                                                    </a>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+
                                         </li>
                                         @endforeach
                                     </ul>
                                 </li>
                                 @endforeach
-
+                                <li class="nav-item">
+                                    <a href="{{ url('/cursos/agregarcurso') }}" class="nav-link">
+                                        <i class="nav-icon fas fa-plus-circle"></i>
+                                        <p>Agregar Curso</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         @endif
-
                     </ul>
                 </nav>
             </div>
@@ -158,9 +187,7 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-
                     @yield('content')
-
                 </div>
             </section>
         </div>

@@ -24,17 +24,28 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                @foreach($instruments as $instrument)
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="card">
-                            <img src="{{ asset('img/default.png') }}" class="card-img-top" alt="{{ $instrument->name }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $instrument->name }}</h5>
-                                <!-- Aquí puedes agregar más detalles si es necesario -->
+                @if($instruments->isEmpty())
+                    <div class="col-12">
+                        <p class="text-muted">No hay instrumentos disponibles en esta categoría.</p>
+                    </div>
+                @else
+                    @foreach($instruments as $instrument)
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="card">
+                                <img src="{{ asset($instrument->image ?? 'img/default.png') }}" class="card-img-top" alt="{{ $instrument->name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $instrument->name }}</h5>
+                                    
+                                    <!-- Botón para ver cursos del instrumento -->
+                                    <a href="{{ route('instrument.courses', ['id' => $instrument->id]) }}" 
+                                       class="btn btn-primary mt-2">
+                                        Ver Cursos
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
             </div>
         </div>
     </section>

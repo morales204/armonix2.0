@@ -33,14 +33,15 @@ use App\Http\Controllers\TubaController;
 use App\Http\Controllers\XilofonoController;
 use App\Http\Controllers\notasPremium;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CursoController;
 
 use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotasPremiumController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\BusquedaController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-
-use App\Http\Controllers\InstrumentoController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/notas-premium/{id}', [NotasPremiumController::class, 'show'])->name('notas-premium.show');
 
 
 Route::resource('reactivos/familia', FamiliaController::class)->middleware('auth', 'role:Laboratorista');
@@ -84,7 +86,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-/*--------------*/
+
 Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:2|3']);
 Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['auth', 'role:2|3']);
 Route::resource('herramientas/nota', NotaController::class)->middleware(['auth', 'role:2']);
@@ -115,7 +117,7 @@ Route::resource('cursos/instrumentos', InstrumentosController::class)->middlewar
 Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:1');
 Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
 
-/*--------------*/
+
 Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:2']);
 
 Route::resource('cursos/agregarcurso', AddCursosController::class)->middleware(['auth', 'role:1']);
@@ -148,4 +150,26 @@ Route::get('/cursos/{id}', [InstrumentController::class, 'show'])->name('instrum
 Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update'); //
 
-Route::get('/admin/instrumentos', [InstrumentController::class, 'index'])->name('admin.instrumentos');
+
+// Ruta para mostrar los cursos de un instrumento específico
+Route::get('/instruments/{id}/courses', [InstrumentController::class, 'courses'])->name('instrument.courses');
+
+// Ruta específica para instrumentos de viento (si es necesario)
+Route::get('/cursos/instrumentos/viento/acordeon', [InstrumentController::class, 'showAcordeon'])->name('instrument.acordeon');
+
+
+// Ruta para mostrar los tipos de instrumentos con búsqueda y filtro
+Route::get('/instrumentos', [InstrumentTypeController::class, 'index'])->name('instrument-types.index');
+
+// Ruta para mostrar los instrumentos de un tipo específico
+Route::get('/instrumentos/{slug}', [InstrumentTypeController::class, 'show'])->name('instrument-types.show');
+
+Route::get('/buscar', [SearchController::class, 'search'])->name('buscar');
+
+
+Route::get('/search', [SearchController::class, 'globalSearch'])->name('search.global');
+
+Route::get('/dashboard', [CatalogController::class, 'index'])->name('dashboard');
+
+Route::get('/catalog/{catalog}/instrument_types', [CatalogController::class, 'showInstrumentTypes'])
+    ->name('catalog.instrument_types');
