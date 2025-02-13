@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use ProtoneMedia\LaravelCrossEloquentSearch\Search;
 use App\Models\NotasPremium;
 use App\Models\Usuario;
+use App\Models\Cursos;
 
 use Illuminate\Support\Facades\Log;
 
@@ -19,7 +20,7 @@ class BusquedaController extends Controller
         // Buscar las notas y los usuarios
         $results = Search::new()
             ->add(NotasPremium::class, ['nombre_notaP', 'contenido_notaP'])
-            ->add(Usuario::class, ['nombre_completo', 'username'])
+            ->add(Cursos::class, ['nombre', 'descripcion'])
             ->beginWithWildcard()
             ->search($searchTerm);
     
@@ -36,11 +37,12 @@ class BusquedaController extends Controller
                         'contenido_nota' => $result->contenido_notaP,
                         'id_notaP' => $result->id_notaP,  // Agregar el ID de la nota
                     ];
-                } elseif ($result instanceof Usuario) {
+                } elseif ($result instanceof Cursos) {
                     $formattedResults[] = [
-                        'type' => 'usuario',
-                        'nombre_completo' => $result->nombre_completo,
-                        'username' => $result->username,
+                        'type' => 'curso',
+                        'nombre' => $result->nombre,
+                        'descripcion' => $result->descripcion,
+                        'id' => $result->id,
                     ];
                 }
             }
@@ -54,14 +56,14 @@ class BusquedaController extends Controller
     }
     
 
-    public function buscarUsuarios(Request $request)
+    public function buscarCursos(Request $request)
     {
     $searchTerm = $request->input('search');
-    $usuarios = Usuario::where('nombre_completo', 'like', "%{$searchTerm}%")
-                        ->orWhere('username', 'like', "%{$searchTerm}%")
+    $cursos = Cursos::where('nombre', 'like', "%{$searchTerm}%")
+                        ->orWhere('descripcion', 'like', "%{$searchTerm}%")
                         ->get();
 
-    return view('usuarios.index', compact('usuarios', 'searchTerm'));
+    return view('admin.cursos.cursoslist', compact('cursos', 'searchTerm'));
     }
 
     public function buscarNotas(Request $request)
