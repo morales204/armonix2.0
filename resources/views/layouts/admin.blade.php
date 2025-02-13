@@ -755,17 +755,17 @@
                             <i class="fa fa-fw fa-eye"></i> {{ __('Ver mas') }}
                         </a>
                     `;
-                } else if (item.type === 'usuario') {
+                } else if (item.type === 'curso') {
                     resultItem.innerHTML = `
-                        <p><strong>Nombre: </strong> ${item.nombre_completo}</p>
-                        <p><strong>Username: </strong> ${item.username}</p>
+                        <p><strong>Nombre: </strong> ${item.nombre}</p>
+                        <p><strong>descripcion: </strong> ${item.descripcion}</p>
                     `;
 
                     // Redirigir a los resultados de búsqueda de usuarios
-                    const redirectUrl = "{{ route('usuarios.search', ['search' => '__search__']) }}".replace('__search__', encodeURIComponent(searchQuery));
+                    const redirectUrl = "{{ route('curso.search', ['search' => '__search__']) }}".replace('__search__', encodeURIComponent(searchQuery));
 
                     resultItem.innerHTML += `
-                        <a href="${redirectUrl}" class="btn btn-primary mt-2">Ver más usuarios sobre "${searchQuery}"</a>
+                        <a href="${redirectUrl}" class="btn btn-primary mt-2">Ver más cursos sobre "${searchQuery}"</a>
                     `;
                 }
 

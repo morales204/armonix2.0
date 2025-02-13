@@ -52,9 +52,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/admin/usuarios', [App\Http\Controllers\BusquedaController::class, 'index'])->name('admin.usuarios');
-Route::get('/usuarios/buscar', [BusquedaController::class, 'buscarUsuarios'])->name('usuarios.search');
+Route::get('/curso/buscar', [BusquedaController::class, 'buscarCursos'])->name('curso.search');
 Route::get('/notas/buscar', [BusquedaController::class, 'buscarNotas'])->name('notas.search');
 Route::get('/notas-premium/show/{id}', [NotasPremiumController::class, 'show'])->name('notas-premium.show');
+Route::get('/curso/show/{id}', [AddCursosListController::class, 'show'])->name('curso.show');
 
 
 Route::resource('reactivos/familia', FamiliaController::class)->middleware('auth', 'role:Laboratorista');
