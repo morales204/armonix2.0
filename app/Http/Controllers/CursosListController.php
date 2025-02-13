@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Cursos;
+
 
 class CursosListController extends Controller
 {
@@ -26,7 +28,12 @@ class CursosListController extends Controller
             }
         }
 
-        $cursos=$cursosQuery->paginate(5);
+        $cursos=$cursosQuery->paginate(10);
+        if ($request->ajax()) {
+            return response()->json([
+                'cursos' => $cursos
+            ]);
+        }
 
         return view('userFree.cursos.index',['cursos'=>$cursos]);
     }
@@ -52,7 +59,15 @@ class CursosListController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $curso = Cursos::find($id);
+    if ($curso) {
+        return response()->json([
+            'success' => true,
+            'curso' => $curso
+        ]);
+    } else {
+        return response()->json(['success' => false]);
+    }
     }
 
     /**
