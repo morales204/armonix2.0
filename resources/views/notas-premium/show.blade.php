@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
 @section('template_title')
-    {{ $notasPremium->name ?? __('Show') . " " . __('Notas Premium') }}
+    Ver Nota Premium
 @endsection
 
 @section('content')
-    <section class="content container-fluid">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -18,24 +18,17 @@
                         </div>
                     </div>
 
-                    <div class="card-body bg-white">
-                        
-                                <div class="form-group mb-2 mb20">
-                                    <strong>Id Notap:</strong>
-                                    {{ $notasPremium->id_notaP }}
-                                </div>
-                                <div class="form-group mb-2 mb20">
-                                    <strong>Nombre Notap:</strong>
-                                    {{ $notasPremium->nombre_notaP }}
-                                </div>
-                                <div class="form-group mb-2 mb20">
-                                    <strong>Contenido Notap:</strong>
-                                    {{ $notasPremium->contenido_notaP }}
-                                </div>
-
+                    <div class="card-body">
+                        <!-- Verifica si la nota existe -->
+                        @if ($notasPremium)
+                            <p><strong>Nombre de la nota:</strong> {{ $notasPremium->nombre_notaP }}</p>
+                            <p><strong>Contenido de la nota:</strong> {{ $notasPremium->contenido_notaP }}</p>
+                        @else
+                            <p>No se encontró la nota.</p>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 @endsection

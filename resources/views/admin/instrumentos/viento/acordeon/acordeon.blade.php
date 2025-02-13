@@ -33,7 +33,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $curso->name }}</h5>
                                 <p class="card-text">{{ Str::limit($curso->description, 50) }}</p>
-                                <a href="{{ route('instrument.courses', $curso->id) }}" class="btn btn-primary">Ver Curso</a>
+                                <a href="{{ route('instrument.courses', $curso->id) }}" class="btn btn-primary">Ir al Curso</a>
                             </div>
                         </div>
                     </div>

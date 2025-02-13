@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -56,11 +56,10 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-            <form action="{{ route('buscar') }}" method="GET">
-    <input type="text" name="search" placeholder="Buscar en todo el sitio" value="{{ request('search') }}">
-    <button type="submit">Buscar</button>
-</form>
-
+                <form action="{{ route('search.global') }}" method="GET">
+                    <input type="text" name="search" placeholder="Buscar..." required>
+                    <button type="submit">Buscar</button>
+                </form>
 
                 <li id="notificaciones-link" class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
@@ -68,7 +67,6 @@
                         <span class="badge badge-warning navbar-badge">1</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
                             <i class="fas fa-envelope mr-4"></i>1
@@ -87,7 +85,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt"></i>
-                        Cerrar Sesion
+                        Cerrar Sesión
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
@@ -97,7 +95,7 @@
         </nav>
         <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
+        <!-- Sidebar -->
         <aside class="main-sidebar elevation-4">
             <a href="index3.html" class="brand-link">
                 <img src="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31d9b53530.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8;">
@@ -107,14 +105,12 @@
             <div class="sidebar">
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
                         @if (auth()->user()->roles_id_rol === 1)
                         <li class="nav-item {{ request()->is('prestamos/*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link {{ request()->is('prestamos/*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-book"></i>
-                                <p>
-                                    Cursos
-                                    <i class="right fas fa-angle-left"></i>
+                                <p>Cursos
+                                <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
 
@@ -145,21 +141,26 @@
                                                 <li class="nav-item">
                                                     <a href="{{ route('instrument.courses', ['id' => $course->id]) }}" class="nav-link">
                                                         <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                                                        <p>{{ $course->name }}</p>
+                                                        <p>{{ $course->name }}</p> 
                                                     </a>
                                                 </li>
                                                 @endforeach
                                             </ul>
+
                                         </li>
                                         @endforeach
                                     </ul>
                                 </li>
                                 @endforeach
+                                <li class="nav-item">
+                                    <a href="{{ route('cursos.agregar') }}" class="nav-link">
+                                        <i class="nav-icon fas fa-plus-circle"></i>
+                                        <p>Agregar Curso</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
-
                         @endif
-
                     </ul>
                 </nav>
             </div>
@@ -171,9 +172,7 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-
                     @yield('content')
-
                 </div>
             </section>
         </div>

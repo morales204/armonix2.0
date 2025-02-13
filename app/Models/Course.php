@@ -10,7 +10,7 @@ class Course extends Model
     use HasFactory;
 
     // Campos que se pueden asignar masivamente
-    protected $fillable = ['name', 'description', 'image', 'instrument_id'];
+    protected $fillable = ['name', 'description', 'instrument_id', 'image'];
 
     /**
      * Relación con Instrument (un curso pertenece a un instrumento)

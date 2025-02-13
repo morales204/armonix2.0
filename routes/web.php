@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AcordeonController;
-use App\Http\Controllers\AddCursosController;
 use App\Http\Controllers\AddCursosListController;
+use App\Http\Controllers\AddCursosController;
 use App\Http\Controllers\AdminUsuariosController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FamiliaController;
@@ -33,14 +33,13 @@ use App\Http\Controllers\TubaController;
 use App\Http\Controllers\XilofonoController;
 use App\Http\Controllers\notasPremium;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\CursoController;
 
 use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotasPremiumController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\BusquedaController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\SearchController;
 
 /*
@@ -57,7 +56,10 @@ use App\Http\Controllers\SearchController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/admin/usuarios', [App\Http\Controllers\BusquedaController::class, 'index'])->name('admin.usuarios');
+Route::get('/usuarios/buscar', [BusquedaController::class, 'buscarUsuarios'])->name('usuarios.search');
+Route::get('/notas/buscar', [BusquedaController::class, 'buscarNotas'])->name('notas.search');
+Route::get('/notas-premium/{id}', [NotasPremiumController::class, 'show'])->name('notas-premium.show');
 
 
 Route::resource('reactivos/familia', FamiliaController::class)->middleware('auth', 'role:Laboratorista');
@@ -99,8 +101,7 @@ Route::resource('servicios/rentaServicio', ServicioController::class)->middlewar
 
 Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:1']);
 
-Route::resource('cursos/agregarcurso', AddCursosController::class)->middleware(['auth', 'role:1']);
-Route::resource('cursos/cursoslistAdd', AddCursosListController::class)->middleware(['auth', 'role:1']);
+
 Route::resource('cursos/acordeon', InstrumentosVientoController::class)->middleware(['auth', 'role:1']);
 Route::resource('viento/acordeon', AcordeonController::class)->middleware(['auth', 'role:1']);
 Route::resource('viento/trompeta', TrompetaController::class)->middleware(['auth', 'role:1']);
@@ -118,8 +119,6 @@ Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware
 
 /*--------------*/
 Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:2']);
-
-Route::resource('cursos/agregarcurso', AddCursosController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/cursoslistAdd', AddCursosListController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/acordeon', InstrumentosVientoController::class)->middleware(['auth', 'role:1']);
 Route::resource('viento/acordeon', AcordeonController::class)->middleware(['auth', 'role:1']);
@@ -139,11 +138,9 @@ Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware
 Route::resource('notas-premium', NotasPremiumController::class);
 
 // Ruta para mostrar los tipos de instrumentos
-
 Route::get('/cursos/instrumentos', [InstrumentTypeController::class, 'index'])->name('instrumentos.index');
 
 // Ruta para mostrar los instrumentos de un tipo específico
-
 Route::get('/cursos/{id}', [InstrumentController::class, 'show'])->name('instrumento.detalles');
 
 Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
@@ -164,3 +161,16 @@ Route::get('/instrumentos', [InstrumentTypeController::class, 'index'])->name('i
 Route::get('/instrumentos/{slug}', [InstrumentTypeController::class, 'show'])->name('instrument-types.show');
 
 Route::get('/buscar', [SearchController::class, 'search'])->name('buscar');
+
+
+Route::get('/search', [SearchController::class, 'globalSearch'])->name('search.global');
+
+Route::get('/dashboard', [CatalogController::class, 'index'])->name('dashboard');
+
+Route::get('/catalog/{catalog}/instrument_types', [CatalogController::class, 'showInstrumentTypes'])
+    ->name('catalog.instrument_types');
+
+    Route::get('/admin/cursos/agregar', [AddCursosController::class, 'index'])->name('cursos.agregar');
+    Route::post('/admin/cursos', [AddCursosController::class, 'store'])->name('cursos.store');
+    Route::get('/admin/cursos', [AddCursosController::class, 'cursosList'])->name('admin.cursos.cursoslist');
+    
