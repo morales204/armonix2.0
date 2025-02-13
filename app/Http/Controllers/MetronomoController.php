@@ -11,6 +11,7 @@ class MetronomoController extends Controller
      */
     public function index()
     {
+
         return view('userFree.herramientas.metronomo');
     }
 

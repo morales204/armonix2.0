@@ -143,6 +143,10 @@
     </div>
 </div>
 
+
+
+
+
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar elevation-4">
             <!-- Brand Logo -->
@@ -309,7 +313,7 @@
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-users"></i>
                                         <p>
-                                        Usuarios
+                                          Usuarios
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
@@ -354,7 +358,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('cursoslist.index') }}"
+                                    <a  href="#" onclick="loadCursos(event)"
                                         class="nav-link {{ request()->is('cursos/cursoslist') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-book-open"></i>
                                         <p>Ver cursos</p>
@@ -373,7 +377,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('metronomo.index') }}"
+                                    <a href="#" onclick="loadMetronomo(event)"
                                         class="nav-link {{ request()->is('herramientas/metronomo') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-headphones"></i>
                                         <p>Metrónomo</p>
@@ -655,7 +659,48 @@
             <section class="content" id="content">
                 <div class="container-fluid">
 
-                    @yield('content')
+                    <div class="content-header">
+                        <div class="container-fluid">
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                    <h1 class="m-0">Mis cursos</h1>
+                                </div><!-- /.col -->
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-sm-right">
+                                        <li class="breadcrumb-item"><a href="{{ url('/home') }}">Inicio</a></li>
+                                        <li class="breadcrumb-item active">Mis cursos</li>
+                                    </ol>
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+                        </div><!-- /.container-fluid -->
+                    </div>
+
+
+                    <section class="section">
+                        <div class="row" id="table-hover-row">
+                            <div class="col-12">
+                                <div class="card">
+                                    
+                                    {{-- CABEZERA DEL CARD --}}
+                                    <div class="card-header" id="card-header">
+            
+
+                                    </div>
+
+                                    {{-- CONTENIDO DEL CARD --}}
+                                    <div class="card-content mt-4">
+                                        {{-- DETALLES DEL CARD INICIAL --}}
+                                        <div class="row d-flex justify-content-center" id="cursos-container">
+                                            {{--Aqui se incrustan los cards mediante JS--}}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section> 
+
+                    <!-- @yield('content') -->
 
                 </div><!-- /.container-fluid -->
             </section>
@@ -712,15 +757,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
-<script>
-    document.getElementById('search-form').addEventListener('submit', function(event) {
-      event.preventDefault(); // Evita que se envíe el formulario de manera tradicional
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita que se envíe el formulario de manera tradicional
 
-      const searchQuery = document.getElementById('search-input').value; // Obtén el valor del input de búsqueda
+    const searchQuery = document.getElementById('search-input').value; // Obtén el valor del input de búsqueda
 
-      if (searchQuery.trim() === '') {
-          document.getElementById('search-results').innerHTML = '<p>No hay resultados disponibles.</p>';
-          return;
+    if (searchQuery.trim() === '') {
+        document.getElementById('search-results').innerHTML = '<p>No hay resultados disponibles.</p>';
+        return;
     }
 
     // Realiza la solicitud AJAX con fetch
@@ -740,7 +785,6 @@
                 let resultItem = document.createElement('div');
                 resultItem.classList.add('result-item', 'p-3', 'border', 'mb-3');
 
-                // Verifica el tipo de resultado y crea el contenido respectivo
                 if (item.type === 'nota') {
                     resultItem.innerHTML = `
                         <p><strong>Nombre de la nota: </strong> ${item.nombre_nota}</p>
@@ -756,6 +800,7 @@
                         </a>
                     `;
                 } else if (item.type === 'curso') {
+
                     resultItem.innerHTML = `
                         <p><strong>Nombre: </strong> ${item.nombre}</p>
                         <p><strong>descripcion: </strong> ${item.descripcion}</p>
@@ -769,80 +814,324 @@
                     `;
                 }
 
-                // Agregar el resultado al contenedor
                 resultsContainer.appendChild(resultItem);
-                            });
-                        } else {
-                            resultsContainer.innerHTML = '<p>No se encontraron resultados.</p>';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error en la búsqueda:', error);
-                        document.getElementById('search-results').innerHTML = '<p>Error al realizar la búsqueda.</p>';
+            });
+        } else {
+            resultsContainer.innerHTML = '<p>No se encontraron resultados.</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error en la búsqueda:', error);
+        document.getElementById('search-results').innerHTML = '<p>Error al realizar la búsqueda.</p>';
+    });
+});
+
+function loadMisCursos(event) {
+    event.preventDefault(); // Evita la recarga de la página
+    
+    let url = "{{ route('miscursos.index') }}";
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "JSON",
+        beforeSend: function () {
+            $("#cursos-container").html('<div class="text-center"><i class="fas fa-spinner fa-spin fa-3x"></i><p>Cargando...</p></div>');
+        },
+        success: function (res) {
+            let cardHeader = $('#card-header')
+            cardHeader.html("");
+
+            let buscador =`
+                        <select class="form-select" aria-label="Default select example" name="tipo" id="tipo">
+                            <option value="nombre">Nombre</option>
+                            <option value="fecha_inicio">Fecha inicio</option>
+                            <option value="descripcion">Descripcion</option>
+                        </select>
+
+                        <input type="text" name="buscar" id="buscar">
+                        <button class="btn btn-outline-success" onclick="searchMisCursos()" id="buscar">Buscar</button>
+            `
+            cardHeader.append(buscador);
+            let cursosContainer = $("#cursos-container");
+                cursosContainer.html(""); // Limpiar resultados previos
+
+                if(res.cursos.data.length > 0){
+                    res.cursos.data.forEach(function(curso){
+                        let cursoHtml = `
+                            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h5 class="font-weight-bold">${curso.nombre}</h5>
+                                    <span class="badge">
+                                    ${curso.descripcion}
+                                    </span>
+                                </div>
+                                <hr>
+                                <p class="text-muted mb-1">Fecha: ${curso.fecha_inicio}</p>
+                                <p class="text-muted">Horario: ${curso.fecha_fin}</p>
+                                <div class="text-center">
+                                <button class="button_slide slide_down" onclick="verDetallesMisCursos(${curso.id_curso })">
+                                                        Ver más detalles
+                                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                        cursosContainer.append(cursoHtml);
                     });
-                });
+                } else {
+                    cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
+                }
+        },
+        error: function () {
+            alert("Error al cargar la página.");
+        }
+    });
+}
 
-          function loadMisCursos(event) {
-              event.preventDefault(); // Evita la recarga de la página
 
-              let url = "{{ route('miscursos.index') }}";
+function loadCursos(event) {
+    event.preventDefault(); // Evita la recarga de la página
+    
+    let url = "{{ route('cursoslist.index') }}";
 
-              $.ajax({
-                  url: url,
-                  type: "GET",
-                  dataType: "JSON",
-                  beforeSend: function () {
-                      $("#content").html('<div class="text-center"><i class="fas fa-spinner fa-spin fa-3x"></i><p>Cargando...</p></div>');
-                  },
-                  success: function (res) {
-                      let cursosContainer = $("#content");
-                          cursosContainer.html(""); // Limpiar resultados previos
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "JSON",
+        beforeSend: function () {
+            $("#cursos-container").html('<div class="text-center"><i class="fas fa-spinner fa-spin fa-3x"></i><p>Cargando...</p></div>');
+        },
+        success: function (res) {
+            let cardHeader = $('#card-header')
+            cardHeader.html("");
 
-                          if(res.cursos.data.length > 0){
-                              res.cursos.data.forEach(function(curso){
-                                  let cursoHtml = `
-                                      <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                                  <div class="card shadow h-100 py-2">
-                                      <div class="card-body">
-                                          <div class="text-center">
-                                              <h5 class="font-weight-bold">${curso.nombre}</h5>
-                                              <span class="badge">
-                                              ${curso.descripcion}
-                                              </span>
-                                          </div>
-                                          <hr>
-                                          <p class="text-muted mb-1">Fecha: ${curso.fecha_inicio}</p>
-                                          <p class="text-muted">Horario: ${curso.fecha_fin}</p>
-                                          <div class="text-center">
-                                          <button class="button_slide slide_down" onclick="verDetalles(${curso.id_curso })">
-                                                                  Ver más detalles
-                                                              </button>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>`;
-                                  cursosContainer.append(cursoHtml);
-                              });
-                          } else {
-                              cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
-                          }
-                  },
-                  error: function () {
-                      alert("Error al cargar la página.");
-                  }
-              });
-          }
-          
-          window.onpopstate = function () {
-              $.ajax({
-                  url: window.location.href,
-                  type: "GET",
-                  dataType: "html",
-                  success: function (data) {
-                      $("#content").html($(data).find("#content").html());
-                  }
-              });
-          };
+            let buscador =`
+                        <select class="form-select" aria-label="Default select example" name="tipo" id="tipo">
+                                <option value="nombre">Nombre</option>
+                                <option value="instrumento">Instrumento</option>
+                                <option value="descripcion">Descripcion</option>
+                            </select>
+
+                            <input type="text" name="buscar" id="buscar">
+                            <button class="btn btn-outline-success" onclick="searchCursos()" id="buscar">Buscar</button>
+            `
+            cardHeader.append(buscador);
+            let cursosContainer = $("#cursos-container");
+                cursosContainer.html(""); // Limpiar resultados previos
+
+                if(res.cursos.data.length > 0){
+                    res.cursos.data.forEach(function(curso){
+                        let cursoHtml = `
+                            <div class="col-xl-10 col-md-12 mb-4">
+                                    <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        ${curso.nombre}</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    ${curso.descripcion}</div>
+                                                        <span class="badge badge-success">${curso.instrumento}</span>
+                                        
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="text-gray-300">
+                                                    <button class="button_slide slide_down" onclick="verDetalles(${curso.id})">
+                                                        Ver más detalles
+                                                    </button>
+
+                                                    </i>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        cursosContainer.append(cursoHtml);
+                    });
+                } else {
+                    cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
+                }
+        },
+        error: function () {
+            alert("Error al cargar la página.");
+        }
+    });
+}
+    
+
+    window.onpopstate = function () {
+        $.ajax({
+            url: window.location.href,
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $("#content").html($(data).find("#content").html());
+            }
+        });
+    };
+
+function searchMisCursos(){
+        let buscar = $("#buscar").val();
+        let tipo = $("#tipo").val();
+
+        $.ajax({
+            url: "{{route ('miscursos.index')}}",
+            method: 'GET',
+            data: {buscar: buscar, tipo: tipo},
+            dataType: 'json',
+            success: function(res){
+                let cursosContainer = $("#cursos-container");
+                cursosContainer.html(""); 
+
+                if(res.cursos.data.length > 0){
+                    res.cursos.data.forEach(function(curso){
+                        let cursoHtml = `
+                            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                                <div class="card shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h5 class="font-weight-bold">${curso.nombre}</h5>
+                                            <span class="badge">${curso.descripcion}</span>
+                                        </div>
+                                        <hr>
+                                        <p class="text-muted mb-1">Fecha: ${curso.nombre}</p>
+                                        <p class="text-muted">Horario: ${curso.fecha_fin}</p>
+                                        <div class="text-center">
+                                            <button class="button_slide slide_down" onclick="verDetalles( ${curso.id_curso })">
+                                                        Ver más detalles
+                                                    </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        cursosContainer.append(cursoHtml);
+                    });
+                } else {
+                    cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
+                }
+            }
+        });
+    }
+
+
+function searchCursos (){
+        let buscar = $("#buscar").val();
+        let tipo = $("#tipo").val();
+
+        $.ajax({
+            url: "{{route ('cursoslist.index')}}",
+            method: 'GET',
+            data: {buscar: buscar, tipo: tipo},
+            dataType: 'json',
+            success: function(res){
+                let cursosContainer = $("#cursos-container");
+                cursosContainer.html(""); 
+
+                if(res.cursos.data.length > 0){
+                    res.cursos.data.forEach(function(curso){
+                        let cursoHtml = `
+                            <div class="col-xl-10 col-md-12 mb-4">
+                                    <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        ${curso.nombre}</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    ${curso.descripcion}</div>
+                                                        <span class="badge badge-success">${curso.instrumento}</span>
+                                        
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="text-gray-300">
+                                                    <button class="button_slide slide_down" onclick="verDetalles(${curso.id})">
+                                                        Ver más detalles
+                                                    </button>
+
+                                                    </i>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        cursosContainer.append(cursoHtml);
+                    });
+                } else {
+                    cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
+                }
+            }
+        });
+    }
+    
+    function verDetallesMisCursos(id) {
+    fetch(`/cursos/miscursos/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Crear el HTML del modal dinámicamente
+                let modalHtml = `
+                    <div class="modal fade" id="cursoModal" tabindex="-1" aria-labelledby="cursoModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="cursoModalLabel">${data.curso.nombre}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>Descripción:</strong> ${data.curso.descripcion}</p>
+                                    <p><strong>Duración:</strong> ${data.curso.duracion}</p>
+                                    <p><strong>Fecha de inicio:</strong> ${data.curso.fecha_inicio}</p>
+                                    <p><strong>Fecha de fin:</strong> ${data.curso.fecha_fin}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Eliminar cualquier modal previo para evitar duplicados
+                let existingModal = document.getElementById('cursoModal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+
+                // Insertar el modal en el body
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+                // Mostrar el modal
+                $('#cursoModal').modal('show');
+
+            } else {
+                alert("No se encontraron detalles del curso.");
+            }
+        })
+        .catch(error => console.error("Error al obtener detalles:", error));
+}
+
+function loadMetronomo(event) {
+    event.preventDefault(); // Previene la recarga de la página
+
+    // Realiza la petición AJAX
+    $.ajax({
+        url: '/herramientas/metronomo', // Asegúrate de que la ruta esté bien definida
+        method: 'GET',
+        success: function(response) {
+            $('#cursos-container').html(response); // Inyecta la respuesta en el contenedor
+        },
+        error: function() {
+            alert('Hubo un error al cargar el metrónomo');
+        }
+    });
+}
 
 
     </script>
