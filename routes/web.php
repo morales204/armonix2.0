@@ -41,6 +41,7 @@ use App\Http\Controllers\BusquedaController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CourseContentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,7 +88,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-/*--------------*/
+
 Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:2|3']);
 Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['auth', 'role:2|3']);
 Route::resource('herramientas/nota', NotaController::class)->middleware(['auth', 'role:2']);
@@ -117,7 +118,7 @@ Route::resource('cursos/instrumentos', InstrumentosController::class)->middlewar
 Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:1');
 Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
 
-/*--------------*/
+
 Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:2']);
 Route::resource('cursos/cursoslistAdd', AddCursosListController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/acordeon', InstrumentosVientoController::class)->middleware(['auth', 'role:1']);
@@ -174,3 +175,12 @@ Route::get('/catalog/{catalog}/instrument_types', [CatalogController::class, 'sh
     Route::post('/admin/cursos', [AddCursosController::class, 'store'])->name('cursos.store');
     Route::get('/admin/cursos', [AddCursosController::class, 'cursosList'])->name('admin.cursos.cursoslist');
     
+    Route::get('/courses/{courseId}/contents', [CourseContentController::class, 'index']);
+    Route::post('/contents', [CourseContentController::class, 'store']);
+    Route::get('/contents/{id}', [CourseContentController::class, 'show']);
+    Route::put('/contents/{id}', [CourseContentController::class, 'update']);
+    Route::delete('/contents/{id}', [CourseContentController::class, 'destroy']);
+
+    Route::get('/cursos/{courseId}/detalles', [CourseContentController::class, 'showContents'])
+    ->name('course.contents');
+

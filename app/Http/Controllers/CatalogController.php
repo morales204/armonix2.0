@@ -9,7 +9,7 @@ class CatalogController extends Controller
 {
     public function index()
 {
-    $catalogs = Catalog::all(); // Asegúrate de usar 'all()' y no 'first()'
+    $catalogs = Catalog::all(); 
     return view('layouts.admin', compact('catalogs'));
 }
 

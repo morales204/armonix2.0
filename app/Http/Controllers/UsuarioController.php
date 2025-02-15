@@ -7,7 +7,6 @@ use App\Models\Usuario;
 use App\Http\Requests\UsuarioFormRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller

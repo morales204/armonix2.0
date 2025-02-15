@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Instrument;
 use App\Models\InstrumentType;
-use Illuminate\Http\Request;
 
 class InstrumentController extends Controller
 {
