@@ -158,8 +158,6 @@
                                                         <i class="nav-icon fas fa-chalkboard-teacher"></i>
                                                         <p>{{ $course->name }}</p>
                                                     </a>
-
-
                                                 </li>
                                                 @endforeach
                                             </ul>
