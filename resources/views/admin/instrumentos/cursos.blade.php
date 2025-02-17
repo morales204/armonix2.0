@@ -3,13 +3,13 @@
 @section('content')
 
 <div class="container">
-<h2>Resultados de búsqueda para: "{{ $query }}"</h2>
+    <h2>Resultados de búsqueda para: "{{ $query }}"</h2>
 
-@if($instruments->isEmpty() && $courses->isEmpty())
+    @if($instruments->isEmpty() && $courses->isEmpty())
     <p>No se encontraron resultados.</p>
-@else
+    @else
 
-@endif
+    @endif
 
     <!-- Instrumentos -->
     @if(!$instruments->isEmpty())
@@ -20,7 +20,7 @@
             <div class="card">
                 <img src="{{ asset('img/instruments.png') }}" class="card-img-top" alt="{{ $instrument->name }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $instrument->name }}</h5>
+                    <h5 class="card-title"><strong>{{ $instrument->name }}</strong></h5>
                     <p class="card-text">Tipo: {{ $instrument->instrumentType->name }}</p>
                     <a href="{{ route('instrument.courses', ['id' => $instrument->id]) }}" class="btn btn-primary">Ver Cursos</a>
                 </div>
@@ -29,8 +29,6 @@
         @endforeach
     </div>
     @endif
-
-
 
     <!-- Cursos -->
     @if(!$courses->isEmpty())
@@ -41,9 +39,11 @@
             <div class="card">
                 <img src="{{ asset('img/courses.png') }}" class="card-img-top" alt="{{ $course->title }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $course->title }}</h5>
+                    <h5 class="card-title"><strong>{{ $course->name }}</strong></h5>
                     <p class="card-text">{{ Str::limit($course->description, 80) }}</p>
-                    <a href="#" class="btn btn-info">Ir al curso</a>
+                    <a href="{{ route('course.contents', ['courseId' => $course->id]) }}" class="btn btn-info">
+                        <i class="fas fa-chalkboard-teacher"></i> Ir al curso
+                    </a>
                 </div>
             </div>
         </div>
