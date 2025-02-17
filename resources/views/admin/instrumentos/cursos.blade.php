@@ -3,13 +3,13 @@
 @section('content')
 
 <div class="container">
-<h2>Resultados de búsqueda para: "{{ $query }}"</h2>
+    <h2>Resultados de búsqueda para: "{{ $query }}"</h2>
 
-@if($instruments->isEmpty() && $courses->isEmpty())
+    @if($instruments->isEmpty() && $courses->isEmpty())
     <p>No se encontraron resultados.</p>
-@else
+    @else
 
-@endif
+    @endif
 
     <!-- Instrumentos -->
     @if(!$instruments->isEmpty())
@@ -30,8 +30,6 @@
     </div>
     @endif
 
-
-
     <!-- Cursos -->
     @if(!$courses->isEmpty())
     <h3 class="mt-4">Cursos</h3>
@@ -39,17 +37,18 @@
         @foreach($courses as $course)
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="{{ asset('img/courses.png') }}" class="card-img-top" alt="{{ $course->title }}">
+            <img src="{{ asset($instrument->image) }}" class="card-img-top" alt="{{ $instrument->name }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $course->title }}</h5>
+                    <h5 class="card-title"><strong>{{ $course->name }}</strong></h5>
                     <p class="card-text">{{ Str::limit($course->description, 80) }}</p>
-                    <a href="#" class="btn btn-info">Ir al curso</a>
+                    <a href="{{ route('course.contents', ['courseId' => $course->id]) }}" class="btn btn-info">
+                        <i class="fas fa-chalkboard-teacher"></i> Ir al curso
+                    </a>
                 </div>
             </div>
         </div>
         @endforeach
     </div>
-
     @endif
 </div>
 

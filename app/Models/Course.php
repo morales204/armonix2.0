@@ -21,10 +21,10 @@ class Course extends Model
     }
 
     /**
-     * Relación con otros modelos si es necesario (ejemplo: si tienes usuarios inscritos en el curso)
+     * Relación con CourseContent (un curso tiene muchos contenidos)
      */
-    // public function students()
-    // {
-    //     return $this->belongsToMany(Student::class);
-    // }
+    public function contents()
+    {
+        return $this->hasMany(CourseContent::class, 'course_id');
+    }
 }

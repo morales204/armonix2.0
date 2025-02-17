@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CourseContent;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Models\Instrument;
 
 class CourseContentController extends Controller
 {
@@ -12,12 +13,12 @@ class CourseContentController extends Controller
      * Muestra los contenidos de un curso en una vista Blade.
      */
     public function showContents($courseId)
-{
-    $course = Course::findOrFail($courseId);
-    $courseContents = CourseContent::where('course_id', $courseId)->get();
+    {
+        $course = Course::findOrFail($courseId);
+        $courseContents = CourseContent::where('course_id', $courseId)->get();
 
-    return view('admin.cursos.cursosdetalles', compact('course', 'courseContents')); // Pasando 'courseContents' en lugar de 'contents'
-}
+        return view('admin.cursos.cursosdetalles', compact('course', 'courseContents')); // Pasando 'courseContents' en lugar de 'contents'
+    }
 
 
     /**
@@ -55,26 +56,65 @@ class CourseContentController extends Controller
     /**
      * Actualiza un contenido de curso existente.
      */
-    public function update(Request $request, $id)
-    {
-        $content = CourseContent::findOrFail($id);
-        $content->update($request->all());
-
-        return response()->json($content);
-    }
-
-    /**
-     * Elimina un contenido de curso.
-     */
-    public function destroy($id)
-    {
-        CourseContent::findOrFail($id)->delete();
-        return response()->json(['message' => 'Contenido eliminado']);
-    }
-
-    public function showCourseContents($courseId)
+    public function edit($id)
 {
-    return $this->showContents($courseId);
+    // Buscar el curso con el ID proporcionado
+    $curso = Course::find($id);
+
+    // Si el curso no existe, redirigir con un mensaje de error
+    if (!$curso) {
+        return redirect()->route('admin.cursos.cursoslist')->with('error', 'Curso no encontrado.');
+    }
+
+    // Obtener todos los instrumentos disponibles
+    $instruments = Instrument::all();
+
+    // Retornar la vista con los datos
+    return view('admin.cursos.edit', compact('curso', 'instruments'));
+}
+
+public function update(Request $request, $id)
+{
+    $curso = Course::find($id);
+    if (!$curso) {
+        return redirect()->route('admin.cursos.cursoslist')->with('error', 'Curso no encontrado.');
+    }
+
+    $request->validate([
+        'instrument_id' => 'required|exists:instruments,id',
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'image' => 'nullable|image|max:2048',
+    ]);
+
+    $curso->instrument_id = $request->instrument_id;
+    $curso->name = $request->name;
+    $curso->description = $request->description;
+
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('cursos', 'public');
+        $curso->image = 'storage/' . $imagePath;
+    }
+
+    $curso->save();
+
+    return redirect()->route('admin.cursos.cursoslist')->with('success', 'Curso actualizado correctamente.');
+}
+public function destroy($id)
+{
+    $curso = Course::find($id);
+    if (!$curso) {
+        return redirect()->route('admin.cursos.cursoslist')->with('error', 'Curso no encontrado.');
+    }
+
+    // Eliminar imagen si existe
+    if ($curso->image && file_exists(public_path($curso->image))) {
+        unlink(public_path($curso->image));
+    }
+
+    $curso->delete();
+
+    return redirect()->route('admin.cursos.cursoslist')->with('success', 'Curso eliminado correctamente.');
 }
 
 }
