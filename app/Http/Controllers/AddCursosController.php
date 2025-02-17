@@ -24,25 +24,53 @@ class AddCursosController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // Handle image
+        // Manejo de la imagen
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->storeAs('img', $request->file('image')->getClientOriginalName(), 'public');
+            $image = $request->file('image');
+            $imageName = $image->getClientOriginalName(); 
+            $image->move(public_path('img'), $imageName); 
+
+            $imagePath = 'img/' . $imageName; 
         }
 
         Course::create([
             'name' => $request->name,
             'description' => $request->description,
             'instrument_id' => $request->instrument_id,
-            'image' => $imagePath
+            'image' => $imagePath 
         ]);
+
 
         return redirect()->route('admin.cursos.cursoslist')->with('success', 'Curso agregado correctamente');
     }
 
-    public function cursosList()
+    public function cursosList(Request $request)
     {
-        $cursos = Course::with('instrument')->get();
+        $query = Course::with('instrument'); 
+
+        if ($request->filled('buscar') && $request->filled('tipo')) {
+            $tipo = $request->input('tipo');
+            $buscar = $request->input('buscar');
+
+            // Aplicar filtros según el tipo seleccionado
+            if ($tipo == 'nombre') {
+                $query->where('name', 'LIKE', "%$buscar%");
+            } elseif ($tipo == 'descripcion') {
+                $query->where('description', 'LIKE', "%$buscar%");
+            } elseif ($tipo == 'instrumento') {
+                $query->whereHas('instrument', function ($q) use ($buscar) {
+                    $q->where('name', 'LIKE', "%$buscar%");
+                });
+            }
+        }
+
+        $cursos = $query->paginate(5);
+
+    if ($request->ajax()) {
+        return view('admin.cursos.partials.cursos-table', compact('cursos'));
+    }
+
         return view('admin.cursos.cursoslist', compact('cursos'));
     }
 }

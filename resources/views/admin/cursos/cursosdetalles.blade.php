@@ -11,7 +11,6 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ url('/home') }}">Inicio</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('instrumentos.index') }}">Cursos</a></li>
-                    
                     <li class="breadcrumb-item active">{{ $course->name }}</li>
                 </ol>
             </div>
@@ -31,15 +30,14 @@
                 <p class="text-muted">{{ $course->description }}</p>
 
                 <h5><strong>Duración:</strong></h5>
-                <p>{{ $course->duration }} horas</p>
+                <p>4 horas</p>
 
                 <h5><strong>Instructor:</strong></h5>
-                <p>{{ $course->instructor }}</p>
+                <p>No disponible</p>
 
                 <hr>
 
                 <h4 class="mt-4">Contenidos del Curso</h4>
-
                 @if($courseContents->isEmpty())
                 <p class="text-muted">No hay contenidos disponibles para este curso.</p>
                 @else
@@ -52,7 +50,6 @@
                 </div>
                 @endforeach
                 @endif
-
             </div>
         </div>
     </div>

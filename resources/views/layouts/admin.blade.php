@@ -73,9 +73,6 @@
                 </form>
             </ul>
 
-
-            <!--  -->
-
             <li id="notificaciones-link" class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
@@ -112,7 +109,7 @@
 
         <!-- Sidebar -->
         <aside class="main-sidebar elevation-4">
-            <a href="index3.html" class="brand-link">
+            <a href="{{ url('/home') }}" class="brand-link">
                 <img src="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31d9b53530.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8;">
                 <span class="brand-text font-weight-dark text-dark">{{ auth()->user()->username }}</span>
             </a>
@@ -175,12 +172,32 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.cursos.cursoslist') }}" class="nav-link">
-                                        <i class="nav-icon fas fa-plus-circle"></i>
+                                        <i class="nav-icon fas fa-file-alt"></i>
                                         <p>Cursos Agregados</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+
+                        <!-- HERRAMIENTAS: SEPARADO DE CURSOS -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-tools"></i>
+                                <p>Herramientas
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('metronomoP.index') }}" class="nav-link">
+                                        <i class="nav-icon fas fa-wrench"></i>
+                                        <p>Metrónomo</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                         @endif
                     </ul>
                 </nav>

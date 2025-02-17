@@ -57,9 +57,6 @@ use App\Http\Controllers\CourseContentController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/admin/usuarios', [App\Http\Controllers\BusquedaController::class, 'index'])->name('admin.usuarios');
-Route::get('/usuarios/buscar', [BusquedaController::class, 'buscarUsuarios'])->name('usuarios.search');
-Route::get('/notas/buscar', [BusquedaController::class, 'buscarNotas'])->name('notas.search');
 Route::get('/notas-premium/{id}', [NotasPremiumController::class, 'show'])->name('notas-premium.show');
 
 
@@ -94,7 +91,7 @@ Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['
 Route::resource('herramientas/nota', NotaController::class)->middleware(['auth', 'role:2']);
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware(['auth', 'role:2']);
 
-Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
+Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:1']);
 Route::resource('notaP', NotasPremiumController::class)->middleware(['auth', 'role:3']);
 
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:2|3']);
@@ -171,16 +168,16 @@ Route::get('/dashboard', [CatalogController::class, 'index'])->name('dashboard')
 Route::get('/catalog/{catalog}/instrument_types', [CatalogController::class, 'showInstrumentTypes'])
     ->name('catalog.instrument_types');
 
-    Route::get('/admin/cursos/agregar', [AddCursosController::class, 'index'])->name('cursos.agregar');
-    Route::post('/admin/cursos', [AddCursosController::class, 'store'])->name('cursos.store');
-    Route::get('/admin/cursos', [AddCursosController::class, 'cursosList'])->name('admin.cursos.cursoslist');
-    
-    Route::get('/courses/{courseId}/contents', [CourseContentController::class, 'index']);
-    Route::post('/contents', [CourseContentController::class, 'store']);
-    Route::get('/contents/{id}', [CourseContentController::class, 'show']);
-    Route::put('/contents/{id}', [CourseContentController::class, 'update']);
-    Route::delete('/contents/{id}', [CourseContentController::class, 'destroy']);
+Route::get('/admin/cursos/agregar', [AddCursosController::class, 'index'])->name('cursos.agregar');
+Route::post('/admin/cursos', [AddCursosController::class, 'store'])->name('cursos.store');
+Route::get('/admin/cursos', [AddCursosController::class, 'cursosList'])->name('admin.cursos.cursoslist');
 
-    Route::get('/cursos/{courseId}/detalles', [CourseContentController::class, 'showContents'])
+Route::get('/courses/{courseId}/contents', [CourseContentController::class, 'index']);
+Route::post('/contents', [CourseContentController::class, 'store']);
+Route::get('/contents/{id}', [CourseContentController::class, 'show']);
+Route::get('/cursos/{id}/edit', [CourseContentController::class, 'edit'])->name('cursos.edit');
+Route::put('/cursos/{id}', [CourseContentController::class, 'update'])->name('cursos.update');
+Route::delete('/cursos/{id}', [CourseContentController::class, 'destroy'])->name('cursos.destroy');
+
+Route::get('/cursos/{courseId}/detalles', [CourseContentController::class, 'showContents'])
     ->name('course.contents');
-
