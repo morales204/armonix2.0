@@ -20,7 +20,7 @@
             <div class="card">
                 <img src="{{ asset('img/instruments.png') }}" class="card-img-top" alt="{{ $instrument->name }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ $instrument->name }}</h5>
+                    <h5 class="card-title"><strong>{{ $instrument->name }}</strong></h5>
                     <p class="card-text">Tipo: {{ $instrument->instrumentType->name }}</p>
                     <a href="{{ route('instrument.courses', ['id' => $instrument->id]) }}" class="btn btn-primary">Ver Cursos</a>
                 </div>
