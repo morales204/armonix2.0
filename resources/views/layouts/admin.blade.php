@@ -179,24 +179,7 @@
                             </ul>
                         </li>
 
-                        <!-- HERRAMIENTAS: SEPARADO DE CURSOS -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tools"></i>
-                                <p>Herramientas
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{ route('metronomoP.index') }}" class="nav-link">
-                                        <i class="nav-icon fas fa-wrench"></i>
-                                        <p>Metrónomo</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        
 
                         @endif
                     </ul>
