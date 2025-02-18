@@ -72,7 +72,7 @@
                     imgPreview.style.marginTop = '10px';
 
                     let previewContainer = document.getElementById('image-preview');
-                    previewContainer.innerHTML = ''; // Limpiar previas
+                    previewContainer.innerHTML = ''; 
                     previewContainer.appendChild(imgPreview);
                 };
                 reader.readAsDataURL(file);

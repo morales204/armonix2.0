@@ -37,7 +37,6 @@
         @foreach($courses as $course)
         <div class="col-md-4 mb-4">
             <div class="card">
-            <img src="{{ asset($instrument->image) }}" class="card-img-top" alt="{{ $instrument->name }}">
                 <div class="card-body">
                     <h5 class="card-title"><strong>{{ $course->name }}</strong></h5>
                     <p class="card-text">{{ Str::limit($course->description, 80) }}</p>

@@ -57,7 +57,6 @@
                             <!-- Botón Editar -->
                             <a href="{{ route('cursos.edit', $curso->id) }}" class="btn btn-warning btn-sm">Editar</a>
 
-
                             <!-- Botón Eliminar con Formulario -->
                             <form action="{{ route('cursos.destroy', $curso->id) }}" method="POST"
                                 onsubmit="return confirm('¿Estás seguro de que quieres eliminar {{ $curso->name }}?');">
