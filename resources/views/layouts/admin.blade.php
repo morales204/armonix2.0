@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ARMONIX | Dashboard</title>
 
-    <!-- Enlaces de estilos -->
-     
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{{ asset('generalStyles.css') }}">
@@ -21,7 +19,7 @@
 
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    
+
 
     <!-- jQuery y jQuery UI -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
@@ -199,20 +197,18 @@
     <script src="{{ asset('dist/js/bootstrap-select.min.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
-            // Manejar el clic en los enlaces de los cursos
-            $('.course-link').on('click', function (e) {
-                e.preventDefault(); // Prevenir la acción predeterminada del enlace
-                let url = $(this).data('url'); // Obtener la URL del contenido del curso
+        $(document).ready(function() {
+            $('.course-link').on('click', function(e) {
+                e.preventDefault(); 
+                let url = $(this).data('url'); 
 
-                // Realizar una solicitud AJAX para cargar el contenido del curso
                 $.ajax({
                     url: url,
                     method: 'GET',
-                    success: function (data) {
-                        $('#course-content').html(data); // Cargar el contenido en el contenedor
+                    success: function(data) {
+                        $('#course-content').html(data); 
                     },
-                    error: function () {
+                    error: function() {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
@@ -222,6 +218,8 @@
                 });
             });
         });
+
+        
     </script>
 </body>
 

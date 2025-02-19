@@ -54,3 +54,4 @@ $("#btnalumno").click(function(){
 function MenuRefresh() {
   document.getElementById("sidebar")
 }
+

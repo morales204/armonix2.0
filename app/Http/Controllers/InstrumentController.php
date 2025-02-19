@@ -24,6 +24,8 @@ class InstrumentController extends Controller
         $instrument = Instrument::findOrFail($id);
         
         $courses = $instrument->courses; 
+        
+        return response()->json($courses);
 
         $instrumentType = InstrumentType::findOrFail($instrument->instrument_type_id);
 
