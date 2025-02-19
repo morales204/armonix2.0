@@ -7,23 +7,33 @@ use App\Models\InstrumentType;
 
 class InstrumentController extends Controller
 {
+ 
+    public function index()
+    {
+        // Obtiene todos los tipos de instrumentos
+        $instrumentTypes = InstrumentType::all();
+        
+        // Muestra la vista 'home' con los tipos de instrumentos
+        return view('home', compact('instrumentTypes'));
+
+    }
     public function show($id)
-{
+    {
 
-    $instrumentType = InstrumentType::findOrFail($id);
+        $instrumentType = InstrumentType::findOrFail($id);
 
-    $instruments = Instrument::where('instrument_type_id', $instrumentType->id)
-        ->with('courses') 
-        ->get();
+        $instruments = Instrument::where('instrument_type_id', $instrumentType->id)
+            ->with('courses')
+            ->get();
 
-    return view('admin.instrumentos.viento.viento', compact('instrumentType', 'instruments'));
-}
+        return view('admin.instrumentos.viento.viento', compact('instrumentType', 'instruments'));
+    }
 
     public function courses($id)
     {
         $instrument = Instrument::findOrFail($id);
-        
-        $courses = $instrument->courses; 
+
+        $courses = $instrument->courses;
 
         $instrumentType = InstrumentType::findOrFail($instrument->instrument_type_id);
 

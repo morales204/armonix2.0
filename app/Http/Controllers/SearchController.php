@@ -15,7 +15,7 @@ class SearchController extends Controller
         $instrumentTypeId = $request->get('instrument_type'); // Tipo de instrumento seleccionado
 
         if (!$query) {
-            return redirect()->back()->with('error', 'Escribe algo para buscar.');
+            return response()->json(['error' => 'Escribe algo para buscar.'], 400);
         }
 
         if (!$instrumentTypeId) {
@@ -23,10 +23,10 @@ class SearchController extends Controller
             $instruments = Instrument::where('name', 'LIKE', "%{$query}%")->get();
             $instrumentTypes = InstrumentType::where('name', 'LIKE', "%{$query}%")->get();
             $courses = Course::where('name', 'LIKE', "%{$query}%")
-                ->orWhere('description', 'LIKE', "%{$query}%") // ✅ Ahora busca también en la descripción
+                ->orWhere('description', 'LIKE', "%{$query}%")
                 ->get();
         } else {
-            //  Búsqueda filtrada por tipo de instrumento
+            // Búsqueda filtrada por tipo de instrumento
             $instruments = Instrument::where('name', 'LIKE', "%{$query}%")
                 ->where('instrument_type_id', $instrumentTypeId)
                 ->get();
@@ -35,16 +35,25 @@ class SearchController extends Controller
             $instrumentIds = Instrument::where('instrument_type_id', $instrumentTypeId)->pluck('id')->toArray();
 
             $courses = Course::whereHas('instrument', function ($q) use ($instrumentIds) {
-                $q->whereIn('id', $instrumentIds);
-            })
-            ->where(function ($q) use ($query) { // ✅ Busca en nombre y descripción del curso
-                $q->where('name', 'LIKE', "%{$query}%")
-                  ->orWhere('description', 'LIKE', "%{$query}%");
-            })
-            ->get();
+                    $q->whereIn('id', $instrumentIds);
+                })
+                ->where(function ($q) use ($query) {
+                    $q->where('name', 'LIKE', "%{$query}%")
+                      ->orWhere('description', 'LIKE', "%{$query}%");
+                })
+                ->get();
 
             // Obtener solo el tipo de instrumento seleccionado
             $instrumentTypes = InstrumentType::where('id', $instrumentTypeId)->get();
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'query' => $query,
+                'instruments' => $instruments,
+                'instrumentTypes' => $instrumentTypes,
+                'courses' => $courses
+            ]);
         }
 
         return view('admin.instrumentos.cursos', compact('query', 'instruments', 'instrumentTypes', 'courses'));

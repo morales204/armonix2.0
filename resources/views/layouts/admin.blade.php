@@ -4,45 +4,32 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>ARMONIX | Dashboard</title>
 
-    <!-- Font Awesome -->
+    <!-- Enlaces de estilos -->
+     
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
-    <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-
     <link rel="stylesheet" href="{{ asset('generalStyles.css') }}">
-    <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-    <!-- iCheck -->
     <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/css/bootstrap-select.min.css') }}">
-    <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-    <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
-    <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
 
-    <!-- Include SweetAlert CDN -->
+    <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
 
-    <!-- jQuery -->
+    <!-- jQuery y jQuery UI -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-    <!-- jQuery UI -->
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
-        <!-- Precarga -->
-        <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="https://png.pngtree.com/element_our/sm/20180415/sm_5ad31d9b53530.jpg" alt="AdminLTELogo" height="150" width="150">
-        </div>
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand">
@@ -55,21 +42,17 @@
                 </li>
             </ul>
 
-
             <!-- Buscar -->
             <ul class="navbar-nav ml-auto">
-                <form action="{{ route('search.global') }}" method="GET">
-                    <input type="text" name="search" placeholder="Buscar..." required>
-
-                    <!-- Select para filtrar por tipo de instrumento -->
-                    <select name="instrument_type">
+                <form action="{{ route('search.global') }}" method="GET" class="form-inline">
+                    <input type="text" name="search" placeholder="Buscar..." class="form-control" required>
+                    <select name="instrument_type" class="form-control">
                         <option value="">Todos los tipos</option>
                         @foreach($instrumentTypes as $type)
                         <option value="{{ $type->id }}">{{ $type->name }}</option>
                         @endforeach
                     </select>
-
-                    <button type="submit">Buscar</button>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
                 </form>
             </ul>
 
@@ -141,7 +124,7 @@
                                         @foreach($instrumentType->instruments as $instrument)
                                         <li class="nav-item has-treeview">
                                             <a href="#" class="nav-link">
-                                                <i class="nav-icon fas fa-music "></i>
+                                                <i class="nav-icon fas fa-music"></i>
                                                 <p>
                                                     {{ $instrument->name }}
                                                     <i class="right fas fa-angle-left"></i>
@@ -151,14 +134,13 @@
                                             <ul class="nav nav-treeview">
                                                 @foreach($instrument->courses as $course)
                                                 <li class="nav-item">
-                                                    <a href="{{ route('course.contents', ['courseId' => $course->id]) }}" class="nav-link">
+                                                    <a href="#" class="nav-link course-link" data-url="{{ route('course.contents', ['courseId' => $course->id]) }}">
                                                         <i class="nav-icon fas fa-chalkboard-teacher"></i>
                                                         <p>{{ $course->name }}</p>
                                                     </a>
                                                 </li>
                                                 @endforeach
                                             </ul>
-
                                         </li>
                                         @endforeach
                                     </ul>
@@ -172,64 +154,75 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.cursos.cursoslist') }}" class="nav-link">
-                                        <i class="nav-icon fas fa-file-alt"></i>
-                                        <p>Cursos Agregados</p>
+                                        <i class="nav-icon fas fa-list-alt"></i>
+                                        <p>Lista de Cursos</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-
-                        
-
+                        @else
+                        <li class="nav-item">
+                            <a href="{{ route('admin.cursos.cursoslist') }}" class="nav-link">
+                                <i class="nav-icon fas fa-list-alt"></i>
+                                <p>Lista de Cursos</p>
+                            </a>
+                        </li>
                         @endif
                     </ul>
                 </nav>
             </div>
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="background-color: rgb(241, 250, 246)">
-
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    @yield('content')
-                </div>
-            </section>
+        <!-- Contenido -->
+        <div class="content-wrapper">
+            <div id="course-content">
+                @yield('content') <!-- Este es el contenido que se cargará dinámicamente -->
+            </div>
         </div>
         <!-- /.content-wrapper -->
 
+        <!-- Footer -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2024-2025 <a href="">Ek'Balam</a>.</strong>
-            Todos los derechos reservados
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 0.0.1
+            <div class="float-right d-none d-sm-block">
+                <b>Versión</b> 3.0.0
             </div>
+            <strong>Copyright &copy; 2022 <a href="https://www.example.com">Armonix</a>.</strong> Todos los derechos reservados.
         </footer>
-
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
     </div>
     <!-- ./wrapper -->
 
-    <script>
-        $.widget.bridge('uibutton', $.ui.button);
-    </script>
+    <!-- Scripts -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
-    <script src="{{ asset('plugins/sparklines/sparkline.js') }}"></script>
-    <script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+    <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('dist/js/pages/dashboard3.js') }}"></script>
+    <script src="{{ asset('dist/js/bootstrap-select.min.js') }}"></script>
 
-    @stack('scripts')
-    <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
-    <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-    <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-    <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-    <script src="{{ asset('dist/js/adminlte.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            // Manejar el clic en los enlaces de los cursos
+            $('.course-link').on('click', function (e) {
+                e.preventDefault(); // Prevenir la acción predeterminada del enlace
+                let url = $(this).data('url'); // Obtener la URL del contenido del curso
 
+                // Realizar una solicitud AJAX para cargar el contenido del curso
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function (data) {
+                        $('#course-content').html(data); // Cargar el contenido en el contenedor
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'No se pudo cargar el contenido del curso.'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

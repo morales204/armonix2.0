@@ -43,6 +43,8 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CourseContentController;
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -181,3 +183,13 @@ Route::delete('/cursos/{id}', [CourseContentController::class, 'destroy'])->name
 
 Route::get('/cursos/{courseId}/detalles', [CourseContentController::class, 'showContents'])
     ->name('course.contents');
+
+
+    Route::get('/cursos/{id}/contents', [CourseContentController::class, 'showContents'])->name('cursos.contents');
+
+// Ruta para la vista home con el carrusel
+Route::get('/home', [InstrumentController::class, 'index'])->name('home');
+
+
+// Ruta para la vista viento donde se muestran los instrumentos por tipo
+Route::get('/instrumentos/viento/{id}', [InstrumentController::class, 'show'])->name('instrumentos.viento');

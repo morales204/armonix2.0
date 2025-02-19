@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<!-- Content Header (Page header) -->
+<!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -38,8 +38,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($cursos as $index => $curso)
-                    <tr>
+                    @foreach ($cursos as $curso)
+                    <tr id="fila-{{ $curso->id }}">
                         <td>{{ $curso->id }}</td>
                         <td class="nombre">{{ $curso->name }}</td>
                         <td class="descripcion">{{ $curso->description }}</td>
@@ -54,19 +54,12 @@
                             @endif
                         </td>
                         <td>
-                            <!-- Botón Editar -->
                             <a href="{{ route('cursos.edit', $curso->id) }}" class="btn btn-warning btn-sm">Editar</a>
 
-
-                            <!-- Botón Eliminar con Formulario -->
-                            <form action="{{ route('cursos.destroy', $curso->id) }}" method="POST"
-                                onsubmit="return confirm('¿Estás seguro de que quieres eliminar {{ $curso->name }}?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
-
-
+                            <!-- Botón de eliminación con AJAX -->
+                            <button class="btn btn-danger btn-sm eliminar-curso" data-id="{{ $curso->id }}">
+                                Eliminar
+                            </button>
                         </td>
                     </tr>
                     @endforeach
@@ -80,17 +73,51 @@
     </div>
 </section>
 
+<!-- Scripts -->
 <script>
-    document.getElementById("busqueda").addEventListener("keyup", function() {
-        let filtro = this.value.toLowerCase();
-        let filas = document.querySelectorAll("#tabla-cursos tbody tr");
+    document.addEventListener("DOMContentLoaded", function() {
+        // Filtrado de cursos
+        document.getElementById("busqueda").addEventListener("keyup", function() {
+            let filtro = this.value.toLowerCase();
+            let filas = document.querySelectorAll("#tabla-cursos tbody tr");
 
-        filas.forEach(fila => {
-            let nombre = fila.querySelector(".nombre").innerText.toLowerCase();
-            let descripcion = fila.querySelector(".descripcion").innerText.toLowerCase();
-            let instrumento = fila.querySelector(".instrumento").innerText.toLowerCase();
+            filas.forEach(fila => {
+                let nombre = fila.querySelector(".nombre").innerText.toLowerCase();
+                let descripcion = fila.querySelector(".descripcion").innerText.toLowerCase();
+                let instrumento = fila.querySelector(".instrumento").innerText.toLowerCase();
 
-            fila.style.display = (nombre.includes(filtro) || descripcion.includes(filtro) || instrumento.includes(filtro)) ? "" : "none";
+                fila.style.display = (nombre.includes(filtro) || descripcion.includes(filtro) || instrumento.includes(filtro)) ? "" : "none";
+            });
+        });
+
+        // Eliminar curso con AJAX
+        document.querySelectorAll(".eliminar-curso").forEach(button => {
+            button.addEventListener("click", function() {
+                let cursoId = this.getAttribute("data-id");
+
+                if (confirm("¿Estás seguro de que quieres eliminar este curso?")) {
+                    fetch(`/cursos/${cursoId}`, {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById(`fila-${cursoId}`).remove();
+                            alert("Curso eliminado correctamente.");
+                        } else {
+                            alert("Error al eliminar el curso.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("Error al eliminar el curso.");
+                    });
+                }
+            });
         });
     });
 </script>

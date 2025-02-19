@@ -12,13 +12,18 @@ class CourseContentController extends Controller
     /**
      * Muestra los contenidos de un curso en una vista Blade.
      */
-    public function showContents($courseId)
+    public function showContents(Request $request, $courseId)
     {
         $course = Course::findOrFail($courseId);
-        $courseContents = CourseContent::where('course_id', $courseId)->get();
-
-        return view('admin.cursos.cursosdetalles', compact('course', 'courseContents')); // Pasando 'courseContents' en lugar de 'contents'
+        $courseContents = CourseContent::where('course_id', $courseId)->paginate(9);
+    
+        if ($request->ajax()) {
+            return view('admin.cursos.course_contents_partial', compact('courseContents'))->render();
+        }
+    
+        return view('admin.cursos.cursosdetalles', compact('course', 'courseContents'));
     }
+    
 
 
     /**
