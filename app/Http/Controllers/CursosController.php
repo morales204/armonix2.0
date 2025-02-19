@@ -39,7 +39,7 @@ class CursosController extends Controller
             $cursosQuery->where('u.id_usuario',auth()->user()->id_usuario);
         }
 
-        $cursos=$cursosQuery->paginate(6);
+        $cursos=$cursosQuery->paginate(3);
         if ($request->ajax()) {
             return response()->json([
                 'cursos' => $cursos
