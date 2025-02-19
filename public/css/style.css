@@ -73,6 +73,73 @@
     color: #000000;
 }
 
+h5:hover{
+  color: #656060;
+  cursor: pointer;
+}
+
+.btn-vermas {
+  border-radius: 10px;
+  font-family: 'Montserrat';
+  line-height: 1.9;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.cta {
+  font-family: 'Montserrat';
+  position: relative;
+  margin: auto;
+  padding: 19px 22px;
+  transition: all 0.2s ease;
+}
+.cta:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  border-radius: 28px;
+  background: #9da0a6;
+  width: 56px;
+  height: 56px;
+  transition: all 0.3s ease;
+}
+.cta span {
+  position: relative;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.cta svg {
+  position: relative;
+  top: 0;
+  margin-left: 10px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #111;
+  stroke-width: 2;
+  transform: translateX(-5px);
+  transition: all 0.3s ease;
+}
+.cta:hover:before {
+  width: 100%;
+  background: #9da0a6;
+}
+.cta:hover svg {
+  transform: translateX(0);
+}
+.cta:active {
+  transform: scale(0.96);
+}
+
 #menu-close-btn {
     position: absolute;
     top: 20px;
@@ -284,11 +351,17 @@ th {
   
  /*  Circulos del icono */
   .experiencia i {
-    font-size: 2.5rem;
-    color: rgb(18, 19, 18);
-    background-color: #88d6ba;
-    padding: 8px 19px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    margin: 10px;
+    border: 2px solid black;
     border-radius: 50%;
+    transition: all 0.2sease-in;
+    font-size: 25px;
   }
   
   .experiencia-titulo {

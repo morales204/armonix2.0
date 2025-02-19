@@ -88,6 +88,8 @@
                 aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
                 aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+                aria-label="Slide 4"></button>
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -102,8 +104,17 @@
                 <div class="carousel-caption">
                     <h5>Herramientas</h5>
                     <p>Una gran variedad de herramientas en un solo lugar</p>
+                    <br>
+                    <a href="{{ route('metronomo-p.index') }}" class="cta"> 
+                    <span>Metrónomo</span>
+                    <svg width="13px" height="10px" viewBox="0 0 13 10">
+                        <path d="M1,5 L11,5"></path>
+                        <polyline points="8 1 12 5 8 9"></polyline>
+                    </svg>
+                    </a>
                 </div>
             </div>
+
             <div class="carousel-item">
                 <img src="{{ asset('img/mus2.jpg') }}" class="d-block w-100" alt="...">
                 <div class="carousel-caption">
@@ -111,6 +122,23 @@
                     <p></p>
                 </div>
             </div>
+
+            <div class="carousel-item">
+                <img src="{{ asset('img/pulso.avif') }}" class="d-block w-100" alt="...">
+                <div class="carousel-caption">
+                    <h5>ARMONIX</h5>
+                    <p>En esta app encontraras un apartado para agregar tus notas o apuntes</p>
+                    <br>
+                    <a href="{{ route('notas-premium.index') }}" class="cta">
+                    <span>Ver notas</span>
+                    <svg width="13px" height="10px" viewBox="0 0 13 10">
+                        <path d="M1,5 L11,5"></path>
+                        <polyline points="8 1 12 5 8 9"></polyline>
+                    </svg>
+                    </a>
+                </div>
+            </div>
+
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
             data-bs-slide="prev">
@@ -130,8 +158,8 @@
         <div class="container text-center">
             <div class="row">
                 <!-- Herramientas Musicales -->
-                <div class="columna col-12 col-md-4">
-                    <i class="bi bi-music-note-list"></i>
+                <div class="columna col-12 col-md-4" id="herra">
+                    <i class="bi bi-music-note-list" ></i>
                     <p class="experiencia-titulo">Herramientas</p>
                     <p>Explora nuestra colección de herramientas para músicos, desde software de edición hasta metrónomos y afinadores en línea.</p>
                     <div class="badges-contenedor">
@@ -143,7 +171,7 @@
                 <!-- Renta de Equipo e Instrumentos -->
                 <div class="columna col-12 col-md-4">
                     <i class="bi bi-speaker"></i>
-                    <p class="experiencia-titulo">Renta de Equipo</p>
+                    <p class="experiencia-titulo" id="equipo">Renta de Equipo</p>
                     <p>Ofrecemos servicio de renta de instrumentos musicales y equipo de sonido para tus presentaciones y eventos.</p>
                     <div class="badges-contenedor">
                         <span class="badge">Instrumentos</span>

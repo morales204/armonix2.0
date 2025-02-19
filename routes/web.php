@@ -188,4 +188,5 @@ Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth'
 Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
 
 Route::resource('notas-premium', NotasPremiumController::class);
+Route::resource('metronomo-p', MetronomoPremiumController::class);
 
