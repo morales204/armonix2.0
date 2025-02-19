@@ -27,7 +27,7 @@ class CursosController extends Controller
 
             $cursosQuery = DB::table('cursos as c')
             ->join('usuarios as u', 'c.usuarios_id_usuario','=','u.id_usuario')
-            ->select('c.id_curso','c.nombre','c.descripcion','c.fecha_inicio','c.fecha_fin','u.id_usuario')
+            ->select('c.id_curso','c.nombre','c.descripcion','c.fecha_inicio','c.fecha_fin','c.duracion','u.id_usuario')
             ->orderBy('c.nombre','desc');
 
             if (!empty($tipo)&& !empty($buscar)){
@@ -39,7 +39,7 @@ class CursosController extends Controller
             $cursosQuery->where('u.id_usuario',auth()->user()->id_usuario);
         }
 
-        $cursos=$cursosQuery->paginate(10);
+        $cursos=$cursosQuery->paginate(6);
         if ($request->ajax()) {
             return response()->json([
                 'cursos' => $cursos

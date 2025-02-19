@@ -17,6 +17,11 @@ class NotasPremiumController extends Controller
     public function index(Request $request): View
     {
         $notasPremium = NotasPremium::paginate(5);
+        if ($request->ajax()) {
+            return response()->json([
+                'notasPremium' => $notasPremium
+            ]);
+        }
         return view('notas-premium.index', compact('notasPremium'));
     }
 
