@@ -575,7 +575,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('miscursos.index') }}"
+                                    <a href="#" onclick="loadMisCursos(event)"
                                         class="nav-link {{ request()->is('cursos/miscursos') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-user-graduate"></i>
                                         <p>Mis cursos</p>
@@ -583,7 +583,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('cursoslist.index') }}"
+                                    <a href="#" onclick="loadCursos(event)"
                                         class="nav-link {{ request()->is('cursos/cursoslist') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-book-open"></i>
                                         <p>Ver cursos</p>
@@ -602,7 +602,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('metronomoP.index') }}"
+                                    <a href="#" onclick="loadMetronomoPremium(event)"
                                         class="nav-link {{ request()->is('userP/herramientas/metronomoP') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-headphones"></i>
                                         <p>Metrónomo</p>
@@ -663,12 +663,12 @@
                         <div class="container-fluid">
                             <div class="row mb-2">
                                 <div class="col-sm-6">
-                                    <h1 class="m-0">Mis cursos</h1>
+                                    <h1 class="m-0" id="titulo"></h1>
                                 </div><!-- /.col -->
                                 <div class="col-sm-6">
-                                    <ol class="breadcrumb float-sm-right">
-                                        <li class="breadcrumb-item"><a href="{{ url('/home') }}">Inicio</a></li>
-                                        <li class="breadcrumb-item active">Mis cursos</li>
+                                    <ol class="breadcrumb float-sm-right" id="breadcrum">
+                                        <!-- <li class="breadcrumb-item"><a href="">Inicio</a></li>
+                                        <li class="breadcrumb-item active">Mis cursos</li> -->
                                     </ol>
                                 </div><!-- /.col -->
                             </div><!-- /.row -->
@@ -692,6 +692,9 @@
                                         {{-- DETALLES DEL CARD INICIAL --}}
                                         <div class="row d-flex justify-content-center" id="cursos-container">
                                             {{--Aqui se incrustan los cards mediante JS--}}
+                                        </div>
+                                        <div id="cargando">
+                                                    Cargando
                                         </div>
                                     </div>
 
@@ -826,10 +829,12 @@
     });
 });
 
+var urlMenu = '';
 function loadMisCursos(event) {
     event.preventDefault(); // Evita la recarga de la página
     
     let url = "{{ route('miscursos.index') }}";
+
 
     $.ajax({
         url: url,
@@ -853,6 +858,18 @@ function loadMisCursos(event) {
                         <button class="btn btn-outline-success" onclick="searchMisCursos()" id="buscar">Buscar</button>
             `
             cardHeader.append(buscador);
+
+            let titulo = $('#titulo');
+            titulo.html("");
+            titulo.append("Mis cursos")
+
+            $('#breadcrum').html("");
+            $('#breadcrum').append(`
+                 <li class="breadcrumb-item"><a href="#" onclick="loadMisCursos(event)">Inicio</a></li>
+                <li class="breadcrumb-item active">Mis cursos</li>
+            `)
+            
+
             let cursosContainer = $("#cursos-container");
                 cursosContainer.html(""); // Limpiar resultados previos
 
@@ -884,6 +901,7 @@ function loadMisCursos(event) {
                 } else {
                     cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
                 }
+                urlMenu = 'miscursos'
         },
         error: function () {
             alert("Error al cargar la página.");
@@ -893,7 +911,7 @@ function loadMisCursos(event) {
 
 
 function loadCursos(event) {
-    event.preventDefault(); // Evita la recarga de la página
+    event.preventDefault();
     
     let url = "{{ route('cursoslist.index') }}";
 
@@ -908,6 +926,17 @@ function loadCursos(event) {
             let cardHeader = $('#card-header')
             cardHeader.html("");
 
+
+            let titulo = $("#titulo");
+            titulo.html("");
+            titulo.append("Ver Cursos")
+            
+            let breadcrum = $("#breadcrum");
+            breadcrum.html("");
+            breadcrum.append(`
+                <li class="breadcrumb-item"><a href="#" onclick="loadCursos(event)">Inicio</a></li>
+                <li class="breadcrumb-item active">Ver cursos</li>
+            `)
             let buscador =`
                         <select class="form-select" aria-label="Default select example" name="tipo" id="tipo">
                                 <option value="nombre">Nombre</option>
@@ -939,7 +968,7 @@ function loadCursos(event) {
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="text-gray-300">
-                                                    <button class="button_slide slide_down" onclick="verDetalles(${curso.id})">
+                                                    <button class="button_slide slide_down" onclick="verDetallesCursos(${curso.id})">
                                                         Ver más detalles
                                                     </button>
 
@@ -955,6 +984,7 @@ function loadCursos(event) {
                 } else {
                     cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
                 }
+                 urlMenu = 'cursos'
         },
         error: function () {
             alert("Error al cargar la página.");
@@ -962,6 +992,89 @@ function loadCursos(event) {
     });
 }
     
+
+function notasPremium(event){
+    event.preventDefault();
+
+    let url = "{{ route('notas-premium.index') }}"
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "JSON",
+        beforeSend: function () {
+            $("#cursos-container").html('<div class="text-center"><i class="fas fa-spinner fa-spin fa-3x"></i><p>Cargando...</p></div>');
+        },
+        success: function (res) {
+            let cardHeader = $('#card-header')
+            cardHeader.html("");
+
+
+            let titulo = $("#titulo");
+            titulo.html("");
+            titulo.append("Ver Cursos")
+            
+            let breadcrum = $("#breadcrum");
+            breadcrum.html("");
+            breadcrum.append(`
+                <li class="breadcrumb-item"><a href="#" onclick="loadCursos(event)">Inicio</a></li>
+                <li class="breadcrumb-item active">Ver cursos</li>
+            `)
+            let buscador =`
+                        <select class="form-select" aria-label="Default select example" name="tipo" id="tipo">
+                                <option value="nombre">Nombre</option>
+                                <option value="instrumento">Instrumento</option>
+                                <option value="descripcion">Descripcion</option>
+                            </select>
+
+                            <input type="text" name="buscar" id="buscar">
+                            <button class="btn btn-outline-success" onclick="searchCursos()" id="buscar">Buscar</button>
+            `
+            cardHeader.append(buscador);
+            let cursosContainer = $("#cursos-container");
+                cursosContainer.html(""); // Limpiar resultados previos
+
+                if(res.cursos.data.length > 0){
+                    res.cursos.data.forEach(function(curso){
+                        let cursoHtml = `
+                            <div class="col-xl-10 col-md-12 mb-4">
+                                    <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        ${curso.nombre}</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                    ${curso.descripcion}</div>
+                                                        <span class="badge badge-success">${curso.instrumento}</span>
+                                        
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="text-gray-300">
+                                                    <button class="button_slide slide_down" onclick="verDetallesCursos(${curso.id})">
+                                                        Ver más detalles
+                                                    </button>
+
+                                                    </i>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        cursosContainer.append(cursoHtml);
+                    });
+                } else {
+                    cursosContainer.html("<p class='text-center'>No se encontraron cursos.</p>");
+                }
+                 urlMenu = 'cursos'
+        },
+        error: function () {
+            alert("Error al cargar la página.");
+            console.log(error)
+        }
+    });
+}
 
     window.onpopstate = function () {
         $.ajax({
@@ -1001,7 +1114,7 @@ function searchMisCursos(){
                                         <p class="text-muted mb-1">Fecha: ${curso.nombre}</p>
                                         <p class="text-muted">Horario: ${curso.fecha_fin}</p>
                                         <div class="text-center">
-                                            <button class="button_slide slide_down" onclick="verDetalles( ${curso.id_curso })">
+                                            <button class="button_slide slide_down" onclick="verDetallesMisCursos( ${curso.id_curso })">
                                                         Ver más detalles
                                                     </button>
                                         </div>
@@ -1048,7 +1161,7 @@ function searchCursos (){
                                                 </div>
                                                 <div class="col-auto">
                                                     <i class="text-gray-300">
-                                                    <button class="button_slide slide_down" onclick="verDetalles(${curso.id})">
+                                                    <button class="button_slide slide_down" onclick="verDetallesCursos(${curso.id})">
                                                         Ver más detalles
                                                     </button>
 
@@ -1068,7 +1181,7 @@ function searchCursos (){
         });
     }
     
-    function verDetallesMisCursos(id) {
+function verDetallesMisCursos(id) {
     fetch(`/cursos/miscursos/${id}`)
         .then(response => response.json())
         .then(data => {
@@ -1117,21 +1230,213 @@ function searchCursos (){
         .catch(error => console.error("Error al obtener detalles:", error));
 }
 
-function loadMetronomo(event) {
-    event.preventDefault(); // Previene la recarga de la página
+function verDetallesCursos(id) {
+    fetch(`/cursos/cursoslist/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Crear el HTML del modal dinámicamente
+                let modalHtml = `
+                        <div class="modal fade" id="cursoModal" tabindex="-1" aria-labelledby="cursoModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="cursoModalLabel">Detalles del Curso</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Nombre:</strong> ${data.curso.nombre}</span></p>
+                                        <p><strong>Descripción:</strong> ${data.curso.descripcion}</span></p>
+                                        <p><strong>Instrumento:</strong> ${data.curso.instrumento}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                `;
 
-    // Realiza la petición AJAX
+                // Eliminar cualquier modal previo para evitar duplicados
+                let existingModal = document.getElementById('cursoModal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+
+                // Insertar el modal en el body
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+                // Mostrar el modal
+                $('#cursoModal').modal('show');
+
+            } else {
+                alert("No se encontraron detalles del curso.");
+            }
+        })
+        .catch(error => console.error("Error al obtener detalles:", error));
+}
+
+function loadMetronomo(event) {
+    event.preventDefault();
+
     $.ajax({
-        url: '/herramientas/metronomo', // Asegúrate de que la ruta esté bien definida
+        url: '/herramientas/metronomo',
         method: 'GET',
         success: function(response) {
-            $('#cursos-container').html(response); // Inyecta la respuesta en el contenedor
+            $('#cursos-container').html(response);
+
+            $('#card-header').html("");
+            let titulo = $('#titulo');
+            titulo.html("");
+            titulo.append("Metrónomo")
+
+            $('#breadcrum').html("");
+            $('#breadcrum').append(`
+                 <li class="breadcrumb-item"><a href="#" onclick="loadMisCursos(event)">Inicio</a></li>
+                <li class="breadcrumb-item active">Metrónomo</li>
+            `)
         },
         error: function() {
             alert('Hubo un error al cargar el metrónomo');
         }
     });
 }
+
+function loadMetronomoPremium(event) {
+    event.preventDefault(); 
+
+    $.ajax({
+        url: 'userP/herramientas/metronomoP',
+        method: 'GET',
+        success: function(response) {
+            $('#cursos-container').html(response); 
+            $('#card-header').html("");
+            let titulo = $('#titulo');
+            titulo.html("");
+            titulo.append("Metrónomo")
+
+            $('#breadcrum').html("");
+            $('#breadcrum').append(`
+                 <li class="breadcrumb-item"><a href="#" onclick="loadMisCursos(event)">Inicio</a></li>
+                <li class="breadcrumb-item active">Metrónomo</li>
+            `)
+            
+        },
+        error: function() {
+            alert('Hubo un error al cargar el metrónomo');
+        }
+    });
+}
+
+
+
+
+const cursosUrl = "{{ route('miscursos.index') }}";
+let block = false;
+let page = 1;
+
+
+
+window.addEventListener("scroll", function () {
+    const scrollHeight = window.scrollY;
+    const viewportHeight = document.documentElement.clientHeight;
+    const moreScroll = document.getElementById('cursos-container').offsetTop;
+    const currentScroll = scrollHeight + viewportHeight;
+
+    if ((currentScroll >= moreScroll) && block === false) {
+        block = true;
+        setTimeout(() => {
+            if (urlMenu == 'miscursos'){
+                loadMCursos();
+            }
+
+            if (urlMenu == 'cursos'){
+                console.log('cursos')
+            }
+            
+            block = false;
+        }, 2000);
+    }
+});
+
+async function loadMCursos() {
+    try {
+        const data = await requestData(page);
+
+        if (data.cursos && data.cursos.data.length > 0) {
+            renderCursos(data.cursos.data);
+            page++; // Aumentamos la página para la próxima carga
+        } else {
+            console.warn('No hay más cursos.');
+        }
+    } catch (error) {
+        console.error("Error al cargar los cursos:", error);
+    }
+}
+
+async function requestData(n) {
+    const url = `${cursosUrl}?page=${n}`;
+
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                resolve(data);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error en la petición AJAX:", error);
+                reject(error);
+            }
+        });
+    });
+}
+
+function renderCursos(data) {
+    let container = document.querySelector('#cursos-container');
+    
+    data.forEach(curso => {
+        let card = document.createElement('div');
+        card.classList.add('col-lg-3', 'col-md-6', 'col-sm-12', 'ml-2','mb-4', 'curso-box');
+        card.innerHTML = `
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-center">
+                        <h5 class="font-weight-bold">${curso.nombre}</h5>
+                        <span class="badge">${curso.descripcion}</span>
+                    </div>
+                    <hr>
+                    <p class="text-muted mb-1">Fecha: ${curso.fecha_inicio}</p>
+                    <p class="text-muted">Horario: ${curso.fecha_fin}</p>
+                    <div class="text-center">
+                        <button class="button_slide slide_down" onclick="verDetallesMisCursos(${curso.id_curso})">
+                            Ver más detalles
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+
+}
+
+
+// Animación al aparecer en scroll
+function checkboxes() {
+    const triggerBottom = window.innerHeight / 5 * 4;
+    document.querySelectorAll('.curso-box').forEach(box => {
+        const boxTop = box.getBoundingClientRect().top;
+        if (boxTop < triggerBottom) {
+            box.classList.add('show');
+        } else {
+            box.classList.remove('show');
+        }
+    });
+}
+
+// Agregamos el evento de scroll para la animación
+window.addEventListener('scroll', checkboxes);
 
 
     </script>
