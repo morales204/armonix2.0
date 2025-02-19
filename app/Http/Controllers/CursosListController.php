@@ -28,7 +28,7 @@ class CursosListController extends Controller
             }
         }
 
-        $cursos=$cursosQuery->paginate(6);
+        $cursos=$cursosQuery->paginate(3);
         if ($request->ajax()) {
             return response()->json([
                 'cursos' => $cursos
