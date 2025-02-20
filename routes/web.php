@@ -193,3 +193,4 @@ Route::get('/home', [InstrumentController::class, 'index'])->name('home');
 
 // Ruta para la vista viento donde se muestran los instrumentos por tipo
 Route::get('/instrumentos/viento/{id}', [InstrumentController::class, 'show'])->name('instrumentos.viento');
+
