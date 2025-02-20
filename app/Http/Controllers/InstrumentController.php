@@ -17,6 +17,7 @@ class InstrumentController extends Controller
         return view('home', compact('instrumentTypes'));
 
     }
+    
     public function show($id)
     {
 

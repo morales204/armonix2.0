@@ -182,13 +182,13 @@
         <!-- /.content-wrapper -->
 
         <!-- Footer -->
-        <footer class="main-footer">
+     </div>
+    <footer class="main-footer">
             <div class="float-right d-none d-sm-block">
                 <b>Versión</b> 3.0.0
             </div>
             <strong>Copyright &copy; 2022 <a href="https://www.example.com">Armonix</a>.</strong> Todos los derechos reservados.
         </footer>
-    </div>
     <!-- ./wrapper -->
 
     <!-- Scripts -->

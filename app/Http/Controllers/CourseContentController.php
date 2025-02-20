@@ -18,7 +18,7 @@ class CourseContentController extends Controller
         $courseContents = CourseContent::where('course_id', $courseId)->paginate(9);
     
         if ($request->ajax()) {
-            return view('admin.cursos.course_contents_partial', compact('courseContents'))->render();
+            return view('admin.cursos.course_contents', compact('course','courseContents'));
         }
     
         return view('admin.cursos.cursosdetalles', compact('course', 'courseContents'));
