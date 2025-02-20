@@ -19,43 +19,45 @@ class SearchController extends Controller
             return response()->json(['error' => 'Escribe algo para buscar.'], 400);
         }
 
-        // Lógica de búsqueda
-        $instruments = Instrument::where('name', 'LIKE', "%{$query}%");
-        $instrumentTypes = InstrumentType::where('name', 'LIKE', "%{$query}%");
-        $courses = Course::where('name', 'LIKE', "%{$query}%")
-            ->orWhere('description', 'LIKE', "%{$query}%");
+        // Búsqueda de instrumentos
+        $instruments = Instrument::where('name', 'LIKE', "%{$query}%")
+            ->when($instrumentTypeId, function ($q) use ($instrumentTypeId) {
+                $q->where('instrument_type_id', $instrumentTypeId);
+            })
+            ->get();
 
-        if ($instrumentTypeId) {
-            $instruments = $instruments->where('instrument_type_id', $instrumentTypeId);
-            $instrumentIds = Instrument::where('instrument_type_id', $instrumentTypeId)->pluck('id')->toArray();
-            $courses = $courses->whereHas('instrument', function ($q) use ($instrumentIds) {
-                $q->whereIn('id', $instrumentIds);
-            });
-            $instrumentTypes = $instrumentTypes->where('id', $instrumentTypeId);
-        }
+        // Búsqueda de tipos de instrumentos
+        $instrumentTypes = InstrumentType::where('name', 'LIKE', "%{$query}%")
+            ->when($instrumentTypeId, function ($q) use ($instrumentTypeId) {
+                $q->where('id', $instrumentTypeId);
+            })
+            ->get();
 
-        // Obtener los resultados
-        $instruments = $instruments->get();
-        $instrumentTypes = $instrumentTypes->get();
-        $courses = $courses->get();
+        // Obtener IDs de instrumentos si se filtró por tipo
+        $instrumentIds = $instrumentTypeId ? Instrument::where('instrument_type_id', $instrumentTypeId)->pluck('id') : [];
 
-        // Estructura de la respuesta
-        $response = [
-            'instruments' => $instruments,
-            'instrumentTypes' => $instrumentTypes,
-            'courses' => $courses,
-        ];
+        // Búsqueda de cursos
+        $courses = Course::where(function ($q) use ($query) {
+                $q->where('name', 'LIKE', "%{$query}%")
+                  ->orWhere('description', 'LIKE', "%{$query}%");
+            })
+            ->when($instrumentTypeId, function ($q) use ($instrumentIds) {
+                $q->whereHas('instrument', function ($subQuery) use ($instrumentIds) {
+                    $subQuery->whereIn('id', $instrumentIds);
+                });
+            })
+            ->get();
 
-        // Respuesta JSON
+        // Respuesta JSON para AJAX
         if ($request->ajax()) {
-            return response()->json($response);
+            return response()->json([
+                'instruments' => $instruments,
+                'instrumentTypes' => $instrumentTypes,
+                'courses' => $courses,
+            ]);
         }
 
-        return view('admin.instrumentos.cursos', [
-            'query' => $query,
-            'instruments' => $instruments,
-            'instrumentTypes' => $instrumentTypes,
-            'courses' => $courses,
-        ]);
+        // Retorno de vista
+        return view('admin.instrumentos.cursos', compact('query', 'instruments', 'instrumentTypes', 'courses'));
     }
 }
