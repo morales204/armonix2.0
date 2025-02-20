@@ -37,7 +37,7 @@
                             <div class="card-body">
                                 <h5 class="card-title"><strong>{{ $course->name }}</strong></h5>
                                 <p class="card-text">{{ Str::limit($course->description, 80) }}</p>
-                                <a href="{{ route('course.contents', ['courseId' => $course->id]) }}" class="btn btn-info">Ir al curso</a>
+                                <button class="btn btn-info course-link" data-url="{{ route('course.contents', ['courseId' => $course->id]) }}">Ir al curso</button>
                             </div>
                         </div>
                     </div>
@@ -56,5 +56,32 @@
         @endif
     @endif
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".course-content").forEach(function(button) {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            let url = this.getAttribute("data-url");
+            console.log("Clic en botón, URL:", url); // Depuración
+
+            fetch(url, { method: "GET" })
+                .then(response => {
+                    console.log("Respuesta recibida", response); // Depuración
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log("Datos recibidos", data); // Depuración
+                    window.location.href = url;
+                })
+                .catch(error => console.error("Error al cargar el curso:", error));
+        });
+    });
+});
+
+</script>
 
 @endsection

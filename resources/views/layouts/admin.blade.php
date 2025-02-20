@@ -202,10 +202,20 @@
                 $.ajax({
                     url: url,
                     method: 'GET',
+                    dataType: 'json', // Asegurar que se espera JSON
                     success: function(data) {
-                        $('#course-content').html(data);
+                        if (data.html) {
+                            $('#course-content').html(data.html); // Insertar la vista renderizada
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Aviso',
+                                text: 'No se recibió contenido para mostrar.'
+                            });
+                        }
                     },
-                    error: function() {
+                    error: function(xhr, status, error) {
+                        console.error("Error AJAX:", status, error, xhr.responseText);
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
@@ -216,51 +226,49 @@
             });
         });
 
+
         $(document).ready(function() {
-    // Función para realizar la búsqueda con la URL actual
-    function fetchResults(queryString) {
-        $.ajax({
-            url: '{{ route("search.global") }}',
-            method: 'GET',
-            data: queryString,
-            success: function(response) {
-                $('#result-container').html(response);
-                console.log('Respuesta JSON:', response);
-            },
-            error: function(xhr) {
-                console.error(xhr);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'No se pudo realizar la búsqueda.'
+            function fetchResults(queryString) {
+                $.ajax({
+                    url: '{{ route("search.global") }}',
+                    method: 'GET',
+                    data: queryString,
+                    success: function(response) {
+                        $('#result-container').html(response);
+                        console.log('Respuesta JSON:', response);
+                    },
+                    error: function(xhr) {
+                        console.error(xhr);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'No se pudo realizar la búsqueda.'
+                        });
+                    }
                 });
             }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.toString()) {
+                fetchResults(urlParams.toString());
+            }
+
+            $('#search-form').on('submit', function(e) {
+                e.preventDefault();
+
+                // Obtener los datos del formulario
+                const formData = $(this).serialize();
+                const newUrl = '{{ route("search.global") }}?' + formData;
+
+                // Actualizar la URL
+                window.history.pushState({
+                    path: newUrl
+                }, '', newUrl);
+
+                // Recargar la página para que la petición quede registrada en DevTools
+                location.reload();
+            });
         });
-    }
-
-    // Verificar si hay parámetros en la URL y hacer la búsqueda al cargar la página
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.toString()) {
-        fetchResults(urlParams.toString());
-    }
-
-    $('#search-form').on('submit', function(e) {
-        e.preventDefault();
-
-        // Obtener los datos del formulario
-        const formData = $(this).serialize();
-        const newUrl = '{{ route("search.global") }}?' + formData;
-
-        // Actualizar la URL
-        window.history.pushState({ path: newUrl }, '', newUrl);
-
-        // Recargar la página para que la petición quede registrada en DevTools
-        location.reload();
-    });
-});
-
-
-
     </script>
 </body>
 

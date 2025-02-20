@@ -14,7 +14,6 @@ class SearchController extends Controller
         $query = trim($request->get('search', ''));
         $instrumentTypeId = $request->get('instrument_type');
 
-        // Validar la consulta
         if (!$query) {
             return response()->json(['error' => 'Escribe algo para buscar.'], 400);
         }
@@ -33,7 +32,6 @@ class SearchController extends Controller
             })
             ->get();
 
-        // Obtener IDs de instrumentos si se filtró por tipo
         $instrumentIds = $instrumentTypeId ? Instrument::where('instrument_type_id', $instrumentTypeId)->pluck('id') : [];
 
         // Búsqueda de cursos
@@ -57,7 +55,6 @@ class SearchController extends Controller
             ]);
         }
 
-        // Retorno de vista
         return view('admin.instrumentos.cursos', compact('query', 'instruments', 'instrumentTypes', 'courses'));
     }
 }

@@ -99,7 +99,7 @@
                     fetch(`/cursos/${cursoId}`, {
                         method: "DELETE",
                         headers: {
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",  // Asegúrate de que el token CSRF sea correcto
                             "Content-Type": "application/json"
                         }
                     })
@@ -107,9 +107,9 @@
                     .then(data => {
                         if (data.success) {
                             document.getElementById(`fila-${cursoId}`).remove();
-                            alert("Curso eliminado correctamente.");
+                            alert(data.message);  // Muestra el mensaje de éxito
                         } else {
-                            alert("Error al eliminar el curso.");
+                            alert(data.message);  // Muestra el mensaje de error
                         }
                     })
                     .catch(error => {

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-  <h3>Instrumentos de tipo: {{ $instrumentType->name }}</h3>
+  <h3>{{ $instrumentType->name }}</h3>
   <div class="row">
     @foreach ($instruments as $instrument)
     <div class="col-md-4">
