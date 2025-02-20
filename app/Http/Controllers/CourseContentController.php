@@ -10,17 +10,35 @@ use App\Models\Instrument;
 class CourseContentController extends Controller
 {
     public function showContents($courseId)
-{
-    $course = Course::findOrFail($courseId);
-    $courseContents = CourseContent::where('course_id', $courseId)->get();
+    {
+        $course = Course::findOrFail($courseId);
+        $courseContents = CourseContent::where('course_id', $courseId)->get();
 
-    // Comprobar si la solicitud es AJAX
-    if (request()->ajax()) {
-        return view('admin.cursos.course_contents', compact('course', 'courseContents'));
+        if (request()->ajax()) {
+            $html = view('admin.cursos.course_contents', compact('course', 'courseContents'))->render();
+
+            return response()->json([
+                'html' => $html,
+                'data' => [
+                    'course' => [
+                        'name' => $course->name,
+                        'description' => $course->description,
+                    ],
+                    'courseContents' => $courseContents->map(function ($content) {
+                        return [
+                            'title' => $content->title,
+                            'content' => $content->content,
+                        ];
+                    })
+                ]
+            ]);
+        }
+
+        return view('admin.cursos.cursosdetalles', compact('course', 'courseContents'));
     }
 
-    return view('admin.cursos.cursosdetalles', compact('course', 'courseContents'));
-}
+
+
 
     public function index($courseId)
     {
@@ -53,6 +71,7 @@ class CourseContentController extends Controller
         if (!$curso) {
             return redirect()->route('admin.cursos.cursoslist')->with('error', 'Curso no encontrado.');
         }
+
 
         $instruments = Instrument::all();
 
