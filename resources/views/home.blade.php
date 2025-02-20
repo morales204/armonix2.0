@@ -24,9 +24,10 @@
     transform: rotate(15deg);
     color: #0056b3;
   }
+  
 </style>
 
-<div class="container mt-4">
+<div class="container">
   <!-- Carrusel -->
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -37,7 +38,6 @@
     <div class="carousel-inner">
         @foreach ($instrumentTypes as $key => $instrument)
             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                <!-- Redirige a la vista 'viento' pasando el id del tipo de instrumento -->
                 <a href="{{ route('instrumentos.viento', ['id' => $instrument->id]) }}">
                     <img src="{{ asset($instrument->image) }}" class="d-block w-100 img-fluid" style="max-height: 300px; object-fit: cover;" alt="{{ $instrument->name }}">
                 </a>

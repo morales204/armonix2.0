@@ -1,4 +1,4 @@
-¡@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('content')
 <div class="container mt-4">
@@ -12,9 +12,9 @@
           <h5 class="card-title">{{ $instrument->name }}</h5>
           <p class="card-text">{{ $instrument->description }}</p>
           <a href="{{ route('instrument.courses', ['id' => $instrument->id]) }}"
-                            class="btn btn-primary mt-2">
-                            Ver Cursos
-                        </a>
+            class="btn btn-primary mt-2">
+            Ver Cursos
+          </a>
         </div>
       </div>
     </div>

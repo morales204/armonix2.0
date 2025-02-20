@@ -31,13 +31,11 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\TrompetaController;
 use App\Http\Controllers\TubaController;
 use App\Http\Controllers\XilofonoController;
-use App\Http\Controllers\notasPremium;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotasPremiumController;
 use App\Http\Controllers\UsuariosController;
-use App\Http\Controllers\BusquedaController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\SearchController;
@@ -160,10 +158,9 @@ Route::get('/instrumentos', [InstrumentTypeController::class, 'index'])->name('i
 // Ruta para mostrar los instrumentos de un tipo específico
 Route::get('/instrumentos/{slug}', [InstrumentTypeController::class, 'show'])->name('instrument-types.show');
 
-Route::get('/buscar', [SearchController::class, 'search'])->name('buscar');
-
 
 Route::get('/search', [SearchController::class, 'globalSearch'])->name('search.global');
+
 
 Route::get('/dashboard', [CatalogController::class, 'index'])->name('dashboard');
 

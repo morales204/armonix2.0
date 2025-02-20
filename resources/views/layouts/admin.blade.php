@@ -17,11 +17,8 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
 
-    <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-
-    <!-- jQuery y jQuery UI -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 </head>
@@ -42,17 +39,20 @@
 
             <!-- Buscar -->
             <ul class="navbar-nav ml-auto">
-                <form action="{{ route('search.global') }}" method="GET" class="form-inline">
-                    <input type="text" name="search" placeholder="Buscar..." class="form-control" required>
-                    <select name="instrument_type" class="form-control">
-                        <option value="">Todos los tipos</option>
-                        @foreach($instrumentTypes as $type)
-                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                <form id="search-form" action="{{ route('search.global') }}" method="GET">
+                    <input type="text" name="search" placeholder="Buscar..." required>
+                    <select name="instrument_type">
+                        <option value="">Seleccionar tipo de instrumento</option>
+                        @foreach($instrumentTypes as $instrumentType)
+                        <option value="{{ $instrumentType->id }}">{{ $instrumentType->name }}</option>
                         @endforeach
                     </select>
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <button type="submit">Buscar</button>
                 </form>
+
+
             </ul>
+
 
             <li id="notificaciones-link" class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
@@ -122,7 +122,7 @@
                                         @foreach($instrumentType->instruments as $instrument)
                                         <li class="nav-item has-treeview">
                                             <a href="#" class="nav-link">
-                                                <i class="nav-icon fas fa-music"></i>
+                                                <i class="nav-icon fas fa-chalkboard"></i>
                                                 <p>
                                                     {{ $instrument->name }}
                                                     <i class="right fas fa-angle-left"></i>
@@ -177,17 +177,14 @@
                 @yield('content') <!-- Este es el contenido que se cargará dinámicamente -->
             </div>
         </div>
-        <!-- /.content-wrapper -->
-
-        <!-- Footer -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Versión</b> 3.0.0
-            </div>
-            <strong>Copyright &copy; 2022 <a href="https://www.example.com">Armonix</a>.</strong> Todos los derechos reservados.
-        </footer>
     </div>
-    <!-- ./wrapper -->
+
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+            <b>Versión</b> 3.0.0
+        </div>
+        <strong>Copyright &copy; 2022 <a href="https://www.example.com">Armonix</a>.</strong> Todos los derechos reservados.
+    </footer>
 
     <!-- Scripts -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -199,14 +196,14 @@
     <script>
         $(document).ready(function() {
             $('.course-link').on('click', function(e) {
-                e.preventDefault(); 
-                let url = $(this).data('url'); 
+                e.preventDefault();
+                let url = $(this).data('url');
 
                 $.ajax({
                     url: url,
                     method: 'GET',
                     success: function(data) {
-                        $('#course-content').html(data); 
+                        $('#course-content').html(data);
                     },
                     error: function() {
                         Swal.fire({
@@ -219,7 +216,51 @@
             });
         });
 
-        
+        $(document).ready(function() {
+    // Función para realizar la búsqueda con la URL actual
+    function fetchResults(queryString) {
+        $.ajax({
+            url: '{{ route("search.global") }}',
+            method: 'GET',
+            data: queryString,
+            success: function(response) {
+                $('#result-container').html(response);
+                console.log('Respuesta JSON:', response);
+            },
+            error: function(xhr) {
+                console.error(xhr);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo realizar la búsqueda.'
+                });
+            }
+        });
+    }
+
+    // Verificar si hay parámetros en la URL y hacer la búsqueda al cargar la página
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.toString()) {
+        fetchResults(urlParams.toString());
+    }
+
+    $('#search-form').on('submit', function(e) {
+        e.preventDefault();
+
+        // Obtener los datos del formulario
+        const formData = $(this).serialize();
+        const newUrl = '{{ route("search.global") }}?' + formData;
+
+        // Actualizar la URL
+        window.history.pushState({ path: newUrl }, '', newUrl);
+
+        // Recargar la página para que la petición quede registrada en DevTools
+        location.reload();
+    });
+});
+
+
+
     </script>
 </body>
 
