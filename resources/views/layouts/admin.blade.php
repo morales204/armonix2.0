@@ -38,6 +38,7 @@
             </ul>
 
             <!-- Buscar -->
+            
             <ul class="navbar-nav ml-auto">
                 <form id="search-form" action="{{ route('search.global') }}" method="GET">
                     <input type="text" name="search" placeholder="Buscar..." required>
@@ -52,6 +53,7 @@
 
 
             </ul>
+            
 
 
             <li id="notificaciones-link" class="nav-item dropdown">
@@ -172,7 +174,7 @@
         </aside>
 
         <!-- Contenido -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" id="cursos">
             <div id="course-content">
                 @yield('content') <!-- Este es el contenido que se cargará dinámicamente -->
             </div>
@@ -194,74 +196,38 @@
     <script src="{{ asset('dist/js/bootstrap-select.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            $('.course-link').on('click', function(e) {
-                e.preventDefault();
-                let url = $(this).data('url');
+    let page = 1; 
+    let loading = false;
 
-                $.ajax({
-                    url: url,
-                    method: 'GET',
-                    success: function(data) {
-                        $('#course-content').html(data);
-                    },
-                    error: function() {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'No se pudo cargar el contenido del curso.'
-                        });
-                    }
-                });
+    window.onscroll = function () {
+        if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 100 && !loading) {
+            loading = true;
+            loadMoreCourses();
+        }
+    };
+
+    function loadMoreCourses() {
+        page++; 
+
+        fetch(`/cursos/pagination?page=${page}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al cargar los cursos');
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('cursos').innerHTML += data; 
+                loading = false;
+            })
+            .catch(error => {
+                console.error('Error cargando más cursos:', error);
+                loading = false;
             });
-        });
-
-        $(document).ready(function() {
-    // Función para realizar la búsqueda con la URL actual
-    function fetchResults(queryString) {
-        $.ajax({
-            url: '{{ route("search.global") }}',
-            method: 'GET',
-            data: queryString,
-            success: function(response) {
-                $('#result-container').html(response);
-                console.log('Respuesta JSON:', response);
-            },
-            error: function(xhr) {
-                console.error(xhr);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'No se pudo realizar la búsqueda.'
-                });
-            }
-        });
     }
-
-    // Verificar si hay parámetros en la URL y hacer la búsqueda al cargar la página
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.toString()) {
-        fetchResults(urlParams.toString());
-    }
-
-    $('#search-form').on('submit', function(e) {
-        e.preventDefault();
-
-        // Obtener los datos del formulario
-        const formData = $(this).serialize();
-        const newUrl = '{{ route("search.global") }}?' + formData;
-
-        // Actualizar la URL
-        window.history.pushState({ path: newUrl }, '', newUrl);
-
-        // Recargar la página para que la petición quede registrada en DevTools
-        location.reload();
-    });
-});
+</script>
 
 
-
-    </script>
 </body>
 
 </html>
