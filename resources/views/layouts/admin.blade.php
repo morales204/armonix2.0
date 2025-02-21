@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ARMONIX | Dashboard</title>
 
+    <!-- Enlaces de estilos -->
+     
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{{ asset('generalStyles.css') }}">
@@ -17,8 +19,11 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
 
+    <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
 
+    <!-- jQuery y jQuery UI -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 </head>
@@ -38,23 +43,18 @@
             </ul>
 
             <!-- Buscar -->
-            
             <ul class="navbar-nav ml-auto">
-                <form id="search-form" action="{{ route('search.global') }}" method="GET">
-                    <input type="text" name="search" placeholder="Buscar..." required>
-                    <select name="instrument_type">
-                        <option value="">Seleccionar tipo de instrumento</option>
-                        @foreach($instrumentTypes as $instrumentType)
-                        <option value="{{ $instrumentType->id }}">{{ $instrumentType->name }}</option>
+                <form action="{{ route('search.global') }}" method="GET" class="form-inline">
+                    <input type="text" name="search" placeholder="Buscar..." class="form-control" required>
+                    <select name="instrument_type" class="form-control">
+                        <option value="">Todos los tipos</option>
+                        @foreach($instrumentTypes as $type)
+                        <option value="{{ $type->id }}">{{ $type->name }}</option>
                         @endforeach
                     </select>
-                    <button type="submit">Buscar</button>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
                 </form>
-
-
             </ul>
-            
-
 
             <li id="notificaciones-link" class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
@@ -124,7 +124,7 @@
                                         @foreach($instrumentType->instruments as $instrument)
                                         <li class="nav-item has-treeview">
                                             <a href="#" class="nav-link">
-                                                <i class="nav-icon fas fa-chalkboard"></i>
+                                                <i class="nav-icon fas fa-music"></i>
                                                 <p>
                                                     {{ $instrument->name }}
                                                     <i class="right fas fa-angle-left"></i>
@@ -174,19 +174,22 @@
         </aside>
 
         <!-- Contenido -->
-        <div class="content-wrapper" id="cursos">
+        <div class="content-wrapper">
             <div id="course-content">
                 @yield('content') <!-- Este es el contenido que se cargará dinámicamente -->
             </div>
         </div>
-    </div>
+        <!-- /.content-wrapper -->
 
-    <footer class="main-footer">
-        <div class="float-right d-none d-sm-block">
-            <b>Versión</b> 3.0.0
-        </div>
-        <strong>Copyright &copy; 2022 <a href="https://www.example.com">Armonix</a>.</strong> Todos los derechos reservados.
-    </footer>
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Versión</b> 3.0.0
+            </div>
+            <strong>Copyright &copy; 2022 <a href="https://www.example.com">Armonix</a>.</strong> Todos los derechos reservados.
+        </footer>
+    </div>
+    <!-- ./wrapper -->
 
     <!-- Scripts -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -196,38 +199,30 @@
     <script src="{{ asset('dist/js/bootstrap-select.min.js') }}"></script>
 
     <script>
-    let page = 1; 
-    let loading = false;
+        $(document).ready(function () {
+            // Manejar el clic en los enlaces de los cursos
+            $('.course-link').on('click', function (e) {
+                e.preventDefault(); // Prevenir la acción predeterminada del enlace
+                let url = $(this).data('url'); // Obtener la URL del contenido del curso
 
-    window.onscroll = function () {
-        if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 100 && !loading) {
-            loading = true;
-            loadMoreCourses();
-        }
-    };
-
-    function loadMoreCourses() {
-        page++; 
-
-        fetch(`/cursos/pagination?page=${page}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al cargar los cursos');
-                }
-                return response.text();
-            })
-            .then(data => {
-                document.getElementById('cursos').innerHTML += data; 
-                loading = false;
-            })
-            .catch(error => {
-                console.error('Error cargando más cursos:', error);
-                loading = false;
+                // Realizar una solicitud AJAX para cargar el contenido del curso
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function (data) {
+                        $('#course-content').html(data); // Cargar el contenido en el contenedor
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'No se pudo cargar el contenido del curso.'
+                        });
+                    }
+                });
             });
-    }
-</script>
-
-
+        });
+    </script>
 </body>
 
 </html>

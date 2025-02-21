@@ -195,7 +195,4 @@ Route::get('/home', [InstrumentController::class, 'index'])->name('home');
 Route::get('/instrumentos/viento/{id}', [InstrumentController::class, 'show'])->name('instrumentos.viento');
 
 
-
-
-
-Route::get('/cursos/pagination', [SearchController::class, 'pagination'])->name('cursos.pagination');
+Route::get('/cargar-mas-cursos', [InstrumentController::class, 'cargarMasCursos'])->name('cargar.mas.cursos');

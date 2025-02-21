@@ -1,3 +1,4 @@
+
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -13,7 +14,6 @@
             </div>
         </div>
     </div>
-    
 </div>
 
 <section class="content">
@@ -37,16 +37,16 @@
 
                 <h4 class="mt-4">Contenidos del Curso</h4>
                 @if($courseContents->isEmpty())
-                <p class="text-muted">No hay contenidos disponibles para este curso.</p>
+                    <p class="text-muted">No hay contenidos disponibles para este curso.</p>
                 @else
-                @foreach($courseContents as $content)
-                <div class="card my-3 shadow-sm" style="border-left: 5px solid #007bff;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $content->title }}</h5>
-                        <p class="card-text">{{ $content->content }}</p>
-                    </div>
-                </div>
-                @endforeach
+                    @foreach($courseContents as $content)
+                        <div class="card my-3 shadow-sm" style="border-left: 5px solid #007bff;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $content->title }}</h5>
+                                <p class="card-text">{{ $content->content }}</p>
+                            </div>
+                        </div>
+                    @endforeach
                 @endif
             </div>
         </div>
