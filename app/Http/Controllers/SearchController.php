@@ -55,6 +55,7 @@ class SearchController extends Controller
             ]);
         }
 
+        // Retorno de vista
         return view('admin.instrumentos.cursos', compact('query', 'instruments', 'instrumentTypes', 'courses'));
     }
 }
