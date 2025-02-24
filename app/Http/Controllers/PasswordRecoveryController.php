@@ -61,6 +61,8 @@ class PasswordRecoveryController extends Controller
         try {
             $this->twilioService->sendSms($fullPhone, $message);
         } catch (\Exception $e) {
+            // Registrar el error exacto
+            \Log::error('Error al enviar SMS: ' . $e->getMessage());
             // En caso de error al enviar el SMS
             return redirect()->route('password.recover-password')->with('error', 'Hubo un error al enviar el código. Intenta nuevamente.');
         }

@@ -1,5 +1,8 @@
 @extends('layouts.app')
-
+@section('cssLogin')
+    <!-- Importa la hoja de estilo de la sección -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/styleLogin.css') }}">
+@endsection
 @section('content')
 <div class="container">
     <h2>Verificar código de recuperación</h2>
