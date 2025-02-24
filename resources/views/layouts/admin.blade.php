@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ARMONIX | Dashboard</title>
 
-    <!-- Enlaces de estilos -->
-     
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="{{ asset('generalStyles.css') }}">
@@ -19,11 +17,8 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
 
-    <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    
 
-    <!-- jQuery y jQuery UI -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 </head>
@@ -44,17 +39,20 @@
 
             <!-- Buscar -->
             <ul class="navbar-nav ml-auto">
-                <form action="{{ route('search.global') }}" method="GET" class="form-inline">
-                    <input type="text" name="search" placeholder="Buscar..." class="form-control" required>
-                    <select name="instrument_type" class="form-control">
-                        <option value="">Todos los tipos</option>
-                        @foreach($instrumentTypes as $type)
-                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                <form id="search-form" action="{{ route('search.global') }}" method="GET">
+                    <input type="text" name="search" placeholder="Buscar..." required>
+                    <select name="instrument_type">
+                        <option value="">Seleccionar tipo de instrumento</option>
+                        @foreach($instrumentTypes as $instrumentType)
+                        <option value="{{ $instrumentType->id }}">{{ $instrumentType->name }}</option>
                         @endforeach
                     </select>
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <button type="submit">Buscar</button>
                 </form>
+
+
             </ul>
+
 
             <li id="notificaciones-link" class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
@@ -80,7 +78,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt"></i>
-                    Cerrar Sesión
+                    Cerrar Sesión
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
@@ -124,7 +122,7 @@
                                         @foreach($instrumentType->instruments as $instrument)
                                         <li class="nav-item has-treeview">
                                             <a href="#" class="nav-link">
-                                                <i class="nav-icon fas fa-music"></i>
+                                                <i class="nav-icon fas fa-chalkboard"></i>
                                                 <p>
                                                     {{ $instrument->name }}
                                                     <i class="right fas fa-angle-left"></i>
@@ -176,20 +174,17 @@
         <!-- Contenido -->
         <div class="content-wrapper">
             <div id="course-content">
-                @yield('content') <!-- Este es el contenido que se cargará dinámicamente -->
+                @yield('content') <!-- Este es el contenido que se cargará dinámicamente -->
             </div>
         </div>
-        <!-- /.content-wrapper -->
-
-        <!-- Footer -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Versión</b> 3.0.0
-            </div>
-            <strong>Copyright &copy; 2022 <a href="https://www.example.com">Armonix</a>.</strong> Todos los derechos reservados.
-        </footer>
     </div>
-    <!-- ./wrapper -->
+
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+            <b>Versión</b> 3.0.0
+        </div>
+        <strong>Copyright &copy; 2022 <a href="https://www.example.com">Armonix</a>.</strong> Todos los derechos reservados.
+    </footer>
 
     <!-- Scripts -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -199,20 +194,28 @@
     <script src="{{ asset('dist/js/bootstrap-select.min.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
-            // Manejar el clic en los enlaces de los cursos
-            $('.course-link').on('click', function (e) {
-                e.preventDefault(); // Prevenir la acción predeterminada del enlace
-                let url = $(this).data('url'); // Obtener la URL del contenido del curso
+        $(document).ready(function() {
+            $('.course-link').on('click', function(e) {
+                e.preventDefault();
+                let url = $(this).data('url');
 
-                // Realizar una solicitud AJAX para cargar el contenido del curso
                 $.ajax({
                     url: url,
                     method: 'GET',
-                    success: function (data) {
-                        $('#course-content').html(data); // Cargar el contenido en el contenedor
+                    dataType: 'json', // Asegurar que se espera JSON
+                    success: function(data) {
+                        if (data.html) {
+                            $('#course-content').html(data.html); // Insertar la vista renderizada
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Aviso',
+                                text: 'No se recibió contenido para mostrar.'
+                            });
+                        }
                     },
-                    error: function () {
+                    error: function(xhr, status, error) {
+                        console.error("Error AJAX:", status, error, xhr.responseText);
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
@@ -220,6 +223,50 @@
                         });
                     }
                 });
+            });
+        });
+
+
+        $(document).ready(function() {
+            function fetchResults(queryString) {
+                $.ajax({
+                    url: '{{ route("search.global") }}',
+                    method: 'GET',
+                    data: queryString,
+                    success: function(response) {
+                        $('#result-container').html(response);
+                        console.log('Respuesta JSON:', response);
+                    },
+                    error: function(xhr) {
+                        console.error(xhr);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'No se pudo realizar la búsqueda.'
+                        });
+                    }
+                });
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.toString()) {
+                fetchResults(urlParams.toString());
+            }
+
+            $('#search-form').on('submit', function(e) {
+                e.preventDefault();
+
+                // Obtener los datos del formulario
+                const formData = $(this).serialize();
+                const newUrl = '{{ route("search.global") }}?' + formData;
+
+                // Actualizar la URL
+                window.history.pushState({
+                    path: newUrl
+                }, '', newUrl);
+
+                // Recargar la página para que la petición quede registrada en DevTools
+                location.reload();
             });
         });
     </script>

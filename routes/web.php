@@ -45,6 +45,7 @@ use App\Http\Controllers\CourseContentController;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -196,3 +197,10 @@ Route::get('/instrumentos/viento/{id}', [InstrumentController::class, 'show'])->
 
 
 Route::get('/cargar-mas-cursos', [InstrumentController::class, 'cargarMasCursos'])->name('cargar.mas.cursos');
+
+// En tu archivo de rutas (web.php)
+Route::get('/instrumentos/{id}', [InstrumentController::class, 'show'])->name('instruments.show');
+
+
+
+Route::get('/course/contents/{courseId}', [CourseContentController::class, 'showContents'])->name('course.contents');

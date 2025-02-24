@@ -1,4 +1,3 @@
-
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -24,10 +23,10 @@
             </div>
 
             <div class="card-body">
-                <h5><strong>Descripción del Curso:</strong></h5>
+                <h5><strong>Descripción del Curso:</strong></h5>
                 <p class="text-muted">{{ $course->description }}</p>
 
-                <h5><strong>Duración:</strong></h5>
+                <h5><strong>Duración:</strong></h5>
                 <p>4 horas</p>
 
                 <h5><strong>Instructor:</strong></h5>

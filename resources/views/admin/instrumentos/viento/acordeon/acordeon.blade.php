@@ -26,7 +26,7 @@
     <div class="container-fluid">
         <!-- Courses Section -->
         <div id="contenedorCursos" class="row">
-            @foreach ($courses->take(3) as $curso) <!-- Carga inicial de 3 cursos -->
+            @foreach ($courses->take(4) as $curso) <!-- Carga inicial de 3 cursos -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card">
                     <a href="{{ route('course.contents', ['courseId' => $curso->id]) }}" class="stretched-link"></a> <!-- Enlace que cubre toda la tarjeta -->
@@ -42,7 +42,7 @@
         </div>
 
         <div id="cargando" style="display: none; text-align: center; margin: 20px 0;">
-            <p>Cargando más cursos...</p>
+            <p>Cargando más cursos...</p>
         </div>
     </div>
 </section>
@@ -64,15 +64,17 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    let offset = 3; // Comienza después de los 3 primeros cursos
-    let cargando = false; // Para evitar múltiples solicitudes simultáneas
+    let offset = 4; // Asegurar que coincida con el backend
+    let cargando = false;
+    let hayMasCursos = true; // Nueva bandera para evitar peticiones innecesarias
+    let instrumentId = "{{ $instrument->id }}"; // ID del instrumento actual
 
     function cargarMasCursos() {
-        if (cargando) return;
+        if (cargando || !hayMasCursos) return;
         cargando = true;
         document.getElementById("cargando").style.display = "block";
 
-        fetch(`/cargar-mas-cursos?offset=${offset}`) // Cambiar la URL según tu lógica
+        fetch(`/cargar-mas-cursos?offset=${offset}&instrument_id=${instrumentId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.length > 0) {
@@ -83,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         card.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-3', 'mb-4');
                         card.innerHTML = `
                             <div class="card">
-                                <a href="/course/contents/${curso.id}" class="stretched-link"></a>
+                                <a href="/course/contents/${curso.id}" class="stretched-link" data-course-id="${curso.id}"></a>
                                 <img src="${curso.image || 'img/default.png'}" class="card-img-top" alt="${curso.name}">
                                 <div class="card-body">
                                     <h5 class="card-title">${curso.name}</h5>
@@ -95,14 +97,35 @@ document.addEventListener("DOMContentLoaded", function () {
                         contenedor.appendChild(card);
                     });
 
-                    offset += 3; // Aumenta el offset para la siguiente carga
+                    offset += 4; // Actualizar el offset
                 } else {
-                    window.removeEventListener('scroll', handleScroll); // Si no hay más cursos, desactiva el evento
+                    hayMasCursos = false; // Si ya no hay más cursos, desactivar carga
+                    window.removeEventListener('scroll', handleScroll);
                 }
                 cargando = false;
                 document.getElementById("cargando").style.display = "none";
             })
-            .catch(error => console.error('Error al cargar más cursos:', error));
+            .catch(error => {
+                console.error('Error al cargar más cursos:', error);
+                cargando = false;
+                document.getElementById("cargando").style.display = "none";
+            });
+    }
+
+    // Usando jQuery para manejar el clic
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.matches('.btn.btn-primary[data-course-id]')) {
+            var courseId = e.target.getAttribute('data-course-id');
+            // Redirigir a la vista de detalles con el courseId
+            window.location.href = `/course/contents/${courseId}`;
+        }
+    });
+    function debounce(func, wait = 200) {
+        let timeout;
+        return function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, arguments), wait);
+        };
     }
 
     function handleScroll() {
@@ -111,7 +134,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', debounce(handleScroll, 300)); // Evitar múltiples peticiones innecesarias
 });
 </script>
+
+
+
 @endsection
