@@ -115,6 +115,25 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label for="pregunta_secreta"  class="col-md-4 col-form-label text-md-end">Selecciona una pregunta:</label>
+
+                            <div class="col-md-6">
+                                <select name="pregunta_secreta" required   class="form-control">
+                                    <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                                    <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
+                                    <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="respuesta_secreta" class="col-md-4 col-form-label text-md-end">Respuesta:</label>
+                            <div class="col-md-6">
+                                <input type="text" name="respuesta_secreta" required  class="form-control">
+                            </div>
+                        </div>
+                    
+
                         <!-- Aviso de privacidad -->
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">

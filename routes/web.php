@@ -4,17 +4,11 @@ use App\Http\Controllers\AcordeonController;
 use App\Http\Controllers\AddCursosController;
 use App\Http\Controllers\AddCursosListController;
 use App\Http\Controllers\AdminUsuariosController;
+use App\Http\Controllers\SecretAnswer;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FamiliaController;
-use App\Http\Controllers\ReactivoController;
 
-use App\Http\Controllers\VolumenController;
-use App\Http\Controllers\MaterialController;
-use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\BackupController;
 use App\Http\Controllers\CampanaController;
 use App\Http\Controllers\CastañuelaController;
-use App\Http\Controllers\PrestamoController;
 
 use App\Http\Controllers\CursosController;
 use App\Http\Controllers\CursosListController;
@@ -38,6 +32,7 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\BusquedaController;
 
 use App\Http\Controllers\PasswordRecoveryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -172,6 +167,21 @@ Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware
 Route::resource('notas-premium', NotasPremiumController::class);
 Route::resource('metronomo-p', MetronomoPremiumController::class);
 
+Route::get('/verificar-correo', function () {
+    return view('auth.recover_password');
+    })->name('verificarCorreo');
+
+Route::post('/verificar-correo', [SecretAnswer::class, 'verificarCorreo']);
+
+Route::get('/validar-respuesta', function () {
+    return view('auth.answer_question');
+    })->name('validarRespuesta');
+
+Route::post('/validar-respuesta', [SecretAnswer::class, 'validarRespuesta']);
+Route::post('/actualizar-password', [SecretAnswer::class, 'actualizarPassword'])->name('actualizar.password');
+
+
+
 
 Route::get('password/recover-password', [PasswordRecoveryController::class, 'showRecoveryForm'])->name('password.recover-password');
 Route::post('password/send-recovery-code', [PasswordRecoveryController::class, 'sendRecoveryCode'])->name('password.sendRecoveryCode');
@@ -185,3 +195,4 @@ Route::post('password/verify', [PasswordRecoveryController::class, 'verifyRecove
 
 Route::get('password/change-password/{user_id}', [PasswordRecoveryController::class, 'showChangePasswordForm'])->name('password.change-password');
 Route::post('password/update', [PasswordRecoveryController::class, 'updatePassword'])->name('password.update');
+
