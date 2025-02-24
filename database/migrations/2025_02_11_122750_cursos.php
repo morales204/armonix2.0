@@ -9,23 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('cursos', function (Blueprint $table) {
-            // Definir la clave primaria personalizada
-            $table->id('id_curso');
-
-            $table->string('nombre');
-            $table->string('descripcion');
-            $table->string('fecha_inicio'); 
-            $table->string('fecha_fin'); 
-            $table->integer('duracion')->nullable();
-            $table->unsignedBigInteger('usuarios_id_usuario'); 
-            $table->foreign('usuarios_id_usuario')->references('id_usuario')->on('usuarios')->onDelete('cascade');
-
-            
-        });
-    }
+        if (!Schema::hasTable('cursos')) {
+            Schema::create('cursos', function (Blueprint $table) {
+                $table->id('id_curso');
+                $table->string('nombre');
+                $table->string('descripcion');
+                $table->string('fecha_inicio');
+                $table->string('fecha_fin');
+                $table->integer('duracion')->nullable();
+                $table->foreignId('usuarios_id_usuario')->constrained()->onDelete('cascade');
+                $table->timestamps();
+            });
+        }
+    }    
 
     /**
      * Reverse the migrations.

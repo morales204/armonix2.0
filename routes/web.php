@@ -37,6 +37,8 @@ use App\Http\Controllers\NotasPremiumController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\BusquedaController;
 
+use App\Http\Controllers\PasswordRecoveryController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -170,3 +172,16 @@ Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware
 Route::resource('notas-premium', NotasPremiumController::class);
 Route::resource('metronomo-p', MetronomoPremiumController::class);
 
+
+Route::get('password/recover-password', [PasswordRecoveryController::class, 'showRecoveryForm'])->name('password.recover-password');
+Route::post('password/send-recovery-code', [PasswordRecoveryController::class, 'sendRecoveryCode'])->name('password.sendRecoveryCode');
+// Ruta GET para mostrar el formulario de verificación
+Route::get('password/verify/{phone}', [PasswordRecoveryController::class, 'showVerifyForm'])
+    ->name('password.show_verify_form');
+
+// Ruta POST para verificar el código de recuperación
+Route::post('password/verify', [PasswordRecoveryController::class, 'verifyRecoveryCode'])
+    ->name('password.verify_code');
+
+Route::get('password/change-password/{user_id}', [PasswordRecoveryController::class, 'showChangePasswordForm'])->name('password.change-password');
+Route::post('password/update', [PasswordRecoveryController::class, 'updatePassword'])->name('password.update');

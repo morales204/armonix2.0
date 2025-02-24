@@ -70,6 +70,8 @@
                                     <a class="btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
+                                    <br>
+                                    <a href="{{ route('password.recover-password') }}">Recuperar contraseña por SMS</a>
                                 @endif
                             </div>
                         </div>
