@@ -25,7 +25,9 @@ class Usuario extends Authenticatable// Implementa la interfaz
         'roles_id_rol',
         'remember_token',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'pregunta_secreta', 
+        'respuesta_secreta'
     ];
 
     protected $hidden = [
