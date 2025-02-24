@@ -22,6 +22,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    
 
     /**
      * Where to redirect users after registration.
@@ -57,7 +58,10 @@ class RegisterController extends Controller
             'roles_id_rol' => ['required'],
             // Validación del checkbox de privacidad
             'aviso-privacidad' => ['required', 'accepted'], // Asegurarse de que esté marcado
+            'pregunta_secreta' => 'required|string',
+            'respuesta_secreta' => 'required|string',
         ]);
+
     }
 
     /**
@@ -74,7 +78,11 @@ class RegisterController extends Controller
             'correo' => $data['correo'],
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
-            'roles_id_rol' => $data['roles_id_rol']
+            'roles_id_rol' => $data['roles_id_rol'],
+            'pregunta_secreta' => $data['pregunta_secreta'],
+            'respuesta_secreta' => Hash::make( $data['respuesta_secreta']),
         ]);
+
+        
     }
 }

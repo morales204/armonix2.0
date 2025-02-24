@@ -17,6 +17,12 @@
                 <div class="card-header">{{ __('Inicio de sesion') }}</div>
 
                 <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -65,6 +71,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Iniciar sesion') }}
                                 </button>
+                                <a href="{{ route('verificarCorreo') }}">Pregunta secreta</a>
 
                                 @if (Route::has('password.request'))
                                     <a class="btn-link" href="{{ route('password.request') }}">
