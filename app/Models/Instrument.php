@@ -27,4 +27,5 @@ class Instrument extends Model
     {
         return $this->hasMany(Course::class, 'instrument_id');
     }
+    
 }

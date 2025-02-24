@@ -104,6 +104,8 @@
                                 @enderror
                             </div>
                         </div>
+                        
+                        
 
                         <div class="row mb-3">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirmar Contraseña') }}</label>
@@ -112,7 +114,19 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <label for="secret_answer" class="col-md-4 col-form-label text-md-end">{{ __('¿Cuál es el nombre de tu mascota?') }}</label>
 
+                            <div class="col-md-6">
+                                <input id="secret_answer" type="text" class="form-control @error('secret_answer') is-invalid @enderror" name="secret_answer" required>
+
+                                @error('secret_answer')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
                         <!-- Aviso de privacidad -->
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">

@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\CourseContent;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Models\Instrument;
 
 class CourseContentController extends Controller
 {
     /**
-     * Muestra los contenidos de un curso en una vista Blade con paginación de 4 elementos.
+     * Muestra los contenidos de un curso en una vista Blade.
      */
     public function showContents(Request $request, $courseId)
     {
         $course = Course::findOrFail($courseId);
-        $courseContents = CourseContent::where('course_id', $courseId)->paginate(4);
+        $courseContents = CourseContent::where('course_id', $courseId)->paginate(9);
 
+        // Si la solicitud es AJAX, devolver JSON en lugar de una vista Blade
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('admin.cursos.course_contents', compact('course', 'courseContents'))->render(),
@@ -28,11 +30,11 @@ class CourseContentController extends Controller
     }
 
     /**
-     * Devuelve los contenidos de un curso en formato JSON con paginación de 4 elementos.
+     * Devuelve los contenidos de un curso en formato JSON.
      */
     public function index($courseId)
     {
-        $contents = CourseContent::where('course_id', $courseId)->paginate(4);
+        $contents = CourseContent::where('course_id', $courseId)->get();
         return response()->json($contents);
     }
 
@@ -80,9 +82,12 @@ class CourseContentController extends Controller
      */
     public function destroy($id)
     {
-        $courseContent = CourseContent::findOrFail($id);
-        $courseContent->delete();
+        $courseContent = CourseContent::find($id);
+        if (!$courseContent) {
+            return response()->json(['success' => false, 'message' => 'Contenido no encontrado.'], 404);
+        }
 
+        $courseContent->delete();
         return response()->json(['success' => true, 'message' => 'Contenido eliminado correctamente.']);
     }
 }

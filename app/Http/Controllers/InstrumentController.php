@@ -5,23 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Instrument;
 use App\Models\InstrumentType;
-use App\Models\Curso;  // Asegúrate de importar el modelo Curso
 use Illuminate\Http\Request;
 
 class InstrumentController extends Controller
 {
     // Método para cargar más cursos
     public function cargarMasCursos(Request $request)
-    {
-        $offset = $request->input('offset', 0);  // Obtener el valor del offset o 0 por defecto
-        $limit = 4;  // Número de cursos a cargar por vez
+{
+    $offset = $request->input('offset', 0);
+    $limit = 4; // Definir el mismo límite que en el frontend
+    $instrumentId = $request->input('instrument_id'); // Recibir el ID del instrumento
 
-        // Recuperar los cursos desde la base de datos con límite y desplazamiento
-        $cursos = Course::skip($offset)->take($limit)->get();
-
-        // Retornar los cursos en formato JSON
-        return response()->json($cursos);
+    if (!$instrumentId) {
+        return response()->json(['error' => 'Instrument ID is required'], 400);
     }
+
+    // Filtrar cursos por el instrumento específico
+    $cursos = Course::where('instrument_id', $instrumentId)
+               ->offset($offset)
+               ->limit($limit)
+               ->get();
+
+    return response()->json($cursos);
+}
+
+
 
     // Método index para mostrar los tipos de instrumentos
     public function index()
@@ -39,7 +47,7 @@ class InstrumentController extends Controller
         $instrumentType = InstrumentType::findOrFail($id);
 
         $instruments = Instrument::where('instrument_type_id', $instrumentType->id)
-            ->with('courses')  // Asegúrate de que el modelo Instrument tiene una relación con courses
+            ->with('courses')  
             ->get();
 
         return view('admin.instrumentos.viento.viento', compact('instrumentType', 'instruments'));

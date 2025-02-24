@@ -26,7 +26,7 @@
     <div class="container-fluid">
         <!-- Courses Section -->
         <div id="contenedorCursos" class="row">
-            @foreach ($courses->take(3) as $curso) <!-- Carga inicial de 3 cursos -->
+            @foreach ($courses->take(4) as $curso) <!-- Carga inicial de 3 cursos -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card">
                     <a href="{{ route('course.contents', ['courseId' => $curso->id]) }}" class="stretched-link"></a> <!-- Enlace que cubre toda la tarjeta -->
@@ -64,18 +64,25 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    let offset = 3; // Comienza después de los 3 primeros cursos
-    let cargando = false; // Para evitar múltiples solicitudes simultáneas
+    let offset = 4; 
+    let cargando = false;
+    let hayMasCursos = true;
+    let instrumentId = "{{ $instrument->id }}";
 
     function cargarMasCursos() {
-        if (cargando) return;
-        cargando = true;
+        if (cargando || !hayMasCursos) return;
+        cargando = true;  
         document.getElementById("cargando").style.display = "block";
 
-        fetch(`/cargar-mas-cursos?offset=${offset}`) // Cambiar la URL según tu lógica
-            .then(response => response.json())
+        fetch(`/cargar-mas-cursos?offset=${offset}&instrument_id=${instrumentId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
-                if (data.length > 0) {
+                if (Array.isArray(data) && data.length > 0) {
                     const contenedor = document.getElementById("contenedorCursos");
 
                     data.forEach(curso => {
@@ -87,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <img src="${curso.image || 'img/default.png'}" class="card-img-top" alt="${curso.name}">
                                 <div class="card-body">
                                     <h5 class="card-title">${curso.name}</h5>
-                                    <p class="card-text">${curso.description.slice(0, 50)}</p>
+                                    <p class="card-text">${curso.description ? curso.description.slice(0, 50) : 'Sin descripción'}</p>
                                     <a href="/course/contents/${curso.id}" class="btn btn-primary">Ir al Curso</a>
                                 </div>
                             </div>
@@ -95,23 +102,44 @@ document.addEventListener("DOMContentLoaded", function () {
                         contenedor.appendChild(card);
                     });
 
-                    offset += 3; // Aumenta el offset para la siguiente carga
+                    offset += 4;
                 } else {
-                    window.removeEventListener('scroll', handleScroll); // Si no hay más cursos, desactiva el evento
+                    hayMasCursos = false;
+                    console.warn("No hay más cursos disponibles.");
+                    window.removeEventListener('scroll', handleScroll);
                 }
+            })
+            .catch(error => {
+                console.error('Error al cargar más cursos:', error);
+            })
+            .finally(() => {
                 cargando = false;
                 document.getElementById("cargando").style.display = "none";
-            })
-            .catch(error => console.error('Error al cargar más cursos:', error));
+            });
+    }
+
+    function debounce(func, wait = 300) {
+        let timeout;
+        return function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, arguments), wait);
+        };
     }
 
     function handleScroll() {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        let scrollTop = window.scrollY || document.documentElement.scrollTop;
+        let windowHeight = window.innerHeight;
+        let documentHeight = document.documentElement.scrollHeight;
+
+        if ((scrollTop + windowHeight) >= (documentHeight - 200)) {
             cargarMasCursos();
         }
     }
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', debounce(handleScroll, 500)); 
 });
 </script>
+
+
+
 @endsection

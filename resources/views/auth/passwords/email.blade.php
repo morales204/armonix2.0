@@ -31,7 +31,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-0">
+                        <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-dark">
                                     {{ __('Enviar enlace para restablecer contraseña') }}
@@ -39,11 +39,19 @@
                             </div>
                         </div>
                     </form>
+
+                    <!-- Botón para ir al formulario de SMS -->
+                    <div class="row mt-3">
+                        <div class="col-md-6 offset-md-4">
+                            <a href="{{ route('sms.form') }}" class="btn btn-primary">
+                                {{ __('Recuperar por SMS') }}
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
-
-

@@ -31,15 +31,18 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\TrompetaController;
 use App\Http\Controllers\TubaController;
 use App\Http\Controllers\XilofonoController;
+use App\Http\Controllers\notasPremium;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotasPremiumController;
 use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\BusquedaController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CourseContentController;
+use App\Http\Controllers\SmsController;
 
 
 
@@ -158,9 +161,10 @@ Route::get('/instrumentos', [InstrumentTypeController::class, 'index'])->name('i
 // Ruta para mostrar los instrumentos de un tipo específico
 Route::get('/instrumentos/{slug}', [InstrumentTypeController::class, 'show'])->name('instrument-types.show');
 
+Route::get('/buscar', [SearchController::class, 'search'])->name('buscar');
+
 
 Route::get('/search', [SearchController::class, 'globalSearch'])->name('search.global');
-
 
 Route::get('/dashboard', [CatalogController::class, 'index'])->name('dashboard');
 
@@ -191,4 +195,10 @@ Route::get('/home', [InstrumentController::class, 'index'])->name('home');
 // Ruta para la vista viento donde se muestran los instrumentos por tipo
 Route::get('/instrumentos/viento/{id}', [InstrumentController::class, 'show'])->name('instrumentos.viento');
 
+
 Route::get('/cargar-mas-cursos', [InstrumentController::class, 'cargarMasCursos'])->name('cargar.mas.cursos');
+
+Route::get('/sms/form', [SmsController::class, 'index'])->name('sms.form');
+Route::post('/sms/send', [SmsController::class, 'sendSms'])->name('sms.send');
+Route::get('/sms/verify', [SmsController::class, 'showVerificationForm'])->name('sms.verify'); // Asegúrate de que sea un GET
+Route::post('/sms/verify', [SmsController::class, 'verifyCode'])->name('sms.verify.code'); // Cambia el nombre para diferenciar

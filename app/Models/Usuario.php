@@ -16,6 +16,7 @@ class Usuario extends Authenticatable implements CanResetPassword
     public $timestamps = false;
     protected $table = 'usuarios';
     protected $primaryKey = 'id_usuario';
+
     protected $fillable = [
         'nombre_completo',
         'telefono',
@@ -24,18 +25,21 @@ class Usuario extends Authenticatable implements CanResetPassword
         'password',
         'roles_id_rol',
         'remember_token',
-        'created_at',
-        'updated_at'
+        'secret_answer', // Se agregó este campo
     ];
 
     protected $hidden = [
         'password',
+        'secret_answer', // Se oculta en respuestas JSON
     ];
 
     protected $casts = [
         'password' => 'hashed',
     ];
 
+    /**
+     * Devuelve el email del usuario para el restablecimiento de contraseña.
+     */
     public function getEmailForPasswordReset()
     {
         return $this->email;
