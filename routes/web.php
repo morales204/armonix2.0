@@ -63,29 +63,20 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->midd
 
 
 
-Route::get('/xilofono', function () {
-    return view('instrumentos.idiofonos.xilofono.xilofono');
-});
-
-Route::get('/castañuela', function () {
-    return view('instrumentos.idiofonos.castañuela.castañuela');
-});
-
-Route::get('/campana', function () {
-    return view('instrumentos.idiofonos.campana.campana');
-});
-
 /*--------------*/
 Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:2|3']);
 Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['auth', 'role:2|3']);
+Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:2|3']);
+Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:2|3']);
+
 Route::resource('herramientas/nota', NotaController::class)->middleware(['auth', 'role:2']);
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware(['auth', 'role:2']);
 
 Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
+Route::resource('notas-premium', NotasPremiumController::class)->middleware(['auth', 'role:3']);
+Route::resource('metronomo-p', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
 // Route::resource('notaP', NotasPremiumController::class)->middleware(['auth', 'role:3']);
 
-Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:2|3']);
-Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:2|3']);
 
 Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:1']);
 
@@ -103,10 +94,10 @@ Route::resource('idiofono/castañuela', CastañuelaController::class)->middlewar
 Route::resource('idiofono/xilofono', XilofonoController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/instrumentos', InstrumentosController::class)->middleware(['auth', 'role:1']);
 
-Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:1');
-Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
+Route::resource('agregar/usuario', UsuariosController::class)->middleware(['auth', 'role:1']);
+Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware(['auth', 'role:1']);
 
-Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:2']);
+Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:4']);
 
 Route::resource('cursos/agregarcurso', AddCursosController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/cursoslistAdd', AddCursosListController::class)->middleware(['auth', 'role:1']);
@@ -122,11 +113,10 @@ Route::resource('idiofono/castañuela', CastañuelaController::class)->middlewar
 Route::resource('idiofono/xilofono', XilofonoController::class)->middleware(['auth', 'role:1']);
 Route::resource('cursos/instrumentos', InstrumentosController::class)->middleware(['auth', 'role:1']);
 
-Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:1');
-Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
+Route::resource('agregar/usuario', UsuariosController::class)->middleware(['auth', 'role:1']);
+Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware(['auth', 'role:1']);
 
-Route::resource('notas-premium', NotasPremiumController::class)->middleware(['auth', 'role:3']);
-Route::resource('metronomo-p', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
+
 
 Route::get('/verificar-correo', function () {
     return view('auth.recover_password');
@@ -136,7 +126,7 @@ Route::post('/verificar-correo', [SecretAnswer::class, 'verificarCorreo']);
 
 Route::get('/validar-respuesta', function () {
     return view('auth.answer_question');
-    })->name('validarRespuesta');
+    })->middleware('auth')->name('validarRespuesta');
 
 Route::post('/validar-respuesta', [SecretAnswer::class, 'validarRespuesta']);
 Route::post('/actualizar-password', [SecretAnswer::class, 'actualizarPassword'])->name('actualizar.password');
