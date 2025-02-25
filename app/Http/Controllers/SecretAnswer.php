@@ -27,7 +27,10 @@ class SecretAnswer extends Controller
     {
         $request->validate([
             'correo' => 'required|email',
-            'respuesta_secreta' => 'required|string',
+            'respuesta_secreta_1' => 'required|string',
+            'respuesta_secreta_2' => 'required|string',
+
+
         ]);
     
         // Obtener intentos fallidos desde la sesión
@@ -46,7 +49,9 @@ class SecretAnswer extends Controller
         $usuario = Usuario::where('correo', $request->correo)->first();
     
         // Verificar la respuesta secreta
-        if (!$usuario || !Hash::check($request->respuesta_secreta, $usuario->respuesta_secreta)) {
+        if (!$usuario || 
+        !Hash::check($request->respuesta_secreta_1, $usuario->respuesta_secreta_1) ||
+        !Hash::check($request->respuesta_secreta_2, $usuario->respuesta_secreta_2)) {
             $intentos++;
     
             // Si falló 3 veces, bloquear por 1 minuto
@@ -59,9 +64,10 @@ class SecretAnswer extends Controller
     
             return view('auth.answer_question', [
                 'usuario' => $usuario ?? (object) ['correo' => $request->correo, 'pregunta_secreta' => ''], // Evita el error
-                'error' => "Respuesta incorrecta. Intentos restantes: " . (3 - $intentos),
+                'error' => "Respuesta incorrectas. Intentos restantes: " . (3 - $intentos),
             ]);
         }
+
     
         // Restablecer intentos en sesión
         Session::forget('intentos_fallidos_' . $request->correo);

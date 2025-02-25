@@ -71,15 +71,27 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Iniciar sesion') }}
                                 </button>
-                                <a href="{{ route('verificarCorreo') }}">Pregunta secreta</a>
+                                <div class="recovery-container">
+    <a class="btn-link" onclick="toggleRecoveryOptions()">Recuperar contraseña</a>
+    <div id="recovery-options" style="display: none;">
+        <p>Selecciona un método para recuperar tu contraseña:</p>
+        <ul>
+            <li><a href="{{ route('verificarCorreo') }}">Pregunta secreta</a></li>
+            @if (Route::has('password.request'))
+                <li><a href="{{ route('password.request') }}">Recuperar por correo</a></li>
+                <li><a href="{{ route('password.recover-password') }}">Recuperar por SMS</a></li>
+            @endif
+        </ul>
+    </div>
+</div>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                    <br>
-                                    <a href="{{ route('password.recover-password') }}">Recuperar contraseña por SMS</a>
-                                @endif
+<script>
+    function toggleRecoveryOptions() {
+        var options = document.getElementById('recovery-options');
+        options.style.display = options.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+
                             </div>
                         </div>
                     </form>

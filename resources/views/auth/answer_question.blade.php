@@ -27,9 +27,16 @@
                             <input type="hidden" name="correo" value="{{ $usuario->correo }}">
 
                             <div class="row mb-3">
-                                <label for="correo" class="col-md-4 col-form-label text-md-end mt-4">{{ $usuario->pregunta_secreta }}</label>
+                                <label for="correo" class="col-md-4 col-form-label text-md-end mt-4">{{ $usuario->pregunta_secreta_1 }}</label>
                                 <div class="col-md-6">
-                                   <input type="text" name="respuesta_secreta" required  class="form-control mt-4">
+                                   <input type="text" name="respuesta_secreta_1" required  class="form-control mt-4">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="correo" class="col-md-4 col-form-label text-md-end mt-4">{{ $usuario->pregunta_secreta_2 }}</label>
+                                <div class="col-md-6">
+                                   <input type="text" name="respuesta_secreta_2" required  class="form-control mt-4">
                                 </div>
                             </div>
 
