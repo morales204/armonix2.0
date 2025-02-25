@@ -26,8 +26,10 @@ class Usuario extends Authenticatable// Implementa la interfaz
         'remember_token',
         'created_at',
         'updated_at',
-        'pregunta_secreta', 
-        'respuesta_secreta'
+        'pregunta_secreta_1', 
+        'respuesta_secreta_1',
+        'pregunta_secreta_2', 
+        'respuesta_secreta_2',
     ];
 
     protected $hidden = [

@@ -114,12 +114,19 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
-
+                        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                         <div class="row mb-3">
-                            <label for="pregunta_secreta"  class="col-md-4 col-form-label text-md-end">Selecciona una pregunta:</label>
-
+                            <label for="pregunta_secreta_1" class="col-md-4 col-form-label text-md-end">Selecciona la primera pregunta:</label>
                             <div class="col-md-6">
-                                <select name="pregunta_secreta" required   class="form-control">
+                                <select name="pregunta_secreta_1" id="pregunta_secreta_1" required class="form-control" onchange="filtrarPreguntas()">
                                     <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
                                     <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
                                     <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
@@ -127,12 +134,30 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="respuesta_secreta" class="col-md-4 col-form-label text-md-end">Respuesta:</label>
+                            <label for="respuesta_secreta_1" class="col-md-4 col-form-label text-md-end">Respuesta:</label>
                             <div class="col-md-6">
-                                <input type="text" name="respuesta_secreta" required  class="form-control">
+                                <input type="text" name="respuesta_secreta_1" required class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="pregunta_secreta_2" class="col-md-4 col-form-label text-md-end">Selecciona la segunda pregunta:</label>
+                            <div class="col-md-6">
+                                <select name="pregunta_secreta_2" id="pregunta_secreta_2" required class="form-control">
+                                    <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                                    <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
+                                    <option value="¿Cuál es tu comida favorita?">¿Cuál es tu comida favorita?</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="respuesta_secreta_2" class="col-md-4 col-form-label text-md-end">Respuesta:</label>
+                            <div class="col-md-6">
+                                <input type="text" name="respuesta_secreta_2" required class="form-control">
                             </div>
                         </div>
                     
+
 
                         <!-- Aviso de privacidad -->
                         <div class="row mb-3">
@@ -229,5 +254,28 @@
     </div>
 </div>
 
+
+<script>
+    function filtrarPreguntas() {
+        var pregunta1 = document.getElementById('pregunta_secreta_1').value;
+        var pregunta2 = document.getElementById('pregunta_secreta_2');
+
+        // Restablecer opciones
+        var opciones = pregunta2.getElementsByTagName('option');
+        for (var i = 0; i < opciones.length; i++) {
+            opciones[i].style.display = 'block';
+        }
+
+        // Ocultar la opción seleccionada en la primera pregunta
+        for (var i = 0; i < opciones.length; i++) {
+            if (opciones[i].value === pregunta1) {
+                opciones[i].style.display = 'none';
+                if (pregunta2.value === pregunta1) {
+                    pregunta2.value = ""; // Reiniciar si la opción estaba seleccionada
+                }
+            }
+        }
+    }
+</script>
 @endsection
 
