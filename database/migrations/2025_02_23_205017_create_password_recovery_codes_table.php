@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('password_recovery_codes', function (Blueprint $table) {
             $table->id();
             $table->string('recovery_code');
-            $table->unsignedBigInteger('usuario_id');  // Definir como unsignedBigInteger
-            $table->foreign('usuario_id')->references('id_usuario')->on('usuarios')->onDelete('cascade');  // Relación con 'usuarios' usando 'id_usuario'
+            $table->unsignedBigInteger('usuario_id');  // Relación con usuarios
+            $table->foreign('usuario_id')->references('id_usuario')->on('usuarios')->onDelete('cascade');  // Clave foránea a la tabla usuarios
+            $table->timestamp('expires_at')->nullable();  // Columna para la expiración del código
             $table->timestamps();
         });
     }
