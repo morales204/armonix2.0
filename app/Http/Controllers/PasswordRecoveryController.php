@@ -24,6 +24,11 @@ class PasswordRecoveryController extends Controller
         return view('auth.passwords.recover-password');
     }
 
+    public function showValidateCodeForm()
+    {
+        return view('auth.passwords.validatex-code');
+    }
+
     // Enviar el código de recuperación por SMS
     public function sendRecoveryCode(Request $request)
     {
@@ -49,10 +54,13 @@ class PasswordRecoveryController extends Controller
         // Generar un código de recuperación aleatorio
         $recoveryCode = rand(100000, 999999);
     
+        $expiresAt = now()->addMinutes(2);
+
         // Guardar el código de recuperación en la base de datos
         DB::table('password_recovery_codes')->insert([
             'usuario_id' => $usuario->id_usuario, // Usamos la columna id_usuario como la clave foránea
             'recovery_code' => $recoveryCode,
+            'expires_at' => $expiresAt, // Guardamos la fecha de expiración
             'created_at' => now(),
         ]);
     
@@ -96,7 +104,14 @@ class PasswordRecoveryController extends Controller
         if (!$recoveryCode) {
             return redirect()->back()->with('error', 'Código de recuperación inválido.');
         }
-    
+        // Verificar si el código ha caducado
+        if ($recoveryCode->expires_at && now()->greaterThan($recoveryCode->expires_at)) {
+            // El código ha expirado, eliminarlo de la base de datos
+            DB::table('password_recovery_codes')->where('recovery_code', $recoveryCode->recovery_code)->delete();
+
+            return redirect()->back()->with('error', 'El código ha caducado. Por favor, solicita uno nuevo.');
+        }
+
         // Si el código es válido, redirigir al usuario a la página de cambiar contraseña
         return redirect()->route('password.change-password', ['user_id' => $recoveryCode->usuario_id])->with('message', 'Código válido, puedes cambiar tu contraseña.');
     }

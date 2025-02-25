@@ -164,8 +164,8 @@ Route::resource('cursos/instrumentos', InstrumentosController::class)->middlewar
 Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:1');
 Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
 
-Route::resource('notas-premium', NotasPremiumController::class);
-Route::resource('metronomo-p', MetronomoPremiumController::class);
+Route::resource('notas-premium', NotasPremiumController::class)->middleware(['auth', 'role:3']);
+Route::resource('metronomo-p', MetronomoPremiumController::class)->middleware(['auth', 'role:3']);
 
 Route::get('/verificar-correo', function () {
     return view('auth.recover_password');
@@ -195,4 +195,4 @@ Route::post('password/verify', [PasswordRecoveryController::class, 'verifyRecove
 
 Route::get('password/change-password/{user_id}', [PasswordRecoveryController::class, 'showChangePasswordForm'])->name('password.change-password');
 Route::post('password/update', [PasswordRecoveryController::class, 'updatePassword'])->name('password.update');
-
+Route::get('/password/validate-code', [PasswordRecoveryController::class, 'showValidateCodeForm'])->name('password.show_validate_code_form');
