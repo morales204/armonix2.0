@@ -58,8 +58,10 @@ class RegisterController extends Controller
             'roles_id_rol' => ['required'],
             // Validación del checkbox de privacidad
             'aviso-privacidad' => ['required', 'accepted'], // Asegurarse de que esté marcado
-            'pregunta_secreta' => 'required|string',
-            'respuesta_secreta' => 'required|string',
+            'pregunta_secreta_1' => 'required|string',
+            'respuesta_secreta_1' => 'required|string',
+            'pregunta_secreta_2' => 'required|string',
+            'respuesta_secreta_2' => 'required|string',
         ]);
 
     }
@@ -79,8 +81,10 @@ class RegisterController extends Controller
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
             'roles_id_rol' => $data['roles_id_rol'],
-            'pregunta_secreta' => $data['pregunta_secreta'],
-            'respuesta_secreta' => Hash::make( $data['respuesta_secreta']),
+            'pregunta_secreta_1' => $data['pregunta_secreta_1'],
+            'respuesta_secreta_1' => Hash::make($data['respuesta_secreta_1']),
+            'pregunta_secreta_2' => $data['pregunta_secreta_2'],
+            'respuesta_secreta_2' => Hash::make($data['respuesta_secreta_2']),
         ]);
 
         
