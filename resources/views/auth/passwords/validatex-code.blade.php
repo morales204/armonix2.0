@@ -16,6 +16,7 @@
                     <!-- Verificar código de recuperación Formulario -->
                     <form method="POST" action="{{ route('password.verify_code') }}">
                         @csrf
+                        
                         <div class="form-group">
                             <label for="recovery_code">Código de recuperación</label>
                             <input type="text" class="form-control" name="recovery_code" id="recovery_code" placeholder="Ingresa el código de recuperación">
