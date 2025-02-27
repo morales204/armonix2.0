@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Usuario; // Asegúrate de usar el modelo correcto
+use App\Models\Usuario; 
 use Illuminate\Support\Facades\Hash;
 
 class PasswordRecoveryController extends Controller
@@ -26,28 +26,31 @@ class PasswordRecoveryController extends Controller
 
 public function verifyAnswers(Request $request)
 {
-    // Validar las respuestas
     $request->validate([
         'email' => 'required|email|exists:usuarios,email',
         'secret_answer' => 'required|string',
         'secret_answer_2' => 'required|string',
     ]);
 
-    // Buscar el usuario por su email
     $user = Usuario::where('email', $request->email)->first();
 
     if (!$user) {
         return redirect()->back()->with('error', 'Usuario no encontrado.');
     }
 
-    // Verificar si las respuestas coinciden con las almacenadas en la base de datos
-    if (!Hash::check($request->secret_answer, $user->secret_answer) || 
-        !Hash::check($request->secret_answer_2, $user->secret_answer_2)) {
+    if (empty($user->secret_answer) || empty($user->secret_answer_2)) {
+        return redirect()->back()->with('error', 'El usuario no tiene respuestas de seguridad registradas.');
+    }
+
+    $isFirstAnswerValid = Hash::check($request->secret_answer, $user->secret_answer);
+    $isSecondAnswerValid = Hash::check($request->secret_answer_2, $user->secret_answer_2);
+
+    if (!$isFirstAnswerValid || !$isSecondAnswerValid) {
         return redirect()->back()->with('error', 'Las respuestas no coinciden. Inténtalo de nuevo.');
     }
 
-    // Si las respuestas son correctas, redirigir al formulario para cambiar la contraseña
     return redirect()->route('password.reset.question', ['email' => $user->email]);
 }
+
 }
 

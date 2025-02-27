@@ -185,7 +185,7 @@ Route::get('/cursos/{courseId}/detalles', [CourseContentController::class, 'show
     ->name('course.contents');
 
 
-    Route::get('/cursos/{id}/contents', [CourseContentController::class, 'showContents'])->name('cursos.contents');
+Route::get('/cursos/{id}/contents', [CourseContentController::class, 'showContents'])->name('cursos.contents');
 
 // Ruta para la vista home con el carrusel
 Route::get('/home', [InstrumentController::class, 'index'])->name('home');
@@ -209,4 +209,5 @@ Route::get('/password/recovery', function () {
 Route::post('/password/recovery-questions', [PasswordRecoveryController::class, 'showQuestions'])
     ->name('password.recovery.questions');
 
-Route::post('/password/verify-answers', [PasswordRecoveryController::class, 'verifyAnswers'])->name('password.verify.answers');
+Route::post('/password/verify-answers', [PasswordRecoveryController::class, 'verifyAnswers'])
+->name('password.verify.answers');
