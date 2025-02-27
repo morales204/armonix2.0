@@ -25,16 +25,21 @@ class Usuario extends Authenticatable implements CanResetPassword
         'password',
         'roles_id_rol',
         'remember_token',
-        'secret_answer', // Se agregó este campo
+        'secret_answer',
+        'secret_question',
+        'secret_answer_2' ,
+        'secret_question_2', 
     ];
 
     protected $hidden = [
         'password',
-        'secret_answer', // Se oculta en respuestas JSON
+        'remember_token',
+        'secret_answer', 
+        'secret_answer_2',
     ];
 
     protected $casts = [
-        'password' => 'hashed',
+        'password' => 'hashed', // Laravel 10+ lo usa para encriptar automáticamente
     ];
 
     /**
@@ -44,4 +49,5 @@ class Usuario extends Authenticatable implements CanResetPassword
     {
         return $this->email;
     }
+
 }

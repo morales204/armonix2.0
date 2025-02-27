@@ -31,18 +31,17 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\TrompetaController;
 use App\Http\Controllers\TubaController;
 use App\Http\Controllers\XilofonoController;
-use App\Http\Controllers\notasPremium;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\MetronomoPremiumController;
 use App\Http\Controllers\NotasPremiumController;
 use App\Http\Controllers\UsuariosController;
-use App\Http\Controllers\BusquedaController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CourseContentController;
 use App\Http\Controllers\SmsController;
+use App\Http\Controllers\Auth\PasswordRecoveryController;
 
 
 
@@ -202,3 +201,12 @@ Route::get('/sms/form', [SmsController::class, 'index'])->name('sms.form');
 Route::post('/sms/send', [SmsController::class, 'sendSms'])->name('sms.send');
 Route::get('/sms/verify', [SmsController::class, 'showVerificationForm'])->name('sms.verify'); // Asegúrate de que sea un GET
 Route::post('/sms/verify', [SmsController::class, 'verifyCode'])->name('sms.verify.code'); // Cambia el nombre para diferenciar
+
+Route::get('/password/recovery', function () {
+    return view('auth.password_recovery');
+})->name('password.recovery');
+
+Route::post('/password/recovery-questions', [PasswordRecoveryController::class, 'showQuestions'])
+    ->name('password.recovery.questions');
+
+Route::post('/password/verify-answers', [PasswordRecoveryController::class, 'verifyAnswers'])->name('password.verify.answers');

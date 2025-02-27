@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class SmsController extends Controller
@@ -14,57 +15,53 @@ class SmsController extends Controller
     }
 
     public function sendSms(Request $request)
-{
-    $request->validate([
-        'telefono' => 'required|regex:/^[0-9]{10}$/'
-    ]);
-
-    // Buscar el correo electrónico asociado al número de teléfono
-    $user = DB::table('usuarios')->where('telefono', $request->telefono)->first(); // Cambiado a 'usuarios'
-
-    if (!$user) {
-        return back()->with('error', 'Número de teléfono no registrado.');
-    }
-
-    $sid = env('TWILIO_SID');
-    $token = env('TWILIO_AUTH_TOKEN');
-    $twilioNumber = env('TWILIO_PHONE');
-
-    $client = new Client($sid, $token);
-
-    // Generar código de verificación de 6 dígitos
-    $verificationCode = rand(100000, 999999);
-
-    try {
-        $client->messages->create(
-            '+52' . $request->telefono,
-            [
-                'from' => $twilioNumber,
-                'body' => "Tu código de verificación es: $verificationCode"
-            ]
-        );
-
-        // Guardar en la base de datos
-        DB::table('password_reset_tokens')->updateOrInsert(
-            ['telefono' => $request->telefono], // Evita duplicados
-            [
-                'token' => $verificationCode,
-                'created_at' => now(),
-                'email' => $user->email // Guardar el correo electrónico del usuario
-            ]
-        );
-
-        // Redirigir automáticamente a la vista de verificación con el teléfono
-        return redirect()->route('sms.verify')->with([
-            'telefono' => $request->telefono,
-            'success' => 'Código enviado correctamente. Ingresa el código para continuar.'
+    {
+        $request->validate([
+            'telefono' => 'required|regex:/^[0-9]{10}$/'
         ]);
 
-    } catch (\Exception $e) {
-        return back()->with('error', 'Error al enviar SMS: ' . $e->getMessage());
-    }
-}
+        $user = DB::table('usuarios')->where('telefono', $request->telefono)->first();
 
+        if (!$user) {
+            return back()->with('error', 'Número de teléfono no registrado.');
+        }
+
+        $sid = env('TWILIO_SID');
+        $token = env('TWILIO_AUTH_TOKEN');
+        $twilioNumber = env('TWILIO_PHONE');
+
+        $client = new Client($sid, $token);
+
+        $verificationCode = rand(100000, 999999);
+
+        try {
+            $client->messages->create(
+                '+52' . $request->telefono,
+                [
+                    'from' => $twilioNumber,
+                    'body' => "Tu código de verificación para recuperar la contraseña **Armonix** es: $verificationCode"
+                ]
+            );
+
+            // **Eliminar cualquier token previo antes de insertar uno nuevo**
+            DB::table('password_reset_tokens')->where('email', $user->email)->delete();
+
+            // **Insertar el nuevo código en la base de datos**
+            DB::table('password_reset_tokens')->insert([
+                'email' => $user->email,
+                'token' => $verificationCode,
+                'telefono' => $request->telefono,
+                'created_at' => now()
+            ]);
+
+            return redirect()->route('sms.verify')->with([
+                'telefono' => $request->telefono,
+                'success' => 'Código enviado. Ingresa el código para continuar.'
+            ]);
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al enviar SMS: ' . $e->getMessage());
+        }
+    }
 
     public function showVerificationForm()
     {
@@ -77,29 +74,35 @@ class SmsController extends Controller
             'telefono' => 'required|regex:/^[0-9]{10}$/',
             'codigo' => 'required|digits:6'
         ]);
-    
-        // Buscar el código en la base de datos
+
+        // **Buscar el código en la base de datos**
         $tokenEntry = DB::table('password_reset_tokens')
             ->where('telefono', $request->telefono)
             ->where('token', $request->codigo)
             ->first();
-    
-        if ($tokenEntry) {
-            // **Eliminamos el código una vez validado**
-            DB::table('password_reset_tokens')->where('telefono', $request->telefono)->delete();
-    
-            // Redirigir al formulario de restablecimiento de contraseña
-            return redirect()->route('password.reset.form', ['email' => $tokenEntry->email])
-                ->with('success', 'Código verificado. Ahora puedes restablecer tu contraseña.');
-        } else {
-            // **Mantener el número de teléfono en la sesión para el próximo intento**
+
+        if (!$tokenEntry) {
             return redirect()->route('sms.verify')->with([
                 'error' => 'Código incorrecto o expirado.',
-                'telefono' => $request->telefono // Se mantiene en la sesión
+                'telefono' => $request->telefono
             ]);
         }
-    }
-    
-    
 
+        // **Generar un nuevo token de 60 caracteres**
+        $secureToken = Str::random(60);
+
+        // **Eliminar el código de 6 dígitos y actualizar con el token largo**
+        DB::table('password_reset_tokens')
+            ->where('telefono', $request->telefono)
+            ->update([
+                'token' => $secureToken,
+                'created_at' => now()
+            ]);
+
+        // **Redirigir al formulario de restablecimiento de contraseña**
+        return redirect()->route('password.reset', [
+            'token' => $secureToken,
+            'email' => $tokenEntry->email
+        ])->with('success', 'Código verificado. Ahora puedes restablecer tu contraseña.');
+    }
 }

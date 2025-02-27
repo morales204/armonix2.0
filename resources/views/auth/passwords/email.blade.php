@@ -49,6 +49,15 @@
                         </div>
                     </div>
 
+                    <!-- Botón para recuperar con preguntas secretas -->
+                    <div class="row mt-3">
+                        <div class="col-md-6 offset-md-4">
+                            <a href="{{ route('password.recovery') }}" class="btn btn-secondary">
+                                {{ __('Recuperar con Preguntas Secretas') }}
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -11,12 +11,10 @@ use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
-    // Renombramos el método a `sendResetLinkEmail` para que coincida con lo que espera Laravel
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate(['email' => 'required|email|exists:usuarios,email']);
 
-        // Generar un nuevo token
         $token = Str::random(60);
 
         // Eliminar cualquier token previo para el mismo email

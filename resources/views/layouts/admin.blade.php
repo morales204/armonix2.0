@@ -78,7 +78,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt"></i>
-                    Cerrar Sesión
+                    Cerrar Sesión
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
@@ -174,14 +174,14 @@
         <!-- Contenido -->
         <div class="content-wrapper">
             <div id="course-content">
-                @yield('content') <!-- Este es el contenido que se cargará dinámicamente -->
+                @yield('content') <!-- Este es el contenido que se cargará dinámicamente -->
             </div>
         </div>
     </div>
 
     <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
-            <b>Versión</b> 3.0.0
+            <b>Versión</b> 3.0.0
         </div>
         <strong>Copyright &copy; 2022 <a href="https://www.example.com">Armonix</a>.</strong> Todos los derechos reservados.
     </footer>
@@ -210,7 +210,7 @@
                             Swal.fire({
                                 icon: 'warning',
                                 title: 'Aviso',
-                                text: 'No se recibió contenido para mostrar.'
+                                text: 'No se recibió contenido para mostrar.'
                             });
                         }
                     },
@@ -242,7 +242,7 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'No se pudo realizar la búsqueda.'
+                            text: 'No se pudo realizar la búsqueda.'
                         });
                     }
                 });
@@ -265,7 +265,6 @@
                     path: newUrl
                 }, '', newUrl);
 
-                // Recargar la página para que la petición quede registrada en DevTools
                 location.reload();
             });
         });

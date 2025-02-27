@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restablecer Contraseña</title>
     <style>
-        /* Estilos generales */
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
@@ -19,8 +18,8 @@
         .form-container {
             background-color: #fff;
             padding: 30px;
-            border-radius: 12px; /* Bordes más redondeados */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
         }
@@ -43,17 +42,17 @@
             margin-bottom: 5px;
         }
 
-        input[type="email"], input[type="password"] {
+        input {
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 8px; /* Bordes redondeados para los campos */
+            border-radius: 8px;
             font-size: 14px;
             box-sizing: border-box;
             margin-top: 5px;
         }
 
-        input[type="email"]:focus, input[type="password"]:focus {
+        input:focus {
             border-color: #007BFF;
             outline: none;
         }
@@ -67,7 +66,7 @@
         button {
             width: 100%;
             padding: 12px;
-            background: linear-gradient(135deg,rgb(138, 138, 138) 0%,rgb(9, 9, 9) 100%);
+            background: linear-gradient(135deg, #8a8a8a 0%, #090909 100%);
             color: white;
             border: none;
             border-radius: 12px; 
@@ -78,7 +77,7 @@
         }
 
         button:hover {
-            background-color: #555; 
+            background-color: #555;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); 
         }
 
@@ -99,7 +98,6 @@
 </head>
 <body>
 
-<!-- Formulario de restablecimiento de contraseña -->
 <div class="form-container">
     <h2>Restablecer Contraseña</h2>
 
@@ -110,7 +108,7 @@
         <!-- Correo electrónico -->
         <div class="form-group">
             <label for="email">Correo electrónico:</label>
-            <input id="email" type="email" name="email" value="{{ old('email', $email) }}" required autofocus>
+            <input id="email" type="email" name="email" value="{{ old('email') ?? $email ?? '' }}" required autofocus aria-label="Correo electrónico">
             @error('email')
                 <div class="error">{{ $message }}</div>
             @enderror
@@ -119,7 +117,7 @@
         <!-- Nueva contraseña -->
         <div class="form-group">
             <label for="password">Nueva contraseña:</label>
-            <input id="password" type="password" name="password" required>
+            <input id="password" type="password" name="password" required aria-label="Nueva contraseña">
             @error('password')
                 <div class="error">{{ $message }}</div>
             @enderror
@@ -128,7 +126,7 @@
         <!-- Confirmar nueva contraseña -->
         <div class="form-group">
             <label for="password_confirmation">Confirmar nueva contraseña:</label>
-            <input id="password_confirmation" type="password" name="password_confirmation" required>
+            <input id="password_confirmation" type="password" name="password_confirmation" required aria-label="Confirmar nueva contraseña">
             @error('password_confirmation')
                 <div class="error">{{ $message }}</div>
             @enderror

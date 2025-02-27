@@ -77,7 +77,7 @@
 
                             <div class="col-md-6">
                                 <select name="roles_id_rol" id="roles_id_rol" class="form-control">
-                                    <option value="1" {{ old('roles_id_rol') == 1 ? 'selected' : '' }}>Admin</option>    
+                                    <option value="1" {{ old('roles_id_rol') == 1 ? 'selected' : '' }}>Admin</option>
                                     <option value="2" {{ old('roles_id_rol') == 2 ? 'selected' : '' }}>Cliente Free</option>
                                     <option value="3" {{ old('roles_id_rol') == 3 ? 'selected' : '' }}>Cliente Premium</option>
                                     <option value="4" {{ old('roles_id_rol') == 4 ? 'selected' : '' }}>Cliente Publicitario</option>
@@ -104,8 +104,8 @@
                                 @enderror
                             </div>
                         </div>
-                        
-                        
+
+
 
                         <div class="row mb-3">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirmar Contraseña') }}</label>
@@ -114,11 +114,32 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        <!-- Pregunta secreta 1-->
                         <div class="row mb-3">
-                            <label for="secret_answer" class="col-md-4 col-form-label text-md-end">{{ __('¿Cuál es el nombre de tu mascota?') }}</label>
+                            <label for="secret_question" class="col-md-4 col-form-label text-md-end">{{ __('Pregunta Secreta 1') }}</label>
 
                             <div class="col-md-6">
-                                <input id="secret_answer" type="text" class="form-control @error('secret_answer') is-invalid @enderror" name="secret_answer" required>
+                                <select id="secret_question" name="secret_question" class="form-control @error('secret_question') is-invalid @enderror" required>
+                                    <option value="">Selecciona una pregunta</option>
+                                    <option value="¿Cuál es el nombre de tu mascota?" {{ old('secret_question') == '¿Cuál es el nombre de tu mascota?' ? 'selected' : '' }}>¿Cuál es el nombre de tu mascota?</option>
+                                    <option value="¿En qué ciudad naciste?" {{ old('secret_question') == '¿En qué ciudad naciste?' ? 'selected' : '' }}>¿En qué ciudad naciste?</option>
+                                    <option value="¿Cuál es el nombre de tu primera escuela?" {{ old('secret_question') == '¿Cuál es el nombre de tu primera escuela?' ? 'selected' : '' }}>¿Cuál es el nombre de tu primera escuela?</option>
+                                    <option value="¿Cuál es el segundo nombre de tu madre?" {{ old('secret_question') == '¿Cuál es el segundo nombre de tu madre?' ? 'selected' : '' }}>¿Cuál es el segundo nombre de tu madre?</option>
+                                    <option value="¿Cuál es tu deporte favorito?" {{ old('secret_question') == '¿Cuál es tu deporte favorito?' ? 'selected' : '' }}>¿Cuál es tu deporte favorito?</option>
+                                </select>
+
+                                @error('secret_question')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="secret_answer" class="col-md-4 col-form-label text-md-end">{{ __('Respuesta Secreta 1') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="secret_answer" type="text" class="form-control @error('secret_answer') is-invalid @enderror" name="secret_answer" value="{{ old('secret_answer') }}" required autocomplete="off">
 
                                 @error('secret_answer')
                                 <span class="invalid-feedback" role="alert">
@@ -127,6 +148,43 @@
                                 @enderror
                             </div>
                         </div>
+
+                        <!-- Pregunta secreta 2-->
+                        <div class="row mb-3">
+                            <label for="secret_question_2" class="col-md-4 col-form-label text-md-end">{{ __('Pregunta Secreta 2') }}</label>
+
+                            <div class="col-md-6">
+                                <select id="secret_question_2" name="secret_question_2" class="form-control @error('secret_question_2') is-invalid @enderror" required>
+                                <option value="">Selecciona una pregunta</option>
+                                    <option value="¿Cuál es el nombre de tu mascota?" {{ old('secret_question') == '¿Cuál es el nombre de tu mascota?' ? 'selected' : '' }}>¿Cuál es el nombre de tu mascota?</option>
+                                    <option value="¿En qué ciudad naciste?" {{ old('secret_question') == '¿En qué ciudad naciste?' ? 'selected' : '' }}>¿En qué ciudad naciste?</option>
+                                    <option value="¿Cuál es el nombre de tu primera escuela?" {{ old('secret_question') == '¿Cuál es el nombre de tu primera escuela?' ? 'selected' : '' }}>¿Cuál es el nombre de tu primera escuela?</option>
+                                    <option value="¿Cuál es el segundo nombre de tu madre?" {{ old('secret_question') == '¿Cuál es el segundo nombre de tu madre?' ? 'selected' : '' }}>¿Cuál es el segundo nombre de tu madre?</option>
+                                    <option value="¿Cuál es tu deporte favorito?" {{ old('secret_question') == '¿Cuál es tu deporte favorito?' ? 'selected' : '' }}>¿Cuál es tu deporte favorito?</option>
+                                </select>
+
+                                @error('secret_question_2')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="secret_answer_2" class="col-md-4 col-form-label text-md-end">{{ __('Respuesta Secreta 2') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="secret_answer_2" type="text" class="form-control @error('secret_answer_2') is-invalid @enderror" name="secret_answer_2" value="{{ old('secret_answer_2') }}" required autocomplete="off">
+
+                                @error('secret_answer_2')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+
                         <!-- Aviso de privacidad -->
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">

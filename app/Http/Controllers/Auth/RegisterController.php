@@ -54,9 +54,12 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:usuarios'],
             'username' => ['required', 'string', 'max:100'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'secret_question' => ['required', 'string', ],
             'secret_answer' => ['required', 'string', 'max:255'],
+            'secret_question_2' => ['required', 'string', ],
+            'secret_answer_2' => ['required', 'string', 'max:255'],
             'roles_id_rol' => ['required'],
-            'aviso-privacidad' => ['required', 'accepted'], // Asegurarse de que esté marcado
+            'aviso-privacidad' => ['required', 'accepted'], 
         ]);
     }
 
@@ -74,7 +77,10 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
+            'secret_question' => $data['secret_question'],
             'secret_answer' => Hash::make($data['secret_answer']),
+            'secret_question_2' => $data['secret_question_2'],
+            'secret_answer_2' => Hash::make($data['secret_answer_2']),
             'roles_id_rol' => $data['roles_id_rol']
         ]);
     }
