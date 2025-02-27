@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InstrumentType;  // Asegúrate de importar el modelo de InstrumentType
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // Obtén los tipos de instrumentos
+        $instrumentTypes = InstrumentType::all();  // O la consulta que necesites
+
+        // Pasa la variable a la vista
+        return view('home', compact('instrumentTypes'));
     }
 }
+

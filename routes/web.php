@@ -46,6 +46,7 @@ use App\Http\Controllers\CourseContentController;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -86,121 +87,77 @@ Route::get('prestamos/historial', [App\Http\Controllers\PrestamoController::clas
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Ruta Home (Protegida)
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
-
+// Rutas de Cursos (Protegidas por autenticación y roles)
 Route::resource('cursos/miscursos', CursosController::class)->middleware(['auth', 'role:2|3']);
 Route::resource('cursos/cursoslist', CursosListController::class)->middleware(['auth', 'role:2|3']);
+Route::resource('cursos/instrumentos', InstrumentosController::class)->middleware(['auth', 'role:1']);
+Route::resource('cursos/acordeon', InstrumentosVientoController::class)->middleware(['auth', 'role:1']);
+Route::resource('cursos/idiofono', IdiofonosController::class)->middleware(['auth', 'role:1|2']);
+
+// Rutas de herramientas (Protegidas por autenticación y roles)
 Route::resource('herramientas/nota', NotaController::class)->middleware(['auth', 'role:2']);
 Route::resource('herramientas/metronomo', MetronomoController::class)->middleware(['auth', 'role:2']);
-
 Route::resource('userP/herramientas/metronomoP', MetronomoPremiumController::class)->middleware(['auth', 'role:1']);
-Route::resource('notaP', NotasPremiumController::class)->middleware(['auth', 'role:3']);
 
+// Rutas de Servicios (Protegidas por autenticación y roles)
 Route::resource('servicios/rentaInstrumento', ServicioInstrumentoController::class)->middleware(['auth', 'role:2|3']);
 Route::resource('servicios/rentaServicio', ServicioController::class)->middleware(['auth', 'role:2|3']);
+Route::resource('servicios/publicidad', PublicidadController::class)->middleware(['auth', 'role:1']);
+Route::resource('servicios/publicidad', PublicidadController::class)->middleware(['auth', 'role:2']);
 
-Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:1']);
-
-
-Route::resource('cursos/acordeon', InstrumentosVientoController::class)->middleware(['auth', 'role:1']);
-Route::resource('viento/acordeon', AcordeonController::class)->middleware(['auth', 'role:1']);
-Route::resource('viento/trompeta', TrompetaController::class)->middleware(['auth', 'role:1']);
-Route::resource('viento/tuba', TubaController::class)->middleware(['auth', 'role:1']);
-
-
-Route::resource('cursos/idiofono', IdiofonosController::class)->middleware(['auth', 'role:1']);
-Route::resource('idiofono/campana', CampanaController::class)->middleware(['auth', 'role:1']);
-Route::resource('idiofono/castañuela', CastañuelaController::class)->middleware(['auth', 'role:1']);
-Route::resource('idiofono/xilofono', XilofonoController::class)->middleware(['auth', 'role:1']);
-Route::resource('cursos/instrumentos', InstrumentosController::class)->middleware(['auth', 'role:1']);
-
-Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:1');
-Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
-
-
-Route::resource('servicios/publicidad', publicidadController::class)->middleware(['auth', 'role:2']);
-Route::resource('cursos/cursoslistAdd', AddCursosListController::class)->middleware(['auth', 'role:1']);
-Route::resource('cursos/acordeon', InstrumentosVientoController::class)->middleware(['auth', 'role:1']);
+// Rutas de Viento e Instrumentos (Protegidas por autenticación y roles)
 Route::resource('viento/acordeon', AcordeonController::class)->middleware(['auth', 'role:1']);
 Route::resource('viento/trompeta', TrompetaController::class)->middleware(['auth', 'role:1']);
 Route::resource('viento/tuba', TubaController::class)->middleware(['auth', 'role:4']);
 
-Route::resource('cursos/idiofono', IdiofonosController::class)
-    ->middleware(['auth', 'role:1|2']);
-
+// Rutas de Idiófono (Protegidas por autenticación y roles)
 Route::resource('idiofono/campana', CampanaController::class)->middleware(['auth', 'role:1']);
 Route::resource('idiofono/castañuela', CastañuelaController::class)->middleware(['auth', 'role:1']);
 Route::resource('idiofono/xilofono', XilofonoController::class)->middleware(['auth', 'role:1']);
 
-Route::resource('agregar/usuario', UsuariosController::class)->middleware('auth', 'role:1');
-Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware('auth', 'role:1');
+// Rutas de Usuarios (Protegidas por autenticación y roles)
+Route::resource('agregar/usuario', UsuariosController::class)->middleware(['auth', 'role:1']);
+Route::resource('gestionar/usuario', AdminUsuariosController::class)->middleware(['auth', 'role:1']);
+Route::resource('cursos/cursoslistAdd', AddCursosListController::class)->middleware(['auth', 'role:1']);
 
-Route::resource('notas-premium', NotasPremiumController::class);
+// Rutas Premium (Protegidas por autenticación y roles)
+Route::resource('notaP', NotasPremiumController::class)->middleware(['auth', 'role:3']);
+Route::resource('notas-premium', NotasPremiumController::class)->middleware('auth');
 
-// Ruta para mostrar los tipos de instrumentos
+// Rutas de Cursos Agregar y Administración (Protegidas por autenticación y roles)
+Route::get('/admin/cursos/agregar', [AddCursosController::class, 'index'])->name('cursos.agregar')->middleware(['auth', 'role:1']);
+Route::post('/admin/cursos', [AddCursosController::class, 'store'])->name('cursos.store')->middleware(['auth', 'role:1']);
+Route::get('/admin/cursos', [AddCursosController::class, 'cursosList'])->name('admin.cursos.cursoslist')->middleware(['auth', 'role:1']);
+
+// Rutas de Contenido de Cursos (Protegidas por autenticación y roles)
+Route::get('/courses/{courseId}/contents', [CourseContentController::class, 'index'])->middleware('auth');
+Route::post('/contents', [CourseContentController::class, 'store'])->middleware('auth');
+Route::get('/contents/{id}', [CourseContentController::class, 'show'])->middleware('auth');
+Route::get('/cursos/{id}/edit', [CourseContentController::class, 'edit'])->name('cursos.edit')->middleware('auth');
+Route::put('/cursos/{id}', [CourseContentController::class, 'update'])->name('cursos.update')->middleware('auth');
+Route::delete('/cursos/{id}', [CourseContentController::class, 'destroy'])->name('cursos.destroy')->middleware('auth');
+
+// Rutas de Instrumentos y Cursos (Protegidas por autenticación)
+Route::get('/cursos/{courseId}/detalles', [CourseContentController::class, 'showContents'])->name('course.contents')->middleware('auth');
+Route::get('/cursos/{id}/contents', [CourseContentController::class, 'showContents'])->name('cursos.contents')->middleware('auth');
+
+// Otras Rutas Públicas
 Route::get('/cursos/instrumentos', [InstrumentTypeController::class, 'index'])->name('instrumentos.index');
-
-// Ruta para mostrar los instrumentos de un tipo específico
 Route::get('/cursos/{id}', [InstrumentController::class, 'show'])->name('instrumento.detalles');
-
 Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update'); //
-
-
-// Ruta para mostrar los cursos de un instrumento específico
+Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 Route::get('/instruments/{id}/courses', [InstrumentController::class, 'courses'])->name('instrument.courses');
-
-// Ruta específica para instrumentos de viento (si es necesario)
 Route::get('/cursos/instrumentos/viento/acordeon', [InstrumentController::class, 'showAcordeon'])->name('instrument.acordeon');
-
-
-// Ruta para mostrar los tipos de instrumentos con búsqueda y filtro
 Route::get('/instrumentos', [InstrumentTypeController::class, 'index'])->name('instrument-types.index');
-
-// Ruta para mostrar los instrumentos de un tipo específico
 Route::get('/instrumentos/{slug}', [InstrumentTypeController::class, 'show'])->name('instrument-types.show');
-
 Route::get('/buscar', [SearchController::class, 'search'])->name('buscar');
-
-
 Route::get('/search', [SearchController::class, 'globalSearch'])->name('search.global');
-
 Route::get('/dashboard', [CatalogController::class, 'index'])->name('dashboard');
-
-Route::get('/catalog/{catalog}/instrument_types', [CatalogController::class, 'showInstrumentTypes'])
-    ->name('catalog.instrument_types');
-
-Route::get('/admin/cursos/agregar', [AddCursosController::class, 'index'])->name('cursos.agregar');
-Route::post('/admin/cursos', [AddCursosController::class, 'store'])->name('cursos.store');
-Route::get('/admin/cursos', [AddCursosController::class, 'cursosList'])->name('admin.cursos.cursoslist');
-
-Route::get('/courses/{courseId}/contents', [CourseContentController::class, 'index']);
-Route::post('/contents', [CourseContentController::class, 'store']);
-Route::get('/contents/{id}', [CourseContentController::class, 'show']);
-Route::get('/cursos/{id}/edit', [CourseContentController::class, 'edit'])->name('cursos.edit');
-Route::put('/cursos/{id}', [CourseContentController::class, 'update'])->name('cursos.update');
-Route::delete('/cursos/{id}', [CourseContentController::class, 'destroy'])->name('cursos.destroy');
-
-Route::get('/cursos/{courseId}/detalles', [CourseContentController::class, 'showContents'])
-    ->name('course.contents');
-
-
-    Route::get('/cursos/{id}/contents', [CourseContentController::class, 'showContents'])->name('cursos.contents');
-
-// Ruta para la vista home con el carrusel
-Route::get('/home', [InstrumentController::class, 'index'])->name('home');
-
-
-// Ruta para la vista viento donde se muestran los instrumentos por tipo
-Route::get('/instrumentos/viento/{id}', [InstrumentController::class, 'show'])->name('instrumentos.viento');
-
-
-Route::get('/cargar-mas-cursos', [InstrumentController::class, 'cargarMasCursos'])->name('cargar.mas.cursos');
-
-// En tu archivo de rutas (web.php)
-Route::get('/instrumentos/{id}', [InstrumentController::class, 'show'])->name('instruments.show');
-
-
-
+Route::get('/catalog/{catalog}/instrument_types', [CatalogController::class, 'showInstrumentTypes'])->name('catalog.instrument_types');
 Route::get('/course/contents/{courseId}', [CourseContentController::class, 'showContents'])->name('course.contents');
+Route::get('/instrumentos/viento/{id}', [InstrumentController::class, 'show'])->name('instrumentos.viento');
+Route::get('/cargar-mas-cursos', [InstrumentController::class, 'cargarMasCursos'])->name('cargar.mas.cursos');
+Route::get('/instrumentos/{id}', [InstrumentController::class, 'show'])->name('instruments.show');
